@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+  <head>
+    <title>Project Kratos | The Mars Rover</title>
+    <link rel="icon" href="./img/kratoslogosmall.png" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://kratosbitsgoa.com/img/completelogo.jpg"
+    />
+    <meta property="og:image:type" content="image/jpg" />
+    <meta property="og:image:width" content="1148" />
+    <meta property="og:image:height" content="688" />
+    <meta property="og:image:alt" content="Project Kratos Logo" />
+    <meta
+      property="og:description"
+      content="The Official Website for Project Kratos: The Student team for BITS Pilani K. K. Birla Goa Campus for University and Indian Rover Challenge."
+    />
+    <meta property="og:title" content="Project Kratos BITS Goa" />
+    <meta property="og:url" content="https://kratosbitsgoa.com/" />
+    <meta name="keywords" content="" />
+    <meta
+      name="description"
+      content="The Official Website for Project Kratos: The Student team for BITS Pilani K. K. Birla Goa Campus for University and Indian Rover Challenge."
+    />
+
+    <!-- STYLESHEET CSS FILES -->
+
+    <link rel="stylesheet" href="css/animate.min.css" />
+
+    <link rel="stylesheet" href="css/nivo-lightbox.css" />
+    <link rel="stylesheet" href="css/nivo_themes/default/default.css" />
+    <link rel="stylesheet" href="css/templatemo-style.css" />
+    <script src="../ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="../cdn.rawgit.com/skipser/youtube-autoresize/master/youtube-autoresizer.js"></script>
+    -->
+    <!-- JAVASCRIPT JS FILES -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <!-- <meta name="theme-color" content="#00b3b3"> -->
+  </head>
+
+
+  <body>
+    <!-- Side Navigation Bar -->
+    <!-- TODO: Make it responsive -->
+    <nav
+      class="navbar navbar-dark" id="navbar"
+      style="
+        position: fixed;
+        top: 0;
+        height: 10vh;
+        z-index: 2;
+        width: 100%;
+        background-color: transparent;
+        justify-content: center;
+        padding: 0;
+      "
+    >
+      <button
+      style="position: absolute; left: 0;"
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a id="toplog" href="#home" class="navbar-brand" style="height: 100%;"
+        ><span style="height: 100%;"
+          ><img
+            id="navbarlogo"
+            style="height: 80%;"
+            alt="Kratos Logo"
+            src="./img/kratoslogomini.png" /></span
+      ></a>
+
+      <div class="collapse navbar-collapse sidebar" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="#"
+              ><img
+                class="navbar-icons"
+                src="./img/rover.png"
+                alt="About the Rover"
+              /><span class="icon-text">The Rover</span></a
+            >
+          </li>
+          <li class="nav-item dropdown">
+            <a href="#"
+              ><img
+                class="navbar-icons"
+                src="./img/competitions.png"
+                alt="competitions"
+              /><span class="icon-text">Competitions</span></a
+            >
+          </li>
+          <li>
+            <a href="#"
+              ><img
+                class="navbar-icons"
+                src="./img/team.png"
+                alt="Our Team"
+              /><span class="icon-text">Team</span></a
+            >
+          </li>
+          <li>
+            <a href="#"
+              ><img
+                class="navbar-icons"
+                src="./img/sponsor.png"
+                alt="Our Sponsors"
+              /><span class="icon-text">Sponsors</span></a
+            >
+          </li>
+          <li>
+            <a href="#"
+              ><img
+                class="navbar-icons"
+                src="./img/gallery.png"
+                alt="Gallery"
+              /><span class="icon-text">Gallery</span></a
+            >
+          </li>
+          <li>
+            <a href="#"
+              ><img class="navbar-icons" src="./img/blog.png" alt="Blog" /><span
+                class="icon-text"
+                >Blog</span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="#"
+              ><img
+                class="navbar-icons"
+                src="./img/contact.png"
+                alt="Contact Us"
+              /><span class="icon-text">Contact Us</span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Background Section -->
+    <section>
+      <div
+        id="main"
+        style="
+          position: fixed;
+          left: 0px;
+          top: 0px;
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+        "
+      >
+        <canvas id="nodes"></canvas>
+      </div>
+    </section>
+
+    <!-- Home Section -->
+    <!-- Contains Logo, Rover Image and Taglines -->
+    <section id="home">
+      <div
+        style="
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          overflow: hidden;
+          height: 100vh;
+          width: 100vw;
+          z-index: 0;
+        "
+      >
+        <img
+          style="
+            float: right;
+            right: 0px;
+            bottom: 0px;
+            height: 85vmin;
+            position: absolute;
+          "
+          src="./img/kratosrover.png"
+        />
+      </div>
+
+      <!-- Want to slide the logo -->
+      <div
+        id="kratoslogo"
+        style="
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+        "
+      >
+        <!-- <img style="width: 30%; float: left; position: absolute; left: 10%; top: 20%" src="./img/kratoslogoresized.png"> -->
+        <!-- <button class="openbtn" id="openbtn" onclick="toggleSidebar(true)">&#9776;</button> -->
+        <div
+          class="container"
+          style="float: left; position: absolute; margin: 15% 10% 0% 10%"
+        >
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <img
+                id="logo"
+                src="./img/kratoslogoresized.png"
+                alt="Kratos"
+                width="75%"
+              />
+
+              <h1
+                style="
+                  font-size: 5vh;
+                  display: table;
+                  table-layout: fixed;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  width: 100%;
+                "
+              >
+                We
+                <span
+                  class="txt-rotate"
+                  data-period="500"
+                  data-rotate='[ " Aim . . . ", " Innovate . . . ", " Succeed !           "]'
+                ></span>
+              </h1>
+              <hr />
+              <h3
+                style="
+                  font-size: 3vh;
+                  letter-spacing: 3px;
+                  margin-top: 2%;
+                  text-align: justify;
+                  text-justify: auto;
+                "
+              >
+                Planetary exploration through new age rover systems and science.
+              </h3>
+              <a href="#intro" class="btn btn-default smoothScroll"
+                >LET'S EXPLORE</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Mission Section -->
+    <!-- ALternate -->
+    <section
+      id="intro"
+      class="intro"
+      style="
+        position: relative;
+        max-width: 1500px;
+        left: 50%;
+        transform: translateX(-50%);
+      "
+    >
+      <div
+        class="row align-items-center"
+        style="align-items: center; text-align: right; vertical-align: middle"
+      >
+        <img
+          class="
+            col-4
+            offset-4
+            col-sm-4 col-md-4
+            offset-md-0
+            col-lg-3
+            offset-lg-0
+            col-xl-3
+            offset-xl-0
+          "
+          style="padding-bottom: 20px; border-radius: 1px; height: auto"
+          src="./img/terramars.png"
+        />
+
+        <div
+          class="
+            offset-1
+            col-10 col-sm-10 col-md-6 col-lg-7 col-xl-7
+            title
+            align-self-center
+          "
+        >
+          <h2>Our Mission</h2>
+          <hr />
+          <p>
+            As students, it is our duty to take steps in the development of
+            science and technology. By doing various projects and involving the
+            community, by teaching them and us, we aim to achieve something new,
+            something big. This team consists of students from various academic
+            backgrounds, and this mix is the perfect combination for the
+            development of new ideas. We aim to keep up our effort to raise
+            awareness aboout the importance of STEM and students’ role in its
+            progress.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Featured Section -->
+    <section id="intro" class="intro offset-1">
+      <div
+        class="row align-items-center"
+        style="
+          padding: 15px;
+          align-items: center;
+          text-align: left;
+          vertical-align: middle;
+          display: flex;
+        "
+      >
+        <div
+          class="
+            col-11 col-sm-11 col-md-6 col-lg-7 col-xl-7
+            title
+            align-self-center
+          "
+        >
+          <h2>Who are we?</h2>
+          <hr />
+          <p>
+            Team Kratos is a multidisciplinary team from BITS Pilani, K. K.
+            Birla Goa Campus, started in 2018, aspiring to develop rovers
+            equipped with advanced subsystems suitable for interplanetary deep
+            space missions, seeking to study the application of engineering
+            research into rover robotics, autonomous traversal, and detection of
+            extraterrestrial life. We’re a team of 30 students from diverse
+            backgrounds with a vision, to create groundbreaking innovations in
+            the field of space exploration.
+          </p>
+        </div>
+        <img
+          class="col-11 col-sm-11 col-lg-5 col-md-5 col-xl-5"
+          style="padding-top: 20px; object-fit: fill; border-radius: 40px"
+          src="./img/team.jpg"
+        />
+      </div>
+    </section>
+
+    <!-- About URC Section -->
+    <!-- ALternate -->
+    <section id="intro" class="intro offset-1">
+      <div
+        class="row align-items-center"
+        style="
+          align-items: center;
+          text-align: right;
+          vertical-align: middle;
+          display: flex;
+        "
+      >
+        <img
+          class="
+            col-3
+            offset-2
+            col-sm-3 col-md-2
+            offset-md-0
+            col-lg-2
+            offset-lg-0
+            col-xl-2
+            offset-xl-0
+          "
+          style="border-radius: 1px; height: auto"
+          src="./img/ms.png"
+        />
+
+        <img
+          class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2"
+          style="border-radius: 1px; height: auto"
+          src="./img/urc.png"
+        />
+
+        <div
+          class="
+            col-11 col-sm-11 col-md-6 col-lg-6 col-xl-6
+            title
+            align-self-center
+          "
+        >
+          <h2>The University Rover Challenge</h2>
+          <hr />
+          <p>
+            University Rover Challenge is an annual competition held by the Mars
+            Society, in the desert of southern Utah in the United States. URC
+            challenges student teams to design and build the next generation of
+            Mars rovers that will one day work alongside astronauts exploring
+            the Red Planet. URC was launched in 2006, with competitions being
+            held every summer since 2007. The competition has 4 tasks, namely
+            Science task, Extreme Retrieval, and Delivery task, Equipment
+            Servicing task and Autonomous Traversal task
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About IRC Section -->
+    <section id="intro" class="intro offset-1">
+      <div
+        class="row align-self-center"
+        style="
+          align-items: center;
+          text-align: left;
+          vertical-align: middle;
+          display: flex;
+        "
+      >
+        <div
+          class="
+            col-11 col-sm-11 col-md-6 col-lg-6 col-xl-6
+            order-md-0 order-lg-0 order-1 order-xl-0
+            title
+          "
+        >
+          <h2>The Indian Rover Challenge</h2>
+          <hr />
+          <p>
+            The Indian Rover Challenge is an annual competition held by the Mars
+            Society South Asia. It features a challenge to engage students
+            worldwide in robotics and space exploration. It aims to ignite and
+            encourage the spirit of innovation amongst budding engineers as they
+            set on a quest to build a space exploration rover, using their
+            skills and ideas. The third edition of the Indian Rover Challenge
+            was held during January 17-20, 2020, at the Vellore Institute of
+            Technology (VIT) Chennai, Tamil Nadu, India. In our maiden year
+            itself, we are proud to announce that we stood 10th out of 35
+            participating teams, and were first amongst all newly participating
+            rovers. We are now working hard to improve our rover based on our
+            experiences in IRC 2020, and are enthusiastically looking forward to
+            be a part of IRC 2021.
+          </p>
+        </div>
+
+        <img
+          class="
+            col-11 col-sm-11 col-lg-5 col-md-5 col-xl-5
+            order-md-1 order-lg-0 order-0 order-xl-1
+          "
+          style="object-fit: fill; border-radius: 40px"
+          src="./img/irc.png"
+        />
+      </div>
+    </section>
+
+    <!-- SAR Video Section -->
+    <!-- ALternate -->
+    <section id="sarvideo" class="sarvid offset-1">
+      <div
+        class="row"
+        style="align-items: center; text-align: center; vertical-align: middle"
+      >
+        <div
+          class="
+            col-md-6
+            offset-md-3
+            col-11
+            order-md-0 order-lg-0 order-1 order-xl-0
+            title
+            align-self-center
+          "
+        >
+          <h2>URC 2020</h2>
+          <hr />
+          <h3>Project Kratos - System Acceptance Review</h3>
+          <div style="position: relative; padding-bottom: 56.25%">
+            <iframe
+              style="
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+              "
+              frameborder="0"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              src="https://www.youtube.com/embed/7ka3s3takjY"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BITS Logo + Sponsor Section -->
+    <section>
+      <div class="container" style="margin-bottom: 100px">
+        <div class="">
+          <div
+            class="
+              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
+              align-self-center
+            "
+          >
+            <img
+              style="
+                border-radius: 1px;
+                width: 100%;
+                padding: 0px 3vw;
+                max-width: 100%;
+                height: auto;
+              "
+              src="./img/ansys.png"
+            />
+          </div>
+          <div
+            class="
+              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
+              align-self-center
+            "
+          >
+            <img
+              style="
+                border-radius: 1px;
+                width: 100%;
+                padding: 0px 3vw;
+                max-width: 100%;
+                height: auto;
+              "
+              src="./img/bits.png"
+            />
+          </div>
+          <div
+            class="
+              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
+              align-self-center
+            "
+          >
+            <img
+              style="
+                border-radius: 1px;
+                width: 100%;
+                padding: 0px 3vw;
+                max-width: 100%;
+                height: auto;
+              "
+              src="./img/solidworks.png"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- contact section -->
+    <section id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 title">
+            <h2>Contact Us</h2>
+            <hr />
+            <p>
+              Want to know more about us? Feel free to contact us.<br /><a
+                href="tel:+918879705469"
+                class="fa fa-phone wow bounceIn"
+                data-wow-delay="0.9s"
+                ><b>+91 88797 05469</b></a
+              >
+            </p>
+
+            <form method="post" id="contact-form">
+              <input
+                type="text"
+                class="form-control"
+                id="name-field"
+                placeholder="Name"
+                required
+              />
+              <input
+                type="email"
+                class="form-control"
+                id="email-field"
+                placeholder="Email"
+                required
+              />
+              <textarea
+                class="form-control"
+                placeholder="Message"
+                id="text-field"
+                rows="6"
+                required
+              ></textarea>
+              <input type="submit" class="form-control" value="SEND EMAIL" />
+            </form>
+            <h2 id="after-submit"></h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 title">
+            <h2 class="wow fadeIn" data-wow-delay="0.9s">Follow Us</h2>
+            <ul class="social-icon">
+              <li>
+                <a
+                  href="https://www.facebook.com/KratosBITSGoa/"
+                  class="fa fa-facebook"
+                  data-wow-delay="0.3s"
+                ></a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/kratosbitsgoa/"
+                  class="fa fa-instagram"
+                  data-wow-delay="0.6s"
+                ></a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/company/kratosbitsgoa/"
+                  class="fa fa-linkedin"
+                  data-wow-delay="0.9s"
+                ></a>
+              </li>
+              <li>
+                <a
+                  href="mailto:kratosbitsgoa@gmail.com"
+                  class="fa fa-envelope"
+                  data-wow-delay="0.9s"
+                ></a>
+              </li>
+              <li>
+                <a
+                  href="tel:+918879705469"
+                  class="fa fa-phone"
+                  data-wow-delay="0.9s"
+                ></a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-12 col-sm-12 copyright">
+            <p>Copyright © 2020 Project Kratos</p>
+            <h5>
+              Made With &hearts; By
+              <a target="_blank" href="http://prabhutva.github.io/"
+                >Prabhutva
+              </a>
+              <!-- <a
+                        href="http://devsoc.club/" target="_blank"> (
+                        devSoc )</a>  -->
+              for Project Kratos
+            </h5>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- <script src="js/jquery.js"></script>
+
+    <script src="js/nivo-lightbox.min.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/jquery.parallax.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="../cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <script src="js/custom.js"></script>  -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:200,100,400"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" type="text/css" href=".\css\stylesheet.css" />
+
+    <script src=".\js\nodes.js"></script>
+    <script type="text/javascript">
+      window.onresize = function () {
+        nodesjs.setWidth(window.innerWidth);
+        nodesjs.setHeight(window.innerHeight);
+      };
+    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+<script src="./js/webpage.js"></script>
+    <!-- <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/TweenLite.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/EasePack.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/demo.js"></script> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./css/font-awesome.min.css" />
+  </body>
+</html>
