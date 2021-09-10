@@ -1,0 +1,402 @@
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+}
+
+html,
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+	/* text-align: center; */
+	vertical-align: middle;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Raleway";
+	font-weight: bold;
+}
+
+p {
+	letter-spacing: 1px;
+  line-height: 28px;
+}
+
+hr {
+	border-color: #e0e0e0;
+	margin: 0 auto 20px auto;
+	/* width: 100px !important; */
+}
+
+h1 {
+	font-size: 60px;
+}
+
+h2 {
+	font-size: 48px;
+}
+
+h3 {
+	font-size: 30px;
+}
+
+h4 {
+	font-size: 24px;
+}
+
+h5 {
+	font-size: 18px;
+}
+
+h6 {
+	font-size: 16px;
+}
+
+
+h2 {
+  font-weight: 200;
+  margin: 0.4em 0;
+  color: #fff;
+}
+h1 { 
+  /* font-size: 4rem;  */
+  font-weight: bold;
+  margin: 0.4em 0;
+  color: #fff;
+}
+h3 {
+  color: #fff;
+  /* font-size: 1.8em; */
+}
+
+.title {
+  border-radius: 20px;
+	border: none;
+	background: linear-gradient(225deg, #e9351e77, #52219c77);
+	/* font-size:2vh; */
+  padding: 20px 40px;
+  padding-bottom: 40px;
+  /* margin-top: 100px;
+  transition: 0.4s; */
+}
+
+.title p {
+	padding-top: 14px;
+  padding-bottom: 30px;
+  text-align: justify;
+  text-justify: auto;
+  color: #fefefe;
+}
+
+.row-full{
+  width: 100vw;
+  position: relative;
+  margin-left: -50vw;
+  height: 100px;
+  margin-top: 100px;
+  left: 50%;
+ }
+
+
+.sidebar {
+  
+  background-image: linear-gradient(0deg, #e9351e, #52219c);
+  transition: 0.5s;
+
+  padding-top: 30px;
+  white-space: nowrap;
+}
+
+.sidebar a {
+  padding: 8px 0.29vw 8px 1.15vw;
+  text-decoration: none;
+  font-size: 25px;
+  transition: 0.2s;
+  text-transform: uppercase;
+  color: white;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+  font-size: 33px;
+}
+
+main .sidebar {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.navbar-icons,
+.icon-text {
+  vertical-align: middle;
+}
+
+
+.navbar-icons {
+  width: 2.3vw;
+  transition: 0.2s;
+  padding-bottom: 3px;
+  margin-left: 0.29vw;
+  margin-right:2vw;
+}
+
+.navbar-icons:hover {
+  width: 3vw;
+  padding-bottom: 3px;
+  margin-left: 0.29vw;
+  margin-right:2vw;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  visibility: collapse;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  visibility: hidden;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+ .navbar-fixed {
+  top: 0;
+  background: linear-gradient(225deg, #e9351e, #52219c);
+
+  vertical-align: middle;
+  position: fixed;
+  width: 100%;
+  transition: all 0.5s;
+} 
+
+#toplogo
+{
+  visibility: collapse;
+}
+
+/* #nav_bar {
+	border: 0;
+
+	border-radius: 0px;
+	margin-bottom: 0;
+    height: 5vh;
+}  */
+
+
+
+#main {
+  /* padding: 16px;
+  margin-left: 85px; */
+  margin-left: 0px;
+  background-color: black;
+  color: cornsilk;
+  transition: margin-left 0.5s;
+}
+
+#home
+{
+  /* background: url('../img/kratosrover.png') no-repeat right bottom fixed; 
+	background-size: contain;  */
+  display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+  display: flex;
+
+	-webkit-box-align: center;
+	/* -webkit-align-items: center; */
+	-ms-flex-align: center;
+	/* align-items: center; */
+	height: 100vh;
+	/* text-align: center; */
+}
+
+#home .btn {
+	background: linear-gradient(90deg, #e9351e77, #52219c77);
+	border-radius: 10px;
+	border: none;
+	color: #ffffff;
+	font-size:2vh;
+	padding: 20px 40px;
+  margin-top: 100px;
+  transition: all 0.4s;
+}
+
+#home .btn:hover {
+	background: linear-gradient(90deg, #e9351e, #52219c);
+  color: #ffffff;
+  font-size: 3vh;
+  border-radius: 15px;
+	transition: all 0.4s ease-in-out;
+}
+
+#kratoslogo{
+transition: margin-left 0.5s;}
+
+#intro
+{
+  display: flex;
+}
+
+.intro, .sarvid{
+	padding-top: 180px;
+	padding-bottom: 40px;
+}
+
+.intro .container, .sarvid .container {
+	width: 100%;
+	margin: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* footer section */
+footer {
+	background: #202020;
+	color: #ffffff;
+	border-bottom: 10px solid #ffffff;
+  padding-top: 20px;
+  align-items: center;
+  text-align: center;
+	padding-bottom: 20px;
+}
+
+footer h2 {
+	padding-top: 40px;
+	padding-bottom: 20px;
+}
+
+footer p {
+	line-height: 20px;
+}
+
+footer .copyright a {
+	color: #eb5424;
+}
+
+.social-icon {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.social-icon li {
+	list-style: none;
+	display: inline-block;
+}
+
+.social-icon li a {
+	background: #f8f8f8;
+	border-radius: 100%;
+	color: #eb5424;
+	font-size: 32px;
+	width: 80px;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	text-decoration: none;
+	transition: all 0.4s ease-in-out;
+	margin: 0 6px 40px 6px;
+}
+
+.social-icon li a:hover {
+	background: #080808;
+}
+
+
+
+@media screen and (max-width: 450px) {
+  .sidebar {
+    padding-top: 15px;
+    visibility: hidden;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+    font-size: 33px;
+  }
+  
+  main .sidebar {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  .navbar-icons,
+  .icon-text {
+    vertical-align: middle;
+  }
+
+  
+  
+  .navbar-icons {
+    width: 13vw;
+    padding-bottom: 3px;
+    margin-left: 5vw;
+    margin-right: 35px;
+  }
+
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    visibility: collapse;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  .openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    visibility: visible;
+    background: transparent;
+    color: white;
+    padding: 20px 20px;
+    border: none;
+  }
+  
+  .openbtn:hover {
+    background-color: #444;
+  }
+
+}
+
+
+
+
