@@ -338,7 +338,6 @@ footer .copyright a {
 @media screen and (max-width: 450px) {
   .sidebar {
     padding-top: 15px;
-    visibility: hidden;
   }
   .sidebar a {
     font-size: 18px;
