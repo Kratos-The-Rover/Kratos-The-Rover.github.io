@@ -272,6 +272,154 @@ transition: margin-left 0.5s;}
 
 
 
+/* team section */
+#team {
+	background: #202020 url('../images/formal_imgs/img/d.jpg') no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+  /* align-items: center; */
+	background-size: cover;
+	color: #ffffff;
+	padding-top: 50px;
+	padding-bottom: 100px;
+}
+
+#team h2 {
+	color: #000000;
+}
+
+#team a {
+	text-decoration: none;
+}
+
+#team h3 {
+	font-size: 20px;
+}
+
+#team h4 {
+	color: white;
+	font-weight: bold;
+}
+
+#team .team-des {
+	background-color: #eb5424;
+	color: #ffffff;
+	padding: 20px 12px;
+	position: relative;
+	margin: 0% 2%;
+}
+
+#team {
+  width:60%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.tablinks {
+  display: inline-block;
+}
+
+#team a {
+	color: #eb5424;
+	font-weight: bold;
+	background-color: white;
+	padding: 10px;
+	border-radius: 50%;
+}
+
+#team img {
+	width: 170px;
+	height: 170px;
+	border-radius: 90%;
+	object-fit: cover;
+	object-position: top;
+	margin: auto;
+	margin-top: 100px;
+	margin-bottom: 20px;
+}
+
+
+#team .team-head {
+	overflow: hidden;
+	margin-top: 20px;
+	margin-left: 5%;
+	margin-right: 5%;
+	padding: 20px;
+	background-color: #ffffff00;
+	
+	/* padding-bottom: 100px; */
+}
+
+
+#team .team-sub-head {
+	/* margin-top: 20px; */
+  align-items: center;
+	margin-left: 5%;
+	margin-right: 5%;
+	padding: 10px;
+  padding-right: 50px;
+	background-color: #e0e0e0;
+	
+	/* padding-bottom: 100px; */
+}
+/* Team Tabs */
+
+/* Style the tab */
+#team .row .tab {
+	overflow: hidden;
+	/* margin-top: 20px; */
+	margin-left: 5%;
+	margin-right: 5%;
+	padding: 0px;
+	background-color: #ffffff00;
+	
+	/* padding-bottom: 100px; */
+}
+
+/* #team .team-head {
+  background-color: #e9351e; */
+/* } */
+
+/* Style the buttons that are used to open the tab content */
+#team .tab button {
+	background-color: #fff;
+	color: #eb5424;
+	font-size: 20px;
+	font-weight: bold;
+	float: center;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 0px;
+	transition: 0.3s;
+  }
+
+/* Change background color of buttons on hover */
+#team .tab button:hover {
+	background-color: #ff9a7b88;
+	color: #fff;
+  }
+  
+  /* Create an active/current tablink class */
+#team .tab button .active {
+	background-color: #eb5424;
+	color: #fff;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+	display: none;
+  }
+
+/* #team .centered {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+  } */
+
+
 
 
 
@@ -398,4 +546,61 @@ footer .copyright a {
 
 
 
+@media (max-width:767px) {
+	.navbar-brand {
+		padding-top: 6px;
+	}
+}
+@media (max-width:972px)
+{
+	#team .team-des {
+		background-color: #eb5424;
+		color: #ffffff;
+		padding: 20px 12px;
+		position: relative;
+		margin: 0% 0%;
+	}
 
+	#home h2 {
+		font-size: 4.6vw;
+	}
+
+	#home h3 {
+		font-size: 2.7vw;
+	}
+
+
+    #home .btn {
+		font-size: 2vw;
+	}
+	
+}
+
+@media (max-width:480px) {
+	#home h1 {
+		font-size: 32px;
+	}
+
+	#home h2 {
+		font-size: 9vw;
+	}
+
+	#home h3 {
+		font-size: 5vw;
+	}
+
+
+    #home .btn {
+		font-size: 3vw;
+	}
+
+
+
+	#intro h2 {
+		font-size: 20px;
+	}
+
+	.portfolio-thumb .portfolio-overlay {
+		padding-top: 60px;
+	}
+}

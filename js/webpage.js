@@ -4,18 +4,36 @@ $(document).ready(function() {
       //if you hard code, then use console
       //.log to determine when you want the 
       //nav bar to stick.  
-    if ($(window).scrollTop() > window.innerHeight) {
-      $('#navbar').addClass('navbar-fixed');
-      document.getElementById("toplog").style.display = "block";
-    }
-    else if ($(window).scrollTop() < window.innerHeight ) {
-      $('#navbar').removeClass('navbar-fixed');
-      document.getElementById("toplog").style.display = "none";
-    }
+    navDisplay()
    
   });
 });
+const navDisplay=()=>{
+  //if you hard code, then use console
+  //.log to determine when you want the 
+  //nav bar to stick.  
+if ($(window).scrollTop() > window.innerHeight) {
+  $('#navbar').addClass('navbar-fixed');
+  document.getElementById("toplog").style.display = "block";
+  document.getElementById("navbarlogo").style.display = "block";
+}
+else if ($(window).scrollTop() < window.innerHeight ) {
+  $('#navbar').removeClass('navbar-fixed');
+  document.getElementById("toplog").style.display = "none";
+}
 
+}
+const navDisplayButton=()=>{
+  console.log(($(window).scrollTop() < window.innerHeight && !document.getElementById('navbar').classList.contains('navbar-fixed')))
+  if ($(window).scrollTop() < window.innerHeight && !document.getElementById('navbar').classList.contains('navbar-fixed')) {
+  $('#navbar').addClass('navbar-fixed');
+  document.getElementById("toplog").style.display = "block";
+  document.getElementById("navbarlogo").style.display = "none";
+  
+}else{
+  navDisplay()
+}
+}
 var TxtRotate = function (el, toRotate, period) {
   this.toRotate = toRotate;
   this.el = el;
