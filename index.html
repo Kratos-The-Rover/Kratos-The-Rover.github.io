@@ -75,8 +75,9 @@
         justify-content: center;
         padding: 0;
       "
-    >
+    > 
       <button
+      onclick="navDisplayButton()"
       style="position: absolute; left: 0;"
         class="navbar-toggler"
         type="button"
@@ -88,7 +89,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a id="toplog" href="#home" class="navbar-brand" style="height: 100%;"
+      <a id="toplog" href="#home" class="navbar-brand" style="height: 100%; display: none;"
         ><span style="height: 100%;"
           ><img
             id="navbarlogo"
@@ -294,9 +295,8 @@
           class="
             col-4
             offset-4
-            col-sm-4 col-md-4
-            offset-md-0
-            col-lg-3
+            col-sm-4
+            col-lg-4
             offset-lg-0
             col-xl-3
             offset-xl-0
@@ -308,7 +308,7 @@
         <div
           class="
             offset-1
-            col-10 col-sm-10 col-md-6 col-lg-7 col-xl-7
+            col-10 col-sm-10 col-lg-5 col-xl-7
             title
             align-self-center
           "
@@ -491,7 +491,7 @@
           "
         >
           <h2>URC 2020</h2>
-          <hr />
+          <hr/>
           <h3>Project Kratos - System Acceptance Review</h3>
           <div style="position: relative; padding-bottom: 56.25%">
             <iframe
@@ -516,14 +516,709 @@
         </div>
       </div>
     </section>
-
+    <!-- Team Section -->
+    <section id="team">
+      <div style="width: 90%;margin:auto;">
+        <div class="row">
+          <div class="team-head">
+            <div class="team-sub-head col">
+              <h2>The Team</h2>
+            </div>
+          </div>
+        </div>
+    
+    
+        <div class="row">
+          <div class="tab">
+            <button class="col-md-offset-3 col-md-2 col-xs-4 tablinks active" onclick="openTab(event, 'Current Team')"
+              id="defaultOpen">Current Team</button>
+            <button class="col-md-2 col-xs-6 tablinks" onclick="openTab(event, 'AY 2020-21')">AY 2020-21</button>
+            <button class="col-md-2 col-xs-6 tablinks" onclick="openTab(event, 'Founders')">The Founders</button>
+          </div>
+        </div>
+    
+        <div class="row">
+          <div id="Current Team" class="tabcontent" style="display: block;">
+            <div>
+              <div class="row">
+                <div class="col-md-4 col-sm-4  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Ithihas%20M.%2c%20Life%20detection%20Lead.jpg" class="img-responsive"
+                    alt="team img">
+                  <div class="team-des">
+                    <h4>Ithihas<br>Madala</h4>
+                    <h3>Team Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/ithihasmadala/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/gupte_vice.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Vivek<br>Gupte</h4>
+                    <h3>Vice Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/vivek-gupte" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/dhruv_oper.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Dhruv<br>Bhutani</h4>
+                    <h3>Operations Head</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/dhruvbhutani01/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+    
+                <div class="col-md-3 col-sm-3 col-xs-12 wow   animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/nipun_design.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Nipun<br>Gupta</h4>
+                    <h3>Head of Creative Design</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/nipun-gupta-a88432192/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/hardik_auto.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Hardik<br>Shah</h4>
+                    <h3>Autonomous Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/hardik-shah-b6b3921b2/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/shubham_mech.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Shubham<br>Gandhi</h4>
+                    <h3>Mechanical Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/shubham-gandhi-2b5596192" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/raghuveer_ld.png" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Raghuveer<br>RM</h4>
+                    <h3>Life Detection Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/raghuveer-rm-a57a771b0/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/pratyush.jpeg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Pratyush<br>Varmani</h4>
+                    <h3>Controls Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/pratyush-varmani-a577211a2/"
+                      class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/amritash_power.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Amritash<br>Mishra</h4>
+                    <h3>Power Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/amritash-mishra-b5a0381b2" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/sparsh_comm.png" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Sparsh<br>Kachhadiya</h4>
+                    <h3>Communication Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/sparsh-kachhadiya-0253b3193/"
+                      class="fa fa-linkedin"> </a>
+    
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/KaranG.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Karan<br>Gopalani</h4>
+                    <h3>Communication Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/karan-gopalani-a79b62193/" class="fa fa-linkedin"> </a>
+                
+                  </div>
+                </div>
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/SanskarJ.jpeg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Sanskar<br>Jain</h4>
+                    <h3>Communication Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/sanskar-jain-8098831a6/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/sarveshg.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Sarvesh<br>Garge</h4>
+                    <h3>Communications Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/sarvesh-garge-5934b31a6/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/krishia.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Krishi<br>Agrawal</h4>
+                    <h3>Communication Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/krishi-agrawal75/" class="fa fa-linkedin"> </a>
+              
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/akshayv.png" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Akshay<br>Valsaraj</h4>
+                    <h3>Communication Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/akshay-valsaraj-16b02b1a5/" class="fa fa-linkedin"> </a>
+                
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/srimans.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Sriman<br>Sridhar</h4>
+                    <h3>Power Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/sriman-sridhar-16788a1a6/" class="fa fa-linkedin"> </a>
+                
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/sakshamk.jpg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Saksham<br>Kamath</h4>
+                    <h3>Power Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/saksham-kamath-0b581b193/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/cheriyanh.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Cheriyan<br>Homey</h4>
+                    <h3>Power Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/cheriyan-homey-b4a7a9188/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/hrithickk.png" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Hrithik<br>Kandallu</h4>
+                    <h3>Controls Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/hrithik-chand-baa784191/" class="fa fa-linkedin"> </a>
+              
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/yashj.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Yash<br>Jangir</h4>
+                    <h3>Controls Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/yash-jangir-6a71651a1/" class="fa fa-linkedin"> </a>
+                
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/architr.jpeg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Archit<br>Rungta</h4>
+                    <h3>Controls Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/archit-rungta-883156193/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/abhishekj.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Abhishek<br>Jaswal</h4>
+                    <h3>Controls Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/abhishek-jaswal-bba0351b2/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/harshn.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Harsh<br>Nagle</h4>
+                    <h3>Controls Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/harsh-nagle-4b581b193/" class="fa fa-linkedin"> </a>
+              
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/suhaasm.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Suhaas<br>Mahajan</h4>
+                    <h3>Autonomous Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/suhaas-mahajan-814348196/" class="fa fa-linkedin"> </a>
+                
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/surudhs.png"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Suhrudh<br>S</h4>
+                    <h3>Autonomous Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/suhrudh-sarathy-a55a851a0/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/hrishiK.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Hrishikesh<br>Kusneniwar</h4>
+                    <h3>Autonomous Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/hrishikesh-kusneniwar-04b3bb1b2/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/sushants.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Sushant<br>S</h4>
+                    <h3>Autonomous Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/sushant-s-45b0391b2/" class="fa fa-linkedin"> </a>
+              
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/mehulg.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Mehul<br>Gupta</h4>
+                    <h3>Autonomous Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/mehulgupta14/" class="fa fa-linkedin"> </a>
+                
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/aeishnaK.jpg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Aeishna<br>K</h4>
+                    <h3>Autonomous Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/aeishna-khaund-6910381b2/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/ashwinc.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>C<br>Ashwin</h4>
+                    <h3>Mechanical Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/ashwin-c-0548a5196/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/abhayb.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Abhay<br>Bhandari</h4>
+                    <h3>Mechanical Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/abhay-bhandari25/" class="fa fa-linkedin"> </a>
+              
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/avinandann.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Avinandan<br>Nag</h4>
+                    <h3>Mechanical Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/avinandan-nag-607691193/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/nikunjb.jpg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Nikunj<br>Bhartia</h4>
+                    <h3>Mechanical Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/nikunj-bhartia1/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/sauravk.jfif" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Saurav<br>Agrawal</h4>
+                    <h3>Mechanical Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/saurav-agrawal-640b47190/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/suhasb.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Suhas<br>Badadal</h4>
+                    <h3>Mechanical Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/suhas-badadal-82b597136/" class="fa fa-linkedin"> </a>
+              
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Akshay<br>Sheth</h4>
+                    <h3>Mechanical Core</h3>
+                    <a target="_blank" href="#" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/madhenv.jpg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Madhen<br>Vyass Guru</h4>
+                    <h3>Life Detection Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/madhenvyassguru001/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/neelb.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Neel<br>Bhandari</h4>
+                    <h3>Life Detection Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/neelsbhandari/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/yashp.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Yash<br>Pathak</h4>
+                    <h3>Life Detection Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/yash-pathak-4138981a7/" class="fa fa-linkedin"> </a>
+              
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/arjunt.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Arjun<br>Tyagi</h4>
+                    <h3>Life Detection Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/arjun252001/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy" src="images/formal_imgs/devanshd.jpeg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Devansh<br>Dixit</h4>
+                    <h3>Life Detection Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/devansh-dixit-537422193/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+              
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/mrunmays.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Mrunumay<br>Shelar</h4>
+                    <h3>Life Detection Core</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/mrunmay-shelar/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div id="AY 2020-21" class="tabcontent" style="display: none;">
+            <div>
+              <div class="row">
+                <div class="col-md-4 col-sm-4  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Vidit%20Parab%2c%20Team%20Lead.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Vidit<br>Parab</h4>
+                    <h3>Team Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/vidit-parab-499667167" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Ritvik%20Puranik%20%2c%20Technical%20Vice%20Lead.jpg" class="img-responsive"
+                    alt="team img">
+                  <div class="team-des">
+                    <h4>Ritvik<br>Puranik</h4>
+                    <h3>Technical Vice Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/ritvik-puranik" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Shivangipic.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Shivangi<br>Gupta</h4>
+                    <h3>Non-Technical Vice Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/shivangi-gupta-3429aa8b" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+    
+                <div class="col-md-3 col-sm-3 col-xs-12 wow   animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/prabhutva.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Prabhutva<br>Agrawal</h4>
+                    <h3>Head of Creative Design</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/prabhutva/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Tanishq%20Nandan%20Autonomous%20Lead.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Tanishq<br>Nandan</h4>
+                    <h3>Autonomous Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/tanishq-nandan-ab9bb5194" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Aniruddh%20Nayak%2c%20Mech%20Lead..jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Aniruddha<br>Nayak</h4>
+                    <h3>Mechanical Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/aniruddha-nayak-363707161" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Ithihas%20M.%2c%20Life%20detection%20Lead.jpg" class="img-responsive"
+                    alt="team img">
+                  <div class="team-des">
+                    <h4>Ithihas<br>Madala</h4>
+                    <h3>Life Detection Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/ithihasmadala" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+    
+    
+    
+              </div>
+              <div class="row centered">
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;"><img loading="lazy"
+                    src="images/formal_imgs/Aditya%20Bidwai%20%2c%20Controls%20Lead.jpg" class="img-responsive"
+                    alt="team img">
+                  <div class="team-des">
+                    <h4>Aditya<br>Bidwai</h4>
+                    <h3>Controls Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/aditya-bidwai-27980016b" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-3 col-sm-3 col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/Devansh%20Gupta%2c%20Power%20Lead.jpg" loading="lazy" class="img-responsive"
+                    alt="team img">
+                  <div class="team-des">
+                    <h4>Devansh<br>Gupta</h4>
+                    <h3>Power Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/devansh-gupta-428173167" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-3 col-sm-3  col-xs-12 wow animated" data-wow-delay="0.9s"
+                  style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/Advait%20Kulkarni%20%2c%20Communication%20Lead.jpg" loading="lazy"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Advait<br>Kulkarni</h4>
+                    <h3>Communication Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/advait-kulkarni-5574b21aa" class="fa fa-linkedin">
+                    </a>
+    
+                  </div>
+                </div>
+              </div>
+    
+    
+            </div>
+          </div>
+    
+          <div id="Founders" class="tabcontent" style="display: none;">
+            <div>
+    
+              <div class="row">
+                <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s">
+                  <img src="images/formal_imgs/Akash Chaudhary.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Akash <br> Chaudhary</h4>
+                    <h3>Team Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/akash1306" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s"><img
+                    src="images/formal_imgs/Devanshu Wakhale.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Devanshu <br> Wakhale</h4>
+                    <h3>Mechanical/Vice Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/devanshu-wakhale-6607b2190" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s"><img
+                    src="images/formal_imgs/Krishnam_Bajaj.JPG" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Krishnam <br> Bajaj</h4>
+                    <h3>Communication Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/krishnam-bajaj-74a006137" class="fa fa-linkedin">
+                    </a>
+    
+                  </div>
+                </div>
+    
+              </div>
+    
+              <div class="row">
+                <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="1.3s"><img
+                    src="images/formal_imgs/Venugopalan Iyengar.jpg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Venugopalan <br> Iyengar</h4>
+                    <h3>Autonomous Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/venugopalan-iyengar-598a75192"
+                      class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="1.6s"><img
+                    src="images/formal_imgs/MihirDharmadhikari.jpeg" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Mihir <br> Dharmadhikari</h4>
+                    <h3>Controls Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/mihir-dharmadhikari" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+    
+                <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s"><img src="images/formal_imgs/Ankit.jpg"
+                    class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Kumar <br> Ankit</h4>
+                    <h3>Science Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/kumar-ankit-5bba3a12a/" class="fa fa-linkedin">
+                    </a>
+                  </div>
+                </div>
+    
+              </div>
+    
+    
+              <div class="row">
+    
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 wow col-offset-4 col-md-offset-4 col-sm-offset-4  animated"
+                  data-wow-delay="0.9s" style="visibility: visible; animation-delay: 0.9s;">
+                  <img src="images/formal_imgs/Shreyas.jpg" loading="lazy" class="img-responsive" alt="team img">
+                  <div class="team-des">
+                    <h4>Shreyas<br>Vastrad</h4>
+                    <h3>Power Lead</h3>
+                    <a target="_blank" href="https://www.linkedin.com/in/shreyasvastrad/" class="fa fa-linkedin"> </a>
+                  </div>
+                </div>
+    
+              </div>
+    
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    
+    </section>
+    
     <!-- BITS Logo + Sponsor Section -->
-    <section>
-      <div class="container" style="margin-bottom: 100px">
-        <div class="">
+    <section id="intro" style="margin-top: 20vh;">
+        <div class="row">
           <div
             class="
-              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
+              col-6 offset-3 offset-md-0 col-md-4
               align-self-center
             "
           >
@@ -540,7 +1235,7 @@
           </div>
           <div
             class="
-              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
+            col-6 offset-3 offset-md-0 col-md-4
               align-self-center
             "
           >
@@ -557,7 +1252,7 @@
           </div>
           <div
             class="
-              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
+            col-6 offset-3 offset-md-0 col-md-4
               align-self-center
             "
           >
@@ -572,56 +1267,8 @@
               src="./img/solidworks.png"
             />
           </div>
-        </div>
       </div>
     </section>
-
-    <!-- contact section -->
-    <section id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 title">
-            <h2>Contact Us</h2>
-            <hr />
-            <p>
-              Want to know more about us? Feel free to contact us.<br /><a
-                href="tel:+918879705469"
-                class="fa fa-phone wow bounceIn"
-                data-wow-delay="0.9s"
-                ><b>+91 88797 05469</b></a
-              >
-            </p>
-
-            <form method="post" id="contact-form">
-              <input
-                type="text"
-                class="form-control"
-                id="name-field"
-                placeholder="Name"
-                required
-              />
-              <input
-                type="email"
-                class="form-control"
-                id="email-field"
-                placeholder="Email"
-                required
-              />
-              <textarea
-                class="form-control"
-                placeholder="Message"
-                id="text-field"
-                rows="6"
-                required
-              ></textarea>
-              <input type="submit" class="form-control" value="SEND EMAIL" />
-            </form>
-            <h2 id="after-submit"></h2>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Footer -->
     <footer>
       <div class="container">
@@ -657,13 +1304,6 @@
                   data-wow-delay="0.9s"
                 ></a>
               </li>
-              <li>
-                <a
-                  href="tel:+918879705469"
-                  class="fa fa-phone"
-                  data-wow-delay="0.9s"
-                ></a>
-              </li>
             </ul>
           </div>
           <div class="col-md-12 col-sm-12 copyright">
@@ -683,15 +1323,15 @@
       </div>
     </footer>
 
-    <!-- <script src="js/jquery.js"></script>
+    <!-- script src="js/jquery.js"></script>
 
     <script src="js/nivo-lightbox.min.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.parallax.js"></script>
     <script src="js/wow.min.js"></script>
-    <script src="../cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
-    <script src="js/custom.js"></script>  -->
+    <script src="../cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script> -->
+    <script src="js/custom.js"></script> 
     <link
       href="https://fonts.googleapis.com/css?family=Raleway:200,100,400"
       rel="stylesheet"
