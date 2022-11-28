@@ -1,732 +1,801 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
-  <head>
-    <title>Project Kratos | The Mars Rover</title>
-    <link rel="icon" href="./img/kratoslogosmall.png" />
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="minimum-scale=1, initial-scale=1, width=device-width"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:image"
-      content="https://kratosbitsgoa.com/img/completelogo.jpg"
-    />
-    <meta property="og:image:type" content="image/jpg" />
-    <meta property="og:image:width" content="1148" />
-    <meta property="og:image:height" content="688" />
-    <meta property="og:image:alt" content="Project Kratos Logo" />
-    <meta
-      property="og:description"
-      content="The Official Website for Project Kratos: The Student team for BITS Pilani K. K. Birla Goa Campus for University and Indian Rover Challenge."
-    />
-    <meta property="og:title" content="Project Kratos BITS Goa" />
-    <meta property="og:url" content="https://kratosbitsgoa.com/" />
-    <meta name="keywords" content="" />
-    <meta
-      name="description"
-      content="The Official Website for Project Kratos: The Student team for BITS Pilani K. K. Birla Goa Campus for University and Indian Rover Challenge."
-    />
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172959103-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-172959103-1');
+    </script>
+
+    <title>Project Kratos: The Mars Rover</title>
+    <link rel="icon" href="./images/formal_imgs/img/kratoslogosmall.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width">
+    <meta name="keywords" content="Mars Rover">
+    <meta name="description" content="The Official Website for Project Kratos: The Student team for BITS Pilani K. K. Birla Goa Campus for University and Indian Rover Challenge.">
+    <meta property="og:type" content="website">
+    <meta property="og:image:url" content="https://kratosbitsgoa.com/images/formal_imgs/img/completelogo.jpg">
+    <meta property="og:image:type" content="image/jpg">
+    <meta property="og:image:width" content="1148">
+    <meta property="og:image:height" content="688">
+    <meta property="og:image:alt" content="Project Kratos Logo">
+    <meta property="og:description"
+        content="The Official Website for Project Kratos: The Student team for BITS Pilani K. K. Birla Goa Campus for University and Indian Rover Challenge.">
+    <meta property="og:title" content="Project Kratos BITS Goa">
+    <meta property="og:url" content="https://kratosbitsgoa.com/">
 
     <!-- STYLESHEET CSS FILES -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/nivo-lightbox.css">
+    <link rel="stylesheet" href="css/nivo_themes/default/default.css">
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="css/animate.min.css" />
+</head>
 
-    <link rel="stylesheet" href="css/nivo-lightbox.css" />
-    <link rel="stylesheet" href="css/nivo_themes/default/default.css" />
-    <link rel="stylesheet" href="css/templatemo-style.css" />
-    <script src="../ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="../cdn.rawgit.com/skipser/youtube-autoresize/master/youtube-autoresizer.js"></script>
-    -->
-    <!-- JAVASCRIPT JS FILES -->
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+    <!-- preloader section -->
+    <div class="preloader">
+        <div class="sk-spinner sk-spinner-rotating-plane"></div>
+    </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-
-    <!-- <meta name="theme-color" content="#00b3b3"> -->
-  </head>
-
-
-  <body>
-    <!-- Side Navigation Bar -->
-    <!-- TODO: Make it responsive -->
-    <nav
-      class="navbar navbar-dark" id="navbar"
-      style="
-        position: fixed;
-        top: 0;
-        height: 10vh;
-        z-index: 2;
-        width: 100%;
-        background-color: transparent;
-        justify-content: center;
-        padding: 0;
-      "
-    >
-      <button
-      style="position: absolute; left: 0;"
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a id="toplog" href="#home" class="navbar-brand" style="height: 100%;"
-        ><span style="height: 100%;"
-          ><img
-            id="navbarlogo"
-            style="height: 80%;"
-            alt="Kratos Logo"
-            src="./img/kratoslogomini.png" /></span
-      ></a>
-
-      <div class="collapse navbar-collapse sidebar" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a href="#"
-              ><img
-                class="navbar-icons"
-                src="./img/rover.png"
-                alt="About the Rover"
-              /><span class="icon-text">The Rover</span></a
-            >
-          </li>
-          <li class="nav-item dropdown">
-            <a href="#"
-              ><img
-                class="navbar-icons"
-                src="./img/competitions.png"
-                alt="competitions"
-              /><span class="icon-text">Competitions</span></a
-            >
-          </li>
-          <li>
-            <a href="#"
-              ><img
-                class="navbar-icons"
-                src="./img/team.png"
-                alt="Our Team"
-              /><span class="icon-text">Team</span></a
-            >
-          </li>
-          <li>
-            <a href="#"
-              ><img
-                class="navbar-icons"
-                src="./img/sponsor.png"
-                alt="Our Sponsors"
-              /><span class="icon-text">Sponsors</span></a
-            >
-          </li>
-          <li>
-            <a href="#"
-              ><img
-                class="navbar-icons"
-                src="./img/gallery.png"
-                alt="Gallery"
-              /><span class="icon-text">Gallery</span></a
-            >
-          </li>
-          <li>
-            <a href="#"
-              ><img class="navbar-icons" src="./img/blog.png" alt="Blog" /><span
-                class="icon-text"
-                >Blog</span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="#"
-              ><img
-                class="navbar-icons"
-                src="./img/contact.png"
-                alt="Contact Us"
-              /><span class="icon-text">Contact Us</span></a
-            >
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Background Section -->
-    <section>
-      <div
-        id="main"
-        style="
-          position: fixed;
-          left: 0px;
-          top: 0px;
-          overflow: hidden;
-          width: 100%;
-          height: 100%;
-        "
-      >
-        <canvas id="nodes"></canvas>
-      </div>
-    </section>
-
-    <!-- Home Section -->
-    <!-- Contains Logo, Rover Image and Taglines -->
+    <!-- home section -->
     <section id="home">
-      <div
-        style="
-          position: absolute;
-          left: 0px;
-          top: 0px;
-          overflow: hidden;
-          height: 100vh;
-          width: 100vw;
-          z-index: 0;
-        "
-      >
-        <img
-          style="
-            float: right;
-            right: 0px;
-            bottom: 0px;
-            height: 85vmin;
-            position: absolute;
-          "
-          src="./img/kratosrover.png"
-        />
-      </div>
-
-      <!-- Want to slide the logo -->
-      <div
-        id="kratoslogo"
-        style="
-          position: absolute;
-          left: 0px;
-          top: 0px;
-          overflow: hidden;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-        "
-      >
-        <!-- <img style="width: 30%; float: left; position: absolute; left: 10%; top: 20%" src="./img/kratoslogoresized.png"> -->
-        <!-- <button class="openbtn" id="openbtn" onclick="toggleSidebar(true)">&#9776;</button> -->
-        <div
-          class="container"
-          style="float: left; position: absolute; margin: 15% 10% 0% 10%"
-        >
-          <div class="row">
-            <div class="col-md-6 col-sm-12">
-              <img
-                id="logo"
-                src="./img/kratoslogoresized.png"
-                alt="Kratos"
-                width="75%"
-              />
-
-              <h1
-                style="
-                  font-size: 5vh;
-                  display: table;
-                  table-layout: fixed;
-                  white-space: nowrap;
-                  overflow: hidden;
-                  width: 100%;
-                "
-              >
-                We
-                <span
-                  class="txt-rotate"
-                  data-period="500"
-                  data-rotate='[ " Aim . . . ", " Innovate . . . ", " Succeed !           "]'
-                ></span>
-              </h1>
-              <hr />
-              <h3
-                style="
-                  font-size: 3vh;
-                  letter-spacing: 3px;
-                  margin-top: 2%;
-                  text-align: justify;
-                  text-justify: auto;
-                "
-              >
-                Planetary exploration through new age rover systems and science.
-              </h3>
-              <a href="#intro" class="btn btn-default smoothScroll"
-                >LET'S EXPLORE</a
-              >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <img id="logo" src="images/formal_imgs/img/kratoslogo.png" alt="Kratos" width="75%">
+                    <h2 class="wow bounceInDown rotate">We Aim. We Work. We Succeed.</h2>
+                    <h3 class="wow bounce">Planetary exploration through new age rover systems and science</h3>
+                    <a href="#intro" class="btn btn-default smoothScroll">LET'S EXPLORE</a>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </section> 
+    <!-- navigation section -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span
+                    class="icon icon-bar"></span> <span class="icon icon-bar"></span> <span class="icon icon-bar"></span>
+                </button>
+                <a href="#" class="navbar-brand"><img id="logo" src="images/formal_imgs/img/logo.png" alt="Kratos"></a></div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#home" class="smoothScroll">HOME</a></li>
+                    <li><a href="#intro" class="smoothScroll">ABOUT US</a></li>
+                    <li><a href="#team" class="smoothScroll">TEAM</a></li>
+                    <li><a href="#portfolio" class="smoothScroll">GALLERY</a></li>
+                    <li><a href="#contact" class="smoothScroll">CONTACT</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- intro section -->
+    <section id="intro" class="intro1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 title">
+                    <h2>Team Kratos</h2>
+                    <hr>
+                    <p>Team Kratos is a multidisciplinary team from BITS Pilani, K. K. Birla Goa Campus, started in 2018, aspiring
+                        to develop rovers equipped with advanced subsystems suitable for interplanetary deep space missions, seeking
+                        to study the application of engineering research into rover robotics, autonomous traversal, and detection of
+                        extraterrestrial life. We’re a team of 30 students from diverse backgrounds with a vision, to create
+                        groundbreaking innovations in the field of space exploration. </p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Our Mission Section -->
-    <!-- ALternate -->
-    <section
-      id="intro"
-      class="intro"
-      style="
-        position: relative;
-        max-width: 1500px;
-        left: 50%;
-        transform: translateX(-50%);
-      "
-    >
-      <div
-        class="row align-items-center"
-        style="align-items: center; text-align: right; vertical-align: middle"
-      >
-        <img
-          class="
-            col-4
-            offset-4
-            col-sm-4 col-md-4
-            offset-md-0
-            col-lg-3
-            offset-lg-0
-            col-xl-3
-            offset-xl-0
-          "
-          style="padding-bottom: 20px; border-radius: 1px; height: auto"
-          src="./img/terramars.png"
-        />
+    <!-- -----------about competition-------------------- -->
+    <section id="intro" class="intro2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 title">
+                    <h2>The International Rover Challenge</h2>
+                    <hr>
+                    <p>The International (previously "Indian") Rover Challenge is an annual competition held by the Mars Society South Asia. It features a challenge to engage students worldwide in robotics and space exploration. It aims to ignite and encourage the spirit of innovation amongst budding engineers as they set on a quest to build a space exploration rover, using their skills and ideas. The third edition of the Indian Rover Challenge was held during January 17-20, 2020, at the Vellore Institute of Technology (VIT) Chennai, Tamil Nadu, India.
+                        In our maiden year itself, we are proud to announce that we stood 10th out of 35 participating teams, and were first amongst all newly participating rovers.
 
-        <div
-          class="
-            offset-1
-            col-10 col-sm-10 col-md-6 col-lg-7 col-xl-7
-            title
-            align-self-center
-          "
-        >
-          <h2>Our Mission</h2>
-          <hr />
-          <p>
-            As students, it is our duty to take steps in the development of
-            science and technology. By doing various projects and involving the
-            community, by teaching them and us, we aim to achieve something new,
-            something big. This team consists of students from various academic
-            backgrounds, and this mix is the perfect combination for the
-            development of new ideas. We aim to keep up our effort to raise
-            awareness aboout the importance of STEM and students’ role in its
-            progress.
-          </p>
+                        We are now working hard to improve our rover based on our experiences in IRC 2020, and are enthusiastically looking forward to be a part of IRC 2022 & beyond.</p>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- About Us Featured Section -->
-    <section id="intro" class="intro offset-1">
-      <div
-        class="row align-items-center"
-        style="
-          padding: 15px;
-          align-items: center;
-          text-align: left;
-          vertical-align: middle;
-          display: flex;
-        "
-      >
-        <div
-          class="
-            col-11 col-sm-11 col-md-6 col-lg-7 col-xl-7
-            title
-            align-self-center
-          "
-        >
-          <h2>Who are we?</h2>
-          <hr />
-          <p>
-            Team Kratos is a multidisciplinary team from BITS Pilani, K. K.
-            Birla Goa Campus, started in 2018, aspiring to develop rovers
-            equipped with advanced subsystems suitable for interplanetary deep
-            space missions, seeking to study the application of engineering
-            research into rover robotics, autonomous traversal, and detection of
-            extraterrestrial life. We’re a team of 30 students from diverse
-            backgrounds with a vision, to create groundbreaking innovations in
-            the field of space exploration.
-          </p>
+    <section id="intro" class="intro3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 title">
+                    <h2>University Rover Challenge</h2>
+                    <hr>
+                    <p> University Rover Challenge is an annual competition held by the Mars Society, in the desert of southern
+                        Utah in the United States. URC challenges student teams to design and build the next generation of Mars
+                        rovers that will one day work alongside astronauts exploring the Red Planet. URC was launched in 2006, with
+                        competitions being held every summer since 2007. The competition has 4 tasks, namely Science task, Extreme
+                        Retrieval, and Delivery task, Equipment Servicing task and Autonomous Traversal task</p>
+                </div>
+            </div>
         </div>
-        <img
-          class="col-11 col-sm-11 col-lg-5 col-md-5 col-xl-5"
-          style="padding-top: 20px; object-fit: fill; border-radius: 40px"
-          src="./img/team.jpg"
-        />
-      </div>
     </section>
 
-    <!-- About URC Section -->
-    <!-- ALternate -->
-    <section id="intro" class="intro offset-1">
-      <div
-        class="row align-items-center"
-        style="
-          align-items: center;
-          text-align: right;
-          vertical-align: middle;
-          display: flex;
-        "
-      >
-        <img
-          class="
-            col-3
-            offset-2
-            col-sm-3 col-md-2
-            offset-md-0
-            col-lg-2
-            offset-lg-0
-            col-xl-2
-            offset-xl-0
-          "
-          style="border-radius: 1px; height: auto"
-          src="./img/ms.png"
-        />
-
-        <img
-          class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2"
-          style="border-radius: 1px; height: auto"
-          src="./img/urc.png"
-        />
-
-        <div
-          class="
-            col-11 col-sm-11 col-md-6 col-lg-6 col-xl-6
-            title
-            align-self-center
-          "
-        >
-          <h2>The University Rover Challenge</h2>
-          <hr />
-          <p>
-            University Rover Challenge is an annual competition held by the Mars
-            Society, in the desert of southern Utah in the United States. URC
-            challenges student teams to design and build the next generation of
-            Mars rovers that will one day work alongside astronauts exploring
-            the Red Planet. URC was launched in 2006, with competitions being
-            held every summer since 2007. The competition has 4 tasks, namely
-            Science task, Extreme Retrieval, and Delivery task, Equipment
-            Servicing task and Autonomous Traversal task
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- About IRC Section -->
-    <section id="intro" class="intro offset-1">
-      <div
-        class="row align-self-center"
-        style="
-          align-items: center;
-          text-align: left;
-          vertical-align: middle;
-          display: flex;
-        "
-      >
-        <div
-          class="
-            col-11 col-sm-11 col-md-6 col-lg-6 col-xl-6
-            order-md-0 order-lg-0 order-1 order-xl-0
-            title
-          "
-        >
-          <h2>The Indian Rover Challenge</h2>
-          <hr />
-          <p>
-            The Indian Rover Challenge is an annual competition held by the Mars
-            Society South Asia. It features a challenge to engage students
-            worldwide in robotics and space exploration. It aims to ignite and
-            encourage the spirit of innovation amongst budding engineers as they
-            set on a quest to build a space exploration rover, using their
-            skills and ideas. The third edition of the Indian Rover Challenge
-            was held during January 17-20, 2020, at the Vellore Institute of
-            Technology (VIT) Chennai, Tamil Nadu, India. In our maiden year
-            itself, we are proud to announce that we stood 10th out of 35
-            participating teams, and were first amongst all newly participating
-            rovers. We are now working hard to improve our rover based on our
-            experiences in IRC 2020, and are enthusiastically looking forward to
-            be a part of IRC 2021.
-          </p>
+   <!-- team section -->
+   <section id="team">
+    <div style="width: 90%;margin:auto;">
+        <div class="row">
+            <div class="team-head">
+                <div class="team-sub-head col-md-offset-2 col-md-8 col-xs-12 ">
+                    <h2>The Team</h2>
+                </div>
+            </div>
         </div>
 
-        <img
-          class="
-            col-11 col-sm-11 col-lg-5 col-md-5 col-xl-5
-            order-md-1 order-lg-0 order-0 order-xl-1
-          "
-          style="object-fit: fill; border-radius: 40px"
-          src="./img/irc.png"
-        />
-      </div>
-    </section>
-
-    <!-- SAR Video Section -->
-    <!-- ALternate -->
-    <section id="sarvideo" class="sarvid offset-1">
-      <div
-        class="row"
-        style="align-items: center; text-align: center; vertical-align: middle"
-      >
-        <div
-          class="
-            col-md-6
-            offset-md-3
-            col-11
-            order-md-0 order-lg-0 order-1 order-xl-0
-            title
-            align-self-center
-          "
-        >
-          <h2>URC 2020</h2>
-          <hr />
-          <h3>Project Kratos - System Acceptance Review</h3>
-          <div style="position: relative; padding-bottom: 56.25%">
-            <iframe
-              style="
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                left: 0px;
-                top: 0px;
-              "
-              frameborder="0"
-              width="100%"
-              height="100%"
-              loading="lazy"
-              src="https://www.youtube.com/embed/7ka3s3takjY"
-              frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            >
-            </iframe>
-          </div>
+        
+        <div class="row">
+            <div class="tab">
+                <button class="col-md-offset-2 col-md-2 col-xs-3 tablinks" onclick="openTab(event, 'Current Team')" id="defaultOpen">Current Team</button>
+                <button class="col-md-2 col-xs-3 tablinks" onclick="openTab(event, 'AY 2021-22')">AY 2021-22</button>
+                <button class="col-md-2 col-xs-3 tablinks" onclick="openTab(event, 'AY 2020-21')">AY 2020-21</button>
+                <button class="col-md-2 col-xs-3 tablinks" onclick="openTab(event, 'Founders')">The Founders</button>
+            </div>
         </div>
-      </div>
-    </section>
+       
+        <div class="row">
+            <div id="Current Team" class="tabcontent">
+                <div>
+                    <div class="row">
+                    <div class="col-md-4 col-sm-4  col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Saurabh_Lead.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Saurabh<br>Kalra</h4>
+                            <h3>Team Lead</h3>
+                            <!-- <a target="_blank" href="https://www.linkedin.com/in/ithihasmadala/" class="fa fa-linkedin"> </a target="_blank"> -->
+                            <a target="_blank" href="https://www.linkedin.com/in/saurabh-kalra-59694b11b" class="fa fa-linkedin"> </a target="_blank">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Rohan_Vice_Lead.jpeg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Rohan<br>Khosla</h4>
+                            <h3>Vice Lead</h3>
+                            <!-- <a target="_blank" href="https://www.linkedin.com/in/vivek-gupte" class="fa fa-linkedin"> </a
+                                target="_blank"> -->
+                            <a target="_blank" href="https://www.linkedin.com/in/rohan-khosla-b25051166/" class="fa fa-linkedin"> </a tarhey="_blank">
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Sakshi_Operations_Head.jpeg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Sakshi<br>Gupta</h4>
+                            <h3>Operations Head</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/sakshi-gupta-20a715203/?originalSubdomain=in/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
 
-    <!-- BITS Logo + Sponsor Section -->
-    <section>
-      <div class="container" style="margin-bottom: 100px">
-        <div class="">
-          <div
-            class="
-              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
-              align-self-center
-            "
-          >
-            <img
-              style="
-                border-radius: 1px;
-                width: 100%;
-                padding: 0px 3vw;
-                max-width: 100%;
-                height: auto;
-              "
-              src="./img/ansys.png"
-            />
-          </div>
-          <div
-            class="
-              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
-              align-self-center
-            "
-          >
-            <img
-              style="
-                border-radius: 1px;
-                width: 100%;
-                padding: 0px 3vw;
-                max-width: 100%;
-                height: auto;
-              "
-              src="./img/bits.png"
-            />
-          </div>
-          <div
-            class="
-              col-md-offset-0 col-md-4 col-sm-offset-4 col-sm-4
-              align-self-center
-            "
-          >
-            <img
-              style="
-                border-radius: 1px;
-                width: 100%;
-                padding: 0px 3vw;
-                max-width: 100%;
-                height: auto;
-              "
-              src="./img/solidworks.png"
-            />
-          </div>
+                    <!-- <div class="col-md-3 col-sm-3 col-xs-12 wow  " data-wow-delay="0.9s">
+                        <img src="images/formal_imgs/nipun_design.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Nipun<br>Gupta</h4>
+                            <h3>Head of Creative Design</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/nipun-gupta-a88432192/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                        </div> -->
+
+                    <div class="col-md-4 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Atharv_Autonomous_Lead.jpeg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Atharv<br>Mane</h4>
+                            <h3>Autonomous Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/atharv-mane-019908204/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-3  col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Nishit_mech_lead.jpeg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Nishit<br>Pachpande</h4>
+                            <h3>Mechanical Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/nishit5pande/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Darshna_Life_Detection_Lead.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Darshna<br>Songara</h4>
+                            <h3>Life Detection Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/darshna-songara-37313220a" class="fa fa-linkedin">
+                            </a>
+                        </div>
+                    </div>
+    
+                    
+
+                    </div>
+                    <div class="row centered">
+
+
+                    <div class="col-md-4 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Anshul_Controls_Lead.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Anshul<br>Raje</h4>
+                            <h3>Controls Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/anshul-raje-2b526421b" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s">
+                        <img src="images/formal_imgs/Vaid_Power_Lead.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Vikramvaidyanathan<br>Venkataraman</h4>
+                            <h3>Power Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/vikram-venkatraman-19266b214/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+    
+                    <div class="col-md-4 col-sm-3  col-xs-12 wow" data-wow-delay="0.9s">
+                        <img src="images/formal_imgs/Suchetan_Arm_Lead.jfif" loading="lazy" class="img-responsive" alt="team img">
+                      <div class="team-des">
+                          <h4>Suchetan<br>Saravanan</h4>
+                          <h3>Arm Lead</h3>
+                          <a target="_blank" href="https://www.linkedin.com/in/suchetan-saravanan-a245ab209/" class="fa fa-linkedin"> </a target="_blank">
+    
+                      </div>
+                    </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div id="AY 2021-22" class="tabcontent">
+                <div>
+                    <div class="row">
+                    <div class="col-md-4 col-sm-4  col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/Ithihas%20M.%2c%20Life%20detection%20Lead.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Ithihas<br>Madala</h4>
+                            <h3>Team Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/ithihasmadala/" class="fa fa-linkedin"> </a target="_blank">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/gupte_vice.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Vivek<br>Gupte</h4>
+                            <h3>Vice Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/vivek-gupte" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/dhruv_oper.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Dhruv<br>Bhutani</h4>
+                            <h3>Operations Head</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/dhruvbhutani01/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 wow  " data-wow-delay="0.9s">
+                        <img src="images/formal_imgs/nipun_design.jpeg" loading="lazy" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Nipun<br>Gupta</h4>
+                            <h3>Head of Creative Design</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/nipun-gupta-a88432192/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                        </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/hardik_auto.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Hardik<br>Shah</h4>
+                            <h3>Autonomous Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/hardik-shah-b6b3921b2/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3  col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/shubham_mech.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Shubham<br>Gandhi</h4>
+                            <h3>Mechanical Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/shubham-gandhi-2b5596192" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/raghuveer_ld.png" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Raghuveer<br>RM</h4>
+                            <h3>Life Detection Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/raghuveer-rm-a57a771b0/" class="fa fa-linkedin">
+                            </a>
+                        </div>
+                    </div>
+    
+                    
+
+                    </div>
+                    <div class="row centered">
+
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                        src="images/formal_imgs/pratyush.jpeg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Pratyush<br>Varmani</h4>
+                            <h3>Controls Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/pratyush-varmani-a577211a2/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s">
+                        <img src="images/formal_imgs/amritash_power.jpg" loading="lazy" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Amritash<br>Mishra</h4>
+                            <h3>Power Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/amritash-mishra-b5a0381b2" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                    </div>
+    
+                    <div class="col-md-3 col-sm-3  col-xs-12 wow" data-wow-delay="0.9s">
+                        <img src="images/formal_imgs/sparsh_comm.png" loading="lazy" class="img-responsive" alt="team img">
+                      <div class="team-des">
+                          <h4>Sparsh<br>Kachhadiya</h4>
+                          <h3>Communication Lead</h3>
+                          <a target="_blank" href="https://www.linkedin.com/in/sparsh-kachhadiya-0253b3193/" class="fa fa-linkedin"> </a target="_blank">
+    
+                      </div>
+                    </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div id="AY 2020-21" class="tabcontent">
+                <div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4  col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                            src="images/formal_imgs/Vidit%20Parab%2c%20Team%20Lead.jpg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Vidit<br>Parab</h4>
+                                <h3>Team Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/vidit-parab-499667167" class="fa fa-linkedin"> </a target="_blank">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                            src="images/formal_imgs/Ritvik%20Puranik%20%2c%20Technical%20Vice%20Lead.jpg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Ritvik<br>Puranik</h4>
+                                <h3>Technical Vice Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/ritvik-puranik" class="fa fa-linkedin"> </a
+                                    target="_blank">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                            src="images/formal_imgs/Shivangipic.jpg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Shivangi<br>Gupta</h4>
+                                <h3>Non-Technical Vice Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/shivangi-gupta-3429aa8b" class="fa fa-linkedin"> </a
+                                    target="_blank">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-3 col-xs-12 wow  " data-wow-delay="0.9s">
+                            <img src="images/formal_imgs/prabhutva.jpg" loading="lazy" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Prabhutva<br>Agrawal</h4>
+                                <h3>Head of Creative Design</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/prabhutva/" class="fa fa-linkedin"> </a
+                                    target="_blank">
+                            </div>
+                            </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s">
+                            <img loading="lazy" src="images/formal_imgs/Tanishq%20Nandan%20Autonomous%20Lead.jpg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Tanishq<br>Nandan</h4>
+                                <h3>Autonomous Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/tanishq-nandan-ab9bb5194" class="fa fa-linkedin"> </a
+                                    target="_blank">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3  col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                            src="images/formal_imgs/Aniruddh%20Nayak%2c%20Mech%20Lead..jpg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Aniruddha<br>Nayak</h4>
+                                <h3>Mechanical Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/aniruddha-nayak-363707161" class="fa fa-linkedin"> </a
+                                    target="_blank">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                            src="images/formal_imgs/Ithihas%20M.%2c%20Life%20detection%20Lead.jpg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Ithihas<br>Madala</h4>
+                                <h3>Life Detection Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/ithihasmadala" class="fa fa-linkedin">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row centered">
+
+
+                            <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s"><img loading="lazy"
+                                src="images/formal_imgs/Aditya%20Bidwai%20%2c%20Controls%20Lead.jpg" class="img-responsive" alt="team img">
+                                <div class="team-des">
+                                    <h4>Aditya<br>Bidwai</h4>
+                                    <h3>Controls Lead</h3>
+                                    <a target="_blank" href="https://www.linkedin.com/in/aditya-bidwai-27980016b" class="fa fa-linkedin"> </a
+                                        target="_blank">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-3 col-sm-3 col-xs-12 wow" data-wow-delay="0.9s">
+                                <img src="images/formal_imgs/Devansh%20Gupta%2c%20Power%20Lead.jpg" loading="lazy" class="img-responsive" alt="team img">
+                                <div class="team-des">
+                                    <h4>Devansh<br>Gupta</h4>
+                                    <h3>Power Lead</h3>
+                                    <a target="_blank" href="https://www.linkedin.com/in/devansh-gupta-428173167" class="fa fa-linkedin"> </a
+                                        target="_blank">
+                                </div>
+                            </div>
+            
+                            <div class="col-md-3 col-sm-3  col-xs-12 wow" data-wow-delay="0.9s">
+                                <img src="images/formal_imgs/Advait%20Kulkarni%20%2c%20Communication%20Lead.jpg" loading="lazy" class="img-responsive" alt="team img">
+                              <div class="team-des">
+                                  <h4>Advait<br>Kulkarni</h4>
+                                  <h3>Communication Lead</h3>
+                                  <a target="_blank" href="https://www.linkedin.com/in/advait-kulkarni-5574b21aa" class="fa fa-linkedin"> </a target="_blank">
+            
+                              </div>
+                            </div>
+        
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div id="Founders" class="tabcontent">
+                <div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s">
+                            <img src="images/formal_imgs/Akash Chaudhary.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Akash <br> Chaudhary</h4>
+                            <h3>Team Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/akash1306" class="fa fa-linkedin"> </a target="_blank">
+                        </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s"><img
+                            src="images/formal_imgs/Devanshu Wakhale.jpg" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Devanshu <br> Wakhale</h4>
+                            <h3>Mechanical/Vice Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/devanshu-wakhale-6607b2190" class="fa fa-linkedin"> </a
+                            target="_blank">
+                        </div>
+                        </div>
+                    
+                        <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s"><img
+                            src="images/formal_imgs/Krishnam_Bajaj.JPG" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Krishnam <br> Bajaj</h4>
+                            <h3>Communication Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/krishnam-bajaj-74a006137" class="fa fa-linkedin"> </a>
+                
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="1.3s"><img
+                            src="images/formal_imgs/Venugopalan Iyengar.jpg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Venugopalan <br> Iyengar</h4>
+                                <h3>Autonomous Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/venugopalan-iyengar-598a75192" class="fa fa-linkedin">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="1.6s"><img
+                            src="images/formal_imgs/MihirDharmadhikari.jpeg" class="img-responsive" alt="team img">
+                            <div class="team-des">
+                                <h4>Mihir <br> Dharmadhikari</h4>
+                                <h3>Controls Lead</h3>
+                                <a target="_blank" href="https://www.linkedin.com/in/mihir-dharmadhikari" class="fa fa-linkedin"> </a
+                                target="_blank">
+                            </div>
+                        </div>
+
+                    <div class="col-md-4 col-sm-4  col-xs-12" data-wow-delay="0.9s"><img
+                        src="images/formal_imgs/Ankit.jpg" class="img-responsive" alt="team img">
+                      <div class="team-des">
+                        <h4>Kumar <br> Ankit</h4>
+                        <h3>Science Lead</h3>
+                        <a target="_blank" href="https://www.linkedin.com/in/kumar-ankit-5bba3a12a/" class="fa fa-linkedin"> </a
+                          target="_blank">
+                      </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 wow col-offset-4 col-md-offset-4 col-sm-offset-4 " data-wow-delay="0.9s">
+                        <img src="images/formal_imgs/Shreyas.jpg" loading="lazy" class="img-responsive" alt="team img">
+                        <div class="team-des">
+                            <h4>Shreyas<br>Vastrad</h4>
+                            <h3>Power Lead</h3>
+                            <a target="_blank" href="https://www.linkedin.com/in/shreyasvastrad/" class="fa fa-linkedin"> </a
+                                target="_blank">
+                        </div>
+                        </div>
+
+                    </div>
+                   
+                    
+                </div>
+            </div>
+
         </div>
-      </div>
+        </div>
+    </div>
+</section>
+
+    <!-- portfolio section -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 title">
+                    <h2>Gallery</h2>
+                    <hr>
+                </div>
+            </div>
+            
+
+
+
+
+                    <!-- <div style="position:relative;padding-bottom:56.25%;">
+
+                    
+                      <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;"
+                      frameborder="0" width="100%" height="100%" loading="lazy"
+                      src="https://www.youtube.com/embed/7ka3s3takjY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                     </iframe>
+                     <iframe style="position:absolute;left:0px;top:0px;"
+                     frameborder="0" loading="lazy" width="300" height="150" src="https://www.youtube.com/embed/7ka3s3takjY" frameborder="0" allowfullscreen></iframe>
+                     </div> -->
+
+            
+                     <p><b>Have a look at some of our preperations for the Anatolian Rover Challenge in BITS.</b></p>
+            
+            <div class="embed-responsive embed-responsive-16by9 ">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/O5x6_6F597g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 title">
+                    <p>Project Kratos - Video Presentation Report - ARC 2022</p>
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="embed-responsive embed-responsive-16by9 ">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/Ok03ddqfSL4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 title">
+                    <p>Project Kratos - System Acceptance Review - URC 2022</p>
+                    <br>
+                    
+                </div>
+            </div>
+            <br>
+            
+
+
+
+                    <!-- <div style="position:relative;padding-bottom:56.25%;">
+
+                    
+                      <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;"
+                      frameborder="0" width="100%" height="100%" loading="lazy"
+                      src="https://www.youtube.com/embed/7ka3s3takjY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                     </iframe>
+                     <iframe style="position:absolute;left:0px;top:0px;"
+                     frameborder="0" loading="lazy" width="300" height="150" src="https://www.youtube.com/embed/7ka3s3takjY" frameborder="0" allowfullscreen></iframe>
+                     </div> -->
+            
+            
+
+            <p><b>Have a look at some of our moments while working in BITS.</b></p>
+            <div class="row">
+                <div class="col-md-12 col-sm-12"></div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/NEW%20(4).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/NEW%20(4).jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/NEW%20(5).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/NEW%20(5).jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/NEW%20(2).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/NEW%20(2).jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/NEW%20(3).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/NEW%20(3).jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/NEW%20(6).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/NEW%20(6).jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/NEW%20(7).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/NEW%20(7).jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/NEW%20(1).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/NEW%20(1).jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/10.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/10.jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/11.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/11.jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/20190220_233402(0).jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/20190220_233402(0).jpg"
+                    alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/20191222_181318.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/20191222_181318.jpg"
+                    alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/30.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/30.jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a
+                    href="images/gallery/71867010_2427492940674958_7784866139418394624_o.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img
+                    loading="lazy" src="images/gallery/71867010_2427492940674958_7784866139418394624_o.jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a
+                    href="images/gallery/75282310_2539509372806647_1829986827822432256_n.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img
+                    loading="lazy" src="images/gallery/75282310_2539509372806647_1829986827822432256_n.jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/9.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/9.jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/IMG_20190219_145933.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/IMG_20190219_145933.jpg"
+                    alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/IMG_20190221_150431.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/IMG_20190221_150431.jpg"
+                    alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/IMG_20191016_225047.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/IMG_20191016_225047.jpg"
+                    alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a href="images/gallery/IMG_20191223_193523.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img loading="lazy" src="images/gallery/IMG_20191223_193523.jpg"
+                    alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a
+                    href="images/gallery/SAVE_20191126_175024.jpg" data-lightbox-gallery="portfolio-gallery"><img
+                    loading="lazy" src="images/gallery/SAVE_20191126_175024.jpg" alt="portfolio img"></a>
+                </div>
+                <div class="col-md-3 col-sm-3 wow fadeIn" data-wow-delay="0.6s"><a
+                    href="images/gallery/WhatsApp%20Image%202019-04-29%20at%2006.40.06.jpg"
+                    data-lightbox-gallery="portfolio-gallery"><img
+                    loading="lazy" src="images/gallery/WhatsApp%20Image%202019-04-29%20at%2006.40.06.jpg" alt="portfolio img"></a>
+
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- contact section -->
     <section id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 title">
-            <h2>Contact Us</h2>
-            <hr />
-            <p>
-              Want to know more about us? Feel free to contact us.<br /><a
-                href="tel:+918879705469"
-                class="fa fa-phone wow bounceIn"
-                data-wow-delay="0.9s"
-                ><b>+91 88797 05469</b></a
-              >
-            </p>
-
-            <form method="post" id="contact-form">
-              <input
-                type="text"
-                class="form-control"
-                id="name-field"
-                placeholder="Name"
-                required
-              />
-              <input
-                type="email"
-                class="form-control"
-                id="email-field"
-                placeholder="Email"
-                required
-              />
-              <textarea
-                class="form-control"
-                placeholder="Message"
-                id="text-field"
-                rows="6"
-                required
-              ></textarea>
-              <input type="submit" class="form-control" value="SEND EMAIL" />
-            </form>
-            <h2 id="after-submit"></h2>
-          </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 title">
+                    <h2>Contact Us</h2>
+                    <hr>
+                    <p>Want to know more about us? Feel free to contact us.<br><a href="tel:+919811794119" class="fa fa-phone wow bounceIn" data-wow-delay="0.9s"><b>+91 9811 794 119</b></a></p>
+                </div>
+                <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 contact-form wow fadeInUp" data-wow-delay="0.9s">
+                    <form method="post" id="contact-form">
+                        <input type="text" class="form-control" id="name-field" placeholder="Name" required>
+                        <input type="email" class="form-control" id="email-field" placeholder="Email" required>
+                        <textarea class="form-control" placeholder="Message" id="text-field" rows="6" required></textarea>
+                        <input type="submit" class="form-control" value="SEND EMAIL">
+                    </form>
+                    <h2 id="after-submit"></h2>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- Footer -->
+    <!-- footer section -->
     <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 col-sm-12 title">
-            <h2 class="wow fadeIn" data-wow-delay="0.9s">Follow Us</h2>
-            <ul class="social-icon">
-              <li>
-                <a
-                  href="https://www.facebook.com/KratosBITSGoa/"
-                  class="fa fa-facebook"
-                  data-wow-delay="0.3s"
-                ></a>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/kratosbitsgoa/"
-                  class="fa fa-instagram"
-                  data-wow-delay="0.6s"
-                ></a>
-              </li>
-              <li>
-                <a
-                  href="https://www.linkedin.com/company/kratosbitsgoa/"
-                  class="fa fa-linkedin"
-                  data-wow-delay="0.9s"
-                ></a>
-              </li>
-              <li>
-                <a
-                  href="mailto:kratosbitsgoa@gmail.com"
-                  class="fa fa-envelope"
-                  data-wow-delay="0.9s"
-                ></a>
-              </li>
-              <li>
-                <a
-                  href="tel:+918879705469"
-                  class="fa fa-phone"
-                  data-wow-delay="0.9s"
-                ></a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-12 col-sm-12 copyright">
-            <p>Copyright © 2020 Project Kratos</p>
-            <h5>
-              Made With &hearts; By
-              <a target="_blank" href="http://prabhutva.github.io/"
-                >Prabhutva
-              </a>
-              <!-- <a
-                        href="http://devsoc.club/" target="_blank"> (
-                        devSoc )</a>  -->
-              for Project Kratos
-            </h5>
-          </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h2 class="wow fadeIn" data-wow-delay="0.9s">Follow Us</h2>
+                    <ul class="social-icon">
+                        <li><a href="https://www.facebook.com/KratosBITSGoa/" class="fa fa-facebook wow bounceIn"
+                            data-wow-delay="0.3s"></a></li>
+                        <li><a href="https://www.instagram.com/kratosbitsgoa/" class="fa fa-instagram wow bounceIn"
+                            data-wow-delay="0.6s"></a></li>
+                        <li><a href="https://www.linkedin.com/company/kratosbitsgoa/" class="fa fa-linkedin wow bounceIn"
+                            data-wow-delay="0.9s"></a></li>
+                        <li><a href="mailto:kratosbitsgoa@gmail.com" class="fa fa-envelope wow bounceIn" data-wow-delay="0.9s"></a>
+                        </li>
+                        <li><a href="tel:+918073955450" class="fa fa-phone wow bounceIn" data-wow-delay="0.9s"></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-12 col-sm-12 copyright">
+                    <p>Copyright © 2021 Kratos</p>
+                    <h5>Made With &hearts; By  <a href="http://devsoc.club/" target="_blank"> DevSoc</a> </h5>
+                </div>
+            </div>
         </div>
-      </div>
     </footer>
 
-    <!-- <script src="js/jquery.js"></script>
+    <!-- -------sticky icons--------------------- -->
+<!--     <div class="icon-bar-2">
+        <a href="https://www.facebook.com/KratosBITSGoa/" class="facebook"><i class="fa fa-facebook"></i></a>
+        <a href="https://www.instagram.com/kratosbitsgoa" class="twitter"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/company/kratosbitsgoa/" class="linkedin"><i class="fa fa-linkedin"></i></a>
+        <a href="mailto:kratosbitsgoa@gmail.com" class="youtube"><i class="fa fa-envelope"></i></a>
+    </div> -->
 
+    <!-- JAVASCRIPT JS FILES -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/nivo-lightbox.min.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.parallax.js"></script>
     <script src="js/wow.min.js"></script>
-    <script src="../cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
-    <script src="js/custom.js"></script>  -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Raleway:200,100,400"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link rel="stylesheet" type="text/css" href=".\css\stylesheet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <script src="js/custom.js"></script>
+</body>
 
-    <script src=".\js\nodes.js"></script>
-    <script type="text/javascript">
-      window.onresize = function () {
-        nodesjs.setWidth(window.innerWidth);
-        nodesjs.setHeight(window.innerHeight);
-      };
-    </script>
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-<script src="./js/webpage.js"></script>
-    <!-- <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/TweenLite.min.js"></script>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/EasePack.min.js"></script>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/demo.js"></script> -->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="./css/font-awesome.min.css" />
-  </body>
 </html>
