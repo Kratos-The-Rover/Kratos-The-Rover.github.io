@@ -660,7 +660,7 @@ body.cursor-hover .crosshair-square {
   transform: scale(1.03);
 }
 
-/* ===== History / ZELOS Reveal ===== */
+/* ===== History / ARIES Reveal ===== */
 .history-section {
   position: relative;
   z-index: 2;
@@ -1448,12 +1448,38 @@ body.no-scroll {
     display: none;
   }
 
+  /* Phones: stack About over the photo strip instead of a cramped 50/50 split */
+  .experience-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .about-section,
+  .gallery-section {
+    width: 100%;
+  }
+
   .about-section {
-    padding: 60px 24px;
+    padding: 0 16px;
+  }
+
+  .about-label {
+    margin-left: 0;
   }
 
   .about-title {
     font-size: 2.5rem;
+  }
+
+  .about-text {
+    margin-left: 0;
+    font-size: 0.9rem;
+  }
+
+  .gallery-track {
+    padding: 0 16px;
+    gap: 16px;
   }
 
   .hero-title {

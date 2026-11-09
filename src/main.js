@@ -211,11 +211,11 @@ document.querySelector('#app').innerHTML = `
     </div>
   </section>
 
-  <!-- History Section (ZELOS Reveal) -->
+  <!-- History Section (ARIES reveal) -->
   <section class="history-section" id="history">
     <div class="history-phase" id="history-phase-1">
       <div class="history-poem">
-        <div class="poem-line">Every prophecy has it's final verse,</div>
+        <div class="poem-line">Every prophecy has its final verse,</div>
         <div class="poem-line">Every myth dies when the gods stop fighting</div>
         <div class="poem-line">But we gave our myth a weapon</div>
       </div>
@@ -529,7 +529,6 @@ function render() {
   requestAnimationFrame(render);
 }
 render();
-const heroGrid = document.getElementById('hero-grid');
 
 // ====================================================================
 // HERO ENTRANCE — brutalist, snappy
@@ -617,12 +616,6 @@ heroTl
   }, '1.5');
 
 
-
-// ====================================================================
-// ROVER
-// ====================================================================
-const roverWrapper = document.getElementById('hero-rover-wrapper');
-
 // ====================================================================
 // SCROLL-TRIGGERED EFFECTS
 // ====================================================================
@@ -653,9 +646,10 @@ heroScrollTl
 // ====================================================================
 const galleryTrack = document.getElementById('gallery-track');
 
+// Slide the strip until its last card is in view; the track's own padding is the end margin.
+// Measured from the strip's container, which is half the screen on desktop and full width on phones.
 function getScrollAmount() {
-  let trackWidth = galleryTrack.scrollWidth;
-  return -(trackWidth - window.innerWidth / 2 + 80); // Include right padding buffer, account for 50% width container
+  return -(galleryTrack.scrollWidth - galleryTrack.parentElement.clientWidth);
 }
 
 const experienceTl = gsap.timeline({
@@ -709,7 +703,7 @@ experienceTl
 
 
 // ====================================================================
-// HISTORY (ZELOS REVEAL) SCROLL
+// HISTORY (ARIES REVEAL) SCROLL
 // ====================================================================
 const historyTl = gsap.timeline({
   scrollTrigger: {
@@ -736,7 +730,7 @@ historyTl
   .to({}, { duration: 1.0 }) // Hold
   .to('#history-phase-2', { opacity: 0, y: -40, duration: 1.0, ease: 'power2.in' })
 
-  // Phase 3: ZELOS Title Reveal
+  // Phase 3: ARIES title reveal
   .to('#history-phase-3', { opacity: 1, y: -20, duration: 1.5, ease: 'power3.out' }, '+=0.5')
   .to({}, { duration: 1.5 }) // Hold
   .to('#history', { opacity: 0, duration: 1.0, ease: 'power2.inOut' });
