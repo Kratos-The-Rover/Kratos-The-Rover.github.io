@@ -1441,9 +1441,12 @@ body.no-scroll {
     padding-left: 24px;
   }
 
+  /* Phones: rover sits below the title and button instead of behind them */
   .hero-graphics {
-    right: 5%;
-    transform: translate(0, -50%);
+    top: auto;
+    bottom: 3%;
+    right: 50%;
+    transform: translateX(50%);
     width: 300px;
     height: 280px;
   }
