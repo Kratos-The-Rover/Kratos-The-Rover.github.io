@@ -783,24 +783,34 @@ const webCtx = webCanvas.getContext('2d');
 let webW = 0;
 let webH = 0;
 
+// Match the canvas's pixel buffer to the size it's actually displayed at. Checked every frame rather than on
+// window resize: after a resize the pinned section briefly keeps its old size, so measuring then left the
+// buffer stretched, and the web drew offset from the cursor until the next resize.
+let webDpr = 0;
 function sizeWebCanvas() {
+  const w = webCanvas.clientWidth;
+  const h = webCanvas.clientHeight;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  webW = experience.clientWidth;
-  webH = experience.clientHeight;
-  webCanvas.width = webW * dpr;
-  webCanvas.height = webH * dpr;
+  if (w === webW && h === webH && dpr === webDpr) return;
+  webW = w;
+  webH = h;
+  webDpr = dpr;
+  webCanvas.width = Math.round(w * dpr);
+  webCanvas.height = Math.round(h * dpr);
   webCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
-sizeWebCanvas();
-window.addEventListener('resize', sizeWebCanvas);
 
 const RAIL_TICK = 28;
 const rgba = (a) => `rgba(255, 255, 255, ${a})`;
 
 function drawWeb() {
-  webCtx.clearRect(0, 0, webW, webH);
   const a = web.alpha;
-  if (!webActive || a < 0.01) return;
+  if (!webActive || a < 0.01) {
+    if (webW) webCtx.clearRect(0, 0, webW, webH);
+    return;
+  }
+  sizeWebCanvas();
+  webCtx.clearRect(0, 0, webW, webH);
 
   const origin = webCanvas.getBoundingClientRect();
   webCtx.lineWidth = 1;

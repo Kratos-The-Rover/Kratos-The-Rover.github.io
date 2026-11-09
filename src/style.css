@@ -1071,6 +1071,12 @@ body.cursor-hover .crosshair-square {
   text-align: center;
 }
 
+/* Name/role get more room than the photo (spilling into the gap between cards) so names stay on one line */
+.tree-card .team-meta {
+  width: 300px;
+  margin-left: -40px;
+}
+
 .tree-card .team-photo {
   margin-bottom: 14px;
 }
@@ -1568,6 +1574,11 @@ body.no-scroll {
 
   .tree-card {
     width: min(104px, 29vw);
+  }
+
+  .tree-card .team-meta {
+    width: calc(100% + 12px);
+    margin-left: -6px;
   }
 
   .tree-card .team-link {
