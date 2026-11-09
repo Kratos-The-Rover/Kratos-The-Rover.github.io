@@ -1,0 +1,59 @@
+# Builds the site on every push to development-branch and publishes it to a separate repo's
+# GitHub Pages, so the dev version can be viewed without touching the live site on main.
+#
+# One-time setup (see the PR/commit notes):
+#   1. Create an empty public repo in the org, e.g. Kratos-The-Rover/preview-site,
+#      and in its Settings → Pages set the source to "Deploy from a branch", branch gh-pages.
+#   2. Create a fine-grained token with Contents: read & write on that repo, and save it in
+#      THIS repo as the Actions secret PREVIEW_DEPLOY_TOKEN.
+#   3. If the preview repo isn't called preview-site, set the Actions variable PREVIEW_REPO.
+# The preview is then served at https://kratos-the-rover.github.io/<PREVIEW_REPO>/
+
+name: Preview site
+
+on:
+  push:
+    branches: [development-branch]
+  workflow_dispatch:
+
+concurrency:
+  group: preview-site
+  cancel-in-progress: true
+
+env:
+  PREVIEW_REPO: ${{ vars.PREVIEW_REPO || 'preview-site' }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # The preview lives under /<repo>/, so every asset URL needs that prefix.
+      - run: npx vite build --base="/${PREVIEW_REPO}/"
+
+      - name: Check the deploy token is set
+        env:
+          TOKEN: ${{ secrets.PREVIEW_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Add the PREVIEW_DEPLOY_TOKEN secret (see the setup notes at the top of this file)."
+            exit 1
+          fi
+
+      - name: Publish to the preview repo
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.PREVIEW_DEPLOY_TOKEN }}
+          external_repository: ${{ github.repository_owner }}/${{ env.PREVIEW_REPO }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          force_orphan: true
+          commit_message: Deploy ${{ github.sha }}
