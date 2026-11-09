@@ -675,7 +675,7 @@ body.cursor-hover .crosshair-square {
 
 .history-title-large {
   font-family: var(--font-stretch);
-  font-size: 9rem;
+  font-size: min(9rem, 16vw); /* Stretch Pro is very wide: scale with the screen so ARIES fits on phones */
   letter-spacing: 8px;
   text-transform: uppercase;
   line-height: 1;
