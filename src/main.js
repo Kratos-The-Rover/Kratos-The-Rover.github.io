@@ -3,8 +3,31 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import roverImg from './assets/group3.png';
 import logoImg from './assets/kratos-logo.png';
+import { about, stats, competitions, videos, contact } from './data/site.js';
+import { team } from './data/team.js';
+import { gallery } from './data/gallery.js';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Files in /public are served from the site root (respects Vite's `base`).
+const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
+const GALLERY_STRIP_COUNT = 8;
+
+const arrow = `<svg class="ext-arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8 8 2M3 2h5v5" fill="none" stroke="currentColor" stroke-width="1"/></svg>`;
+
+function teamCards(year) {
+  return year.members.map((m) => `
+    <article class="team-card">
+      <div class="team-photo">
+        <img src="${asset(m.img)}" alt="${m.name}" loading="lazy" width="640" height="640" />
+      </div>
+      <div class="team-meta">
+        <h3 class="team-name">${m.name}</h3>
+        <p class="team-role">${m.role}</p>
+        ${m.linkedin ? `<a class="team-link" href="${m.linkedin}" target="_blank" rel="noopener">LinkedIn ${arrow}</a>` : ''}
+      </div>
+    </article>`).join('');
+}
 
 // ===== DOM =====
 document.querySelector('#app').innerHTML = `
@@ -27,11 +50,6 @@ document.querySelector('#app').innerHTML = `
     <div class="galaxy-core"></div>
   </div>
 
-  <!-- Inductions Radial Galaxy Bloom -->
-  <div class="galaxy-radial" id="galaxy-radial">
-    <div class="galaxy-radial-core"></div>
-  </div>
-
   <!-- Crosshair Cursor -->
   <div class="crosshair-h" id="crosshair-h"></div>
   <div class="crosshair-v" id="crosshair-v"></div>
@@ -52,6 +70,8 @@ document.querySelector('#app').innerHTML = `
       <ul class="nav-links">
         <li><a href="#hero">HOME</a></li>
         <li><a href="#about">ABOUT US</a></li>
+        <li><a href="#team">TEAM</a></li>
+        <li><a href="#media">GALLERY</a></li>
         <li><a href="#contact">CONTACT</a></li>
       </ul>
     </div>
@@ -89,31 +109,19 @@ document.querySelector('#app').innerHTML = `
 
     <!-- Side Navigation -->
     <div class="side-nav" id="side-nav">
-      <a href="#" class="side-nav-item">
-        <span>MARK VI</span>
+      ${[
+        ['#hero', 'MARK VI'],
+        ['#about', 'ABOUT US'],
+        ['#competitions', 'COMPETITIONS'],
+        ['#team', 'TEAM'],
+        ['#history', 'HISTORY'],
+        ['#contact', 'CONTACT'],
+      ].map(([href, label]) => `
+      <a href="${href}" class="side-nav-item">
+        <span>${label}</span>
         <span class="side-nav-line"></span>
         <span class="side-nav-dot"></span>
-      </a>
-      <a href="#about" class="side-nav-item">
-        <span>ABOUT US</span>
-        <span class="side-nav-line"></span>
-        <span class="side-nav-dot"></span>
-      </a>
-      <a href="#" class="side-nav-item">
-        <span>INDUCTIONS</span>
-        <span class="side-nav-line"></span>
-        <span class="side-nav-dot"></span>
-      </a>
-      <a href="#" class="side-nav-item">
-        <span>HISTORY</span>
-        <span class="side-nav-line"></span>
-        <span class="side-nav-dot"></span>
-      </a>
-      <a href="#contact" class="side-nav-item">
-        <span>MORE</span>
-        <span class="side-nav-line"></span>
-        <span class="side-nav-dot"></span>
-      </a>
+      </a>`).join('')}
     </div>
   </section>
 
@@ -123,38 +131,84 @@ document.querySelector('#app').innerHTML = `
     <section class="about-section" id="about">
       <p class="about-label" id="about-label">who are we?</p>
       <h2 class="about-title" id="about-title">ABOUT US</h2>
-      <p class="about-text" id="about-text-1">
-        Project Kratos is the Man, Project Kratos is the brand. Project Kratos is the king of all smart
-        peoples. We love Project Kratos. I will name my first born child Project Kratos.
-      </p>
-      <p class="about-text" id="about-text-2">
-        Please love Project Kratos with us. We will do satanic rituals together in the name of project kratos. I love
-        love loley project kratos.
-      </p>
+      ${about.map((p, i) => `<p class="about-text" id="about-text-${i + 1}">${p}</p>`).join('')}
     </section>
 
-    <!-- Gallery -->
+    <!-- Gallery strip (highlights) -->
     <section class="gallery-section" id="gallery">
       <div class="gallery-track" id="gallery-track">
-        <div class="gallery-card"></div>
-        <div class="gallery-card"></div>
-        <div class="gallery-card"></div>
-        <div class="gallery-card"></div>
-        <div class="gallery-card"></div>
-        <div class="gallery-card"></div>
+        ${gallery.slice(0, GALLERY_STRIP_COUNT).map((g, i) => `
+        <button class="gallery-card" data-lightbox="${i}" aria-label="Open photo: ${g.alt}">
+          <img src="${asset(g.src)}" alt="${g.alt}" />
+        </button>`).join('')}
       </div>
     </section>
   </div>
 
-  <!-- Inductions Section -->
-  <section class="inductions-section" id="inductions">
-    <p class="inductions-label" id="inductions-label">Like what we do?</p>
-    <h2 class="inductions-title" id="inductions-title">INDUCTIONS</h2>
-    <p class="inductions-text" id="inductions-text-1">
-      We are actively looking for high-caliber individuals to join the core engineering and design teams.
-      Project Kratos demands excellence and rewards it with unparalleled hands-on experience in advanced robotics.
-    </p>
-    <button class="hero-btn" id="openings-btn">OPENINGS</button>
+  <!-- Competitions -->
+  <section class="competitions-section" id="competitions">
+    <div class="section-head reveal">
+      <p class="section-label">where we compete</p>
+      <h2 class="section-title">COMPETITIONS</h2>
+    </div>
+    <div class="stats-row reveal">
+      ${stats.map((s) => `
+      <div class="stat">
+        <span class="stat-value">${s.value}</span>
+        <span class="stat-label">${s.label}</span>
+      </div>`).join('')}
+    </div>
+    <div class="comp-grid">
+      ${competitions.map((c, i) => `
+      <article class="comp-card reveal">
+        <div class="comp-head">
+          <span class="comp-index">0${i + 1}</span>
+          <span class="comp-code">${c.code}</span>
+        </div>
+        <h3 class="comp-name">${c.name}</h3>
+        ${c.body.map((p) => `<p class="comp-text">${p}</p>`).join('')}
+        <ul class="comp-tags">${c.highlights.map((h) => `<li>${h}</li>`).join('')}</ul>
+      </article>`).join('')}
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="team-section" id="team">
+    <div class="section-head reveal">
+      <p class="section-label">the people behind the rover</p>
+      <h2 class="section-title">THE TEAM</h2>
+    </div>
+    <div class="team-tabs reveal" role="tablist" aria-label="Team by year">
+      ${team.map((y, i) => `
+      <button class="team-tab${i === 0 ? ' is-active' : ''}" role="tab" aria-selected="${i === 0}" data-year="${y.id}">
+        ${i === 0 ? 'Current' : y.label.replace('AY ', '')}
+      </button>`).join('')}
+    </div>
+    <div class="team-grid" id="team-grid" role="tabpanel">${teamCards(team[0])}</div>
+  </section>
+
+  <!-- Media: videos + full gallery -->
+  <section class="media-section" id="media">
+    <div class="section-head reveal">
+      <p class="section-label">see it in action</p>
+      <h2 class="section-title">GALLERY</h2>
+    </div>
+    <div class="video-grid">
+      ${videos.map((v, i) => `
+      <figure class="video-card reveal${i === 0 ? ' video-card--feature' : ''}">
+        <button class="video-frame" data-video="${v.id}" aria-label="Play: ${v.title}, ${v.event}">
+          <img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" />
+          <span class="video-play" aria-hidden="true"></span>
+        </button>
+        <figcaption><span class="video-event">${v.event}</span>${v.title}</figcaption>
+      </figure>`).join('')}
+    </div>
+    <div class="photo-grid">
+      ${gallery.map((g, i) => `
+      <button class="photo-item" data-lightbox="${i}" aria-label="Open photo: ${g.alt}">
+        <img src="${asset(g.src)}" alt="${g.alt}" loading="lazy" width="${g.w}" height="${g.h}" />
+      </button>`).join('')}
+    </div>
   </section>
 
   <!-- History Section (ZELOS Reveal) -->
@@ -175,11 +229,51 @@ document.querySelector('#app').innerHTML = `
     </div>
   </section>
 
+  <!-- Contact -->
+  <section class="contact-section" id="contact">
+    <div class="section-head reveal">
+      <p class="section-label">want to know more?</p>
+      <h2 class="section-title">CONTACT</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-col reveal">
+        <p class="contact-kicker">Write to us</p>
+        <a class="contact-email" href="mailto:${contact.email}">${contact.email}</a>
+        <ul class="contact-phones">
+          ${contact.phones.map((p) => `
+          <li>
+            <span class="contact-person">${p.name}<em>${p.role}</em></span>
+            <a href="tel:${p.tel}">${p.display}</a>
+          </li>`).join('')}
+        </ul>
+      </div>
+      <div class="contact-col reveal">
+        <p class="contact-kicker">Follow us</p>
+        <ul class="contact-socials">
+          ${contact.socials.map((s) => `
+          <li><a href="${s.url}" target="_blank" rel="noopener">${s.name} ${arrow}</a></li>`).join('')}
+        </ul>
+        <p class="contact-address">BITS Pilani, K. K. Birla Goa Campus<br />Zuarinagar, Goa 403726</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
-  <footer class="footer" id="contact">
-    <span class="footer-text">© 2026 BITS Goa — Project Kratos</span>
+  <footer class="footer">
+    <span class="footer-text">© ${new Date().getFullYear()} BITS Goa — Project Kratos</span>
     <span class="footer-brand">KRATOS</span>
   </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <button class="lightbox-close" data-lb="close" aria-label="Close">CLOSE ✕</button>
+    <button class="lightbox-nav lightbox-prev" data-lb="prev" aria-label="Previous photo">←</button>
+    <figure class="lightbox-figure">
+      <img id="lightbox-img" alt="" />
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+    <button class="lightbox-nav lightbox-next" data-lb="next" aria-label="Next photo">→</button>
+  </div>
 `;
 
 // ====================================================================
@@ -271,10 +365,9 @@ document.addEventListener('mousemove', (e) => {
   toSqY(e.clientY);
 });
 
-const interactives = document.querySelectorAll('a, button');
-interactives.forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+// Delegated so links/buttons rendered later (team tabs, lightbox) also get the hover state.
+document.addEventListener('mouseover', (e) => {
+  document.body.classList.toggle('cursor-hover', !!e.target.closest('a, button'));
 });
 
 // ====================================================================
@@ -616,65 +709,6 @@ experienceTl
 
 
 // ====================================================================
-// INDUCTIONS SCROLL
-// ====================================================================
-const inductionsTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: "#inductions",
-    start: "top top",
-    end: "+=300%",
-    pin: true,
-    scrub: 1,
-    onEnter: () => {
-      gsap.fromTo('#inductions-label',
-        { opacity: 0 },
-        {
-          keyframes: [
-            { opacity: 1, duration: 0.05 },
-            { opacity: 0, duration: 0.1 },
-            { opacity: 1, duration: 0.05 },
-            { opacity: 0, duration: 0.1 },
-            { opacity: 1, duration: 0.05 }
-          ],
-          duration: 0.4,
-          overwrite: "auto"
-        }
-      );
-
-      // Trigger the radial galaxy bloom and make it dissipate
-      gsap.fromTo('#galaxy-radial',
-        { scale: 0, opacity: 0.4 },
-        { scale: 2, opacity: 0, duration: 10.0, ease: 'power2.out', overwrite: 'auto' }
-      );
-    },
-    onLeaveBack: () => {
-      gsap.set('#inductions-label', { opacity: 0 });
-      gsap.set('#galaxy-radial', { opacity: 0 });
-    }
-  }
-});
-
-inductionsTl
-  .from('#inductions-title', { y: 80, opacity: 0, duration: 0.4 })
-  .from('#inductions-text-1', { y: 30, opacity: 0, duration: 0.2 }, '-=0.2')
-  .from('#openings-btn', { y: 30, opacity: 0, duration: 0.2 }, '-=0.1')
-  .to({}, { duration: 1.0 }) // Hold on screen
-  .to('#inductions-label', {
-    keyframes: [
-      { opacity: 0, duration: 0.05 },
-      { opacity: 1, duration: 0.05 },
-      { opacity: 0, duration: 0.05 },
-      { opacity: 1, duration: 0.05 },
-      { opacity: 0, duration: 0.05 }
-    ],
-    duration: 0.4
-  })
-  .to('#inductions-title', { y: -50, opacity: 0, duration: 0.4 }, '-=0.2')
-  .to('#inductions-text-1', { y: -30, opacity: 0, duration: 0.2 }, '-=0.2')
-  .to('#openings-btn', { y: -30, opacity: 0, duration: 0.2 }, '-=0.1');
-
-
-// ====================================================================
 // HISTORY (ZELOS REVEAL) SCROLL
 // ====================================================================
 const historyTl = gsap.timeline({
@@ -706,6 +740,129 @@ historyTl
   .to('#history-phase-3', { opacity: 1, y: -20, duration: 1.5, ease: 'power3.out' }, '+=0.5')
   .to({}, { duration: 1.5 }) // Hold
   .to('#history', { opacity: 0, duration: 1.0, ease: 'power2.inOut' });
+
+// Solid nav once the hero has scrolled away
+ScrollTrigger.create({
+  start: () => window.innerHeight * 0.5,
+  onToggle: (self) => document.getElementById('main-nav').classList.toggle('is-scrolled', self.isActive),
+});
+
+// ====================================================================
+// CONTENT SECTIONS — reveal on scroll
+// ====================================================================
+gsap.utils.toArray('.reveal').forEach((el) => {
+  gsap.from(el, {
+    y: 40,
+    opacity: 0,
+    duration: 0.9,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+  });
+});
+
+function revealTeamCards() {
+  gsap.fromTo('#team-grid .team-card',
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: 'power3.out', overwrite: true });
+}
+ScrollTrigger.create({ trigger: '#team-grid', start: 'top 85%', once: true, onEnter: revealTeamCards });
+gsap.set('#team-grid .team-card', { opacity: 0 });
+
+// ====================================================================
+// TEAM TABS
+// ====================================================================
+const teamGrid = document.getElementById('team-grid');
+document.querySelector('.team-tabs').addEventListener('click', (e) => {
+  const tab = e.target.closest('.team-tab');
+  if (!tab || tab.classList.contains('is-active')) return;
+  document.querySelectorAll('.team-tab').forEach((t) => {
+    const active = t === tab;
+    t.classList.toggle('is-active', active);
+    t.setAttribute('aria-selected', active);
+  });
+  const year = team.find((y) => y.id === tab.dataset.year);
+  gsap.to(teamGrid, {
+    opacity: 0, duration: 0.2, onComplete: () => {
+      teamGrid.innerHTML = teamCards(year);
+      gsap.set(teamGrid, { opacity: 1 });
+      revealTeamCards();
+      // Grid height can change between years; pinned sections below need fresh offsets.
+      ScrollTrigger.refresh();
+    },
+  });
+});
+
+// ====================================================================
+// VIDEOS — load the YouTube iframe only when clicked
+// ====================================================================
+document.querySelector('.video-grid').addEventListener('click', (e) => {
+  const btn = e.target.closest('.video-frame');
+  if (!btn) return;
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.video}?autoplay=1`;
+  iframe.title = btn.getAttribute('aria-label');
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.allowFullscreen = true;
+  btn.replaceWith(iframe);
+});
+
+// ====================================================================
+// LIGHTBOX
+// ====================================================================
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCaption = document.getElementById('lightbox-caption');
+let lightboxIndex = 0;
+let lightboxReturnFocus = null;
+
+function showPhoto(i) {
+  lightboxIndex = (i + gallery.length) % gallery.length;
+  const g = gallery[lightboxIndex];
+  lightboxImg.src = asset(g.src);
+  lightboxImg.alt = g.alt;
+  lightboxCaption.textContent = `${String(lightboxIndex + 1).padStart(2, '0')} / ${gallery.length} — ${g.alt}`;
+}
+
+function openLightbox(i) {
+  lightboxReturnFocus = document.activeElement;
+  showPhoto(i);
+  lightbox.hidden = false;
+  document.body.classList.add('no-scroll');
+  gsap.fromTo(lightbox, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+  lightbox.querySelector('.lightbox-close').focus();
+}
+
+function closeLightbox() {
+  gsap.to(lightbox, {
+    opacity: 0, duration: 0.2, onComplete: () => {
+      lightbox.hidden = true;
+      document.body.classList.remove('no-scroll');
+      lightboxReturnFocus?.focus();
+    },
+  });
+}
+
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('[data-lightbox]');
+  if (trigger) openLightbox(Number(trigger.dataset.lightbox));
+});
+
+lightbox.addEventListener('click', (e) => {
+  const action = e.target.closest('[data-lb]')?.dataset.lb;
+  if (action === 'close' || e.target === lightbox) closeLightbox();
+  else if (action === 'prev') showPhoto(lightboxIndex - 1);
+  else if (action === 'next') showPhoto(lightboxIndex + 1);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (lightbox.hidden) return;
+  if (e.key === 'Escape') closeLightbox();
+  else if (e.key === 'ArrowLeft') showPhoto(lightboxIndex - 1);
+  else if (e.key === 'ArrowRight') showPhoto(lightboxIndex + 1);
+});
+
+// Lazy images in the content sections change page height as they load.
+window.addEventListener('load', () => ScrollTrigger.refresh());
 
 // ====================================================================
 // HMR Cleanup

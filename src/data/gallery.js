@@ -1,0 +1,195 @@
+// Ported from the original site on `main`. Image paths are relative to /public.
+export const gallery = [
+  {
+    "src": "images/gallery/01.jpg",
+    "alt": "The Kratos rover",
+    "w": 1600,
+    "h": 1000
+  },
+  {
+    "src": "images/gallery/02.jpg",
+    "alt": "Team Kratos",
+    "w": 1600,
+    "h": 1200
+  },
+  {
+    "src": "images/gallery/03.jpg",
+    "alt": "Project Kratos",
+    "w": 1600,
+    "h": 1205
+  },
+  {
+    "src": "images/gallery/04.jpg",
+    "alt": "Project Kratos",
+    "w": 1205,
+    "h": 1600
+  },
+  {
+    "src": "images/gallery/05.jpg",
+    "alt": "Project Kratos",
+    "w": 1600,
+    "h": 1205
+  },
+  {
+    "src": "images/gallery/06.jpg",
+    "alt": "International Rover Challenge",
+    "w": 443,
+    "h": 298
+  },
+  {
+    "src": "images/gallery/07.jpg",
+    "alt": "Project Kratos",
+    "w": 1600,
+    "h": 1067
+  },
+  {
+    "src": "images/gallery/08.jpg",
+    "alt": "Project Kratos",
+    "w": 1200,
+    "h": 1600
+  },
+  {
+    "src": "images/gallery/09.jpg",
+    "alt": "Life-detection assembly",
+    "w": 377,
+    "h": 636
+  },
+  {
+    "src": "images/gallery/10.jpg",
+    "alt": "Project Kratos",
+    "w": 498,
+    "h": 663
+  },
+  {
+    "src": "images/gallery/11.jpg",
+    "alt": "Abex poster",
+    "w": 1600,
+    "h": 1200
+  },
+  {
+    "src": "images/gallery/12.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 506
+  },
+  {
+    "src": "images/gallery/13.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 674
+  },
+  {
+    "src": "images/gallery/14.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 666
+  },
+  {
+    "src": "images/gallery/15.jpg",
+    "alt": "Project Kratos",
+    "w": 640,
+    "h": 480
+  },
+  {
+    "src": "images/gallery/16.jpg",
+    "alt": "Project Kratos",
+    "w": 640,
+    "h": 480
+  },
+  {
+    "src": "images/gallery/17.jpg",
+    "alt": "Project Kratos",
+    "w": 516,
+    "h": 387
+  },
+  {
+    "src": "images/gallery/18.jpg",
+    "alt": "Project Kratos",
+    "w": 540,
+    "h": 353
+  },
+  {
+    "src": "images/gallery/19.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 334
+  },
+  {
+    "src": "images/gallery/20.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 333
+  },
+  {
+    "src": "images/gallery/21.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 334
+  },
+  {
+    "src": "images/gallery/22.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 308
+  },
+  {
+    "src": "images/gallery/23.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 580
+  },
+  {
+    "src": "images/gallery/24.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 375
+  },
+  {
+    "src": "images/gallery/25.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 634
+  },
+  {
+    "src": "images/gallery/26.jpg",
+    "alt": "Project Kratos",
+    "w": 500,
+    "h": 707
+  },
+  {
+    "src": "images/gallery/27.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 375
+  },
+  {
+    "src": "images/gallery/28.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 375
+  },
+  {
+    "src": "images/gallery/29.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 375
+  },
+  {
+    "src": "images/gallery/30.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 375
+  },
+  {
+    "src": "images/gallery/31.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 231
+  },
+  {
+    "src": "images/gallery/32.jpg",
+    "alt": "Project Kratos, 2019",
+    "w": 500,
+    "h": 500
+  }
+];
