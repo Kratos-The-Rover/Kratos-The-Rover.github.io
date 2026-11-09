@@ -58,7 +58,7 @@ document.querySelector('#app').innerHTML = `
   <!-- Navigation -->
   <nav class="nav" id="main-nav">
     <div class="nav-inner">
-      <div class="nav-logo-group">
+      <a href="#hero" class="nav-logo-group" aria-label="Project Kratos, back to top">
         <div class="nav-logo-icon">
           <img src="${logoImg}" alt="Kratos Logo" />
         </div>
@@ -66,15 +66,26 @@ document.querySelector('#app').innerHTML = `
           <span class="nav-logo-bits">BITS GOA</span>
           <span class="nav-logo-project">PROJECT<br/>KRATOS</span>
         </div>
-      </div>
-      <ul class="nav-links">
-        <li><a href="#hero">HOME</a></li>
-        <li><a href="#about">ABOUT US</a></li>
-        <li><a href="#team">TEAM</a></li>
-        <li><a href="#media">GALLERY</a></li>
-        <li><a href="#contact">CONTACT</a></li>
-      </ul>
+      </a>
     </div>
+  </nav>
+
+  <!-- Section navigation: fixed for the whole page, highlights the section in view -->
+  <nav class="side-nav" id="side-nav" aria-label="Sections">
+    ${[
+      ['#hero', 'MARK VI'],
+      ['#about', 'ABOUT US'],
+      ['#competitions', 'COMPETITIONS'],
+      ['#team', 'TEAM'],
+      ['#media', 'GALLERY'],
+      ['#history', 'ARIES'],
+      ['#contact', 'CONTACT'],
+    ].map(([href, label]) => `
+    <a href="${href}" class="side-nav-item">
+      <span>${label}</span>
+      <span class="side-nav-line"></span>
+      <span class="side-nav-dot"></span>
+    </a>`).join('')}
   </nav>
 
   <!-- Hero Section -->
@@ -105,23 +116,6 @@ document.querySelector('#app').innerHTML = `
       <div class="hero-btn-wrapper" id="hero-btn-wrapper">
         <a href="#about" class="hero-btn" id="hero-btn">LEARN MORE</a>
       </div>
-    </div>
-
-    <!-- Side Navigation -->
-    <div class="side-nav" id="side-nav">
-      ${[
-        ['#hero', 'MARK VI'],
-        ['#about', 'ABOUT US'],
-        ['#competitions', 'COMPETITIONS'],
-        ['#team', 'TEAM'],
-        ['#history', 'HISTORY'],
-        ['#contact', 'CONTACT'],
-      ].map(([href, label]) => `
-      <a href="${href}" class="side-nav-item">
-        <span>${label}</span>
-        <span class="side-nav-line"></span>
-        <span class="side-nav-dot"></span>
-      </a>`).join('')}
     </div>
   </section>
 
@@ -591,7 +585,6 @@ heroTl
   // PHASE 1: INSTANT/FAST BASE ELEMENTS
   // ==========================================
   .from('.nav-logo-group', { y: -20, opacity: 0, duration: 0.8, ease: 'power3.out' }, '1.0')
-  .from('.nav-links li', { y: -10, opacity: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }, '1.0')
   .fromTo('#hero-label', { opacity: 0 }, { opacity: 1, duration: 0.2, onStart: () => scrambleText(document.getElementById('hero-label'), 'OUR FLAGSHIP ROVER', 0.8) }, '0')
   .from('#hero-btn', { y: 20, opacity: 0, duration: 0.8, ease: 'power3.out' }, '0')
   .from('#hero-rover-wrapper', { scale: 0.95, opacity: 0, duration: 0.3, ease: 'power2.out' }, '0')
@@ -633,7 +626,7 @@ const heroScrollTl = gsap.timeline({
 
 heroScrollTl
   .to({}, { duration: 0.5 }) // "stay for a bit"
-  .to(['#hero-content', '#hero-graphics', '#smoke-canvas', '#side-nav'], {
+  .to(['#hero-content', '#hero-graphics', '#smoke-canvas'], {
     opacity: 0,
     y: -50,
     duration: 1,
@@ -735,10 +728,22 @@ historyTl
   .to({}, { duration: 1.5 }) // Hold
   .to('#history', { opacity: 0, duration: 1.0, ease: 'power2.inOut' });
 
-// Solid nav once the hero has scrolled away
-ScrollTrigger.create({
-  start: () => window.innerHeight * 0.5,
-  onToggle: (self) => document.getElementById('main-nav').classList.toggle('is-scrolled', self.isActive),
+// Highlight the side-nav item for the section in the middle of the screen.
+// Created after the pins above so pinned sections are measured with their pin spacers.
+document.querySelectorAll('.side-nav-item').forEach((item) => {
+  let section = document.querySelector(item.getAttribute('href'));
+  if (section.id === 'about') section = document.getElementById('experience-wrapper');
+  if (section.parentElement.classList.contains('pin-spacer')) section = section.parentElement;
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top center',
+    end: 'bottom center',
+    onToggle: (self) => {
+      item.classList.toggle('is-active', self.isActive);
+      if (self.isActive) item.setAttribute('aria-current', 'true');
+      else item.removeAttribute('aria-current');
+    },
+  });
 });
 
 // ====================================================================

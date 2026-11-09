@@ -203,17 +203,7 @@ body.cursor-hover .crosshair-square {
   align-items: center;
   padding: 0 40px;
   background: transparent;
-  transition: top 0.4s ease, background-color 0.4s ease, backdrop-filter 0.4s ease;
-}
-
-/* Once past the hero, give the nav a backdrop so it doesn't collide with content */
-.nav.is-scrolled {
-  top: 0;
-  height: 72px;
-  background: rgba(8, 8, 8, 0.82);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
+  pointer-events: none;
 }
 
 .nav-inner {
@@ -224,6 +214,8 @@ body.cursor-hover .crosshair-square {
 }
 
 .nav-logo-group {
+  pointer-events: auto;
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -269,28 +261,6 @@ body.cursor-hover .crosshair-square {
   text-transform: uppercase;
   color: var(--text-white);
   margin-top: 2px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 28px;
-  list-style: none;
-  align-items: center;
-}
-
-.nav-links a {
-  font-family: var(--font-haas);
-  font-size: 0.7rem;
-  font-weight: 400;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-gray);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-  color: var(--text-white);
 }
 
 /* ===== Hero Section ===== */
@@ -506,12 +476,19 @@ body.cursor-hover .crosshair-square {
   display: block;
 }
 
-/* ===== Side Navigation (right side) — moved lower ===== */
+/* ===== Side Navigation (fixed, bottom right) ===== */
+/* Fixed over photos and video thumbnails, so the nav and logo carry a soft shadow to stay legible */
+.side-nav,
+.nav-logo-group {
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.9), 0 1px 12px rgba(0, 0, 0, 0.9);
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.7));
+}
+
 .side-nav {
-  position: absolute;
+  position: fixed;
   right: 40px;
   bottom: 10%;
-  z-index: 10;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -532,14 +509,14 @@ body.cursor-hover .crosshair-square {
   font-weight: 400;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-gray);
   transition: color 0.3s ease;
 }
 
 .side-nav-line {
   width: 28px;
   height: 1px;
-  background: var(--text-muted);
+  background: var(--text-gray);
   transition: width 0.3s ease, background 0.3s ease;
 }
 
@@ -547,21 +524,24 @@ body.cursor-hover .crosshair-square {
 .side-nav-dot {
   width: 1px;
   height: 1px;
-  background: var(--text-muted);
+  background: var(--text-gray);
   flex-shrink: 0;
   transition: background 0.3s ease;
 }
 
-.side-nav-item:hover span:first-child {
+.side-nav-item:hover span:first-child,
+.side-nav-item.is-active span:first-child {
   color: var(--text-white);
 }
 
-.side-nav-item:hover .side-nav-line {
+.side-nav-item:hover .side-nav-line,
+.side-nav-item.is-active .side-nav-line {
   width: 40px;
   background: var(--text-white);
 }
 
-.side-nav-item:hover .side-nav-dot {
+.side-nav-item:hover .side-nav-dot,
+.side-nav-item.is-active .side-nav-dot {
   background: var(--text-white);
 }
 
@@ -1417,10 +1397,6 @@ body.no-scroll {
 @media (max-width: 768px) {
   .nav {
     padding: 0 20px;
-  }
-
-  .nav-links {
-    display: none;
   }
 
   .hero-content {
