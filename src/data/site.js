@@ -11,15 +11,17 @@ export const about = [
 ];
 
 export const stats = [
-  { value: '2018', label: 'Founded at BITS Goa' },
-  { value: '30+', label: 'Student engineers' },
-  { value: '4th', label: 'Globally · IRC 2023' },
-  { value: 'IRC 26', label: 'Finalists · MIT Udupi' },
+  { value: '2018', label: 'Founded', countFrom: 2026 }, // counts down to the founding year
+  { value: '5', label: 'Technical subsystems', countFrom: 1 },
+  { value: '40+', label: 'Student engineers', countFrom: 20 },
+  { value: '2', label: 'Autonomous all-terrain rovers', countFrom: 0 },
 ];
 
+// `code` is set in giant letters; `side` is which edge it rises in from.
 export const competitions = [
   {
     code: 'IRC',
+    side: 'left',
     name: 'International Rover Challenge',
     body: [
       `SPROS IRC is a space robotics engineering competition that challenges university students to
@@ -30,19 +32,29 @@ export const competitions = [
       In 2023 we placed 4th globally and won the "Excellence Award – Overall". We have qualified for the
       finals of IRC 2026 at Manipal Institute of Technology, Udupi (28 Jan – 2 Feb 2026).`,
     ],
-    highlights: ['10th / 35 · maiden year', '4th globally · 2023', 'Excellence Award – Overall', 'Finalists · 2026'],
+    achievements: [
+      { value: '10th', label: 'Of 35 teams · maiden year' },
+      { value: '4th', label: 'Globally · IRC 2023' },
+      { value: 'Overall', label: 'Excellence Award · IRC 2023' },
+      { value: 'IRC 26', label: 'Finalists · MIT Udupi', countFrom: 22 }, // counts 22 → 26
+    ],
   },
   {
     code: 'URC',
+    side: 'right',
     name: 'University Rover Challenge',
     body: [
       `The University Rover Challenge is an annual competition held by the Mars Society in the desert of
       southern Utah, USA. URC challenges student teams to design and build the next generation of Mars
       rovers that will one day work alongside astronauts exploring the Red Planet.`,
-      `Launched in 2006 and held every summer since 2007, URC has four tasks: Science, Extreme Retrieval
-      and Delivery, Equipment Servicing, and Autonomous Traversal.`,
+      `In 2022 we qualified for the finals of the University Rover Challenge, placing us among the top 36
+      teams from top universities around the world.`,
     ],
-    highlights: ['Mars Society', 'Utah desert, USA', 'Science · Delivery', 'Servicing · Autonomy'],
+    achievements: [
+      { value: 'Finals', label: 'URC 2022' },
+      { value: '2nd', label: 'In Asia' },
+      { value: 'Top 36', label: 'Teams worldwide' },
+    ],
   },
 ];
 
