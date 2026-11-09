@@ -219,6 +219,14 @@ document.querySelector('#app').innerHTML = `
     </div>
   </section>
 
+  <!-- ARIES 3D model (orbit/zoom/pan) -->
+  <section class="model-section" id="model" aria-label="ARIES 3D model">
+    <div class="model-viewer" id="model-viewer">
+      <p class="model-status" id="model-status">Loading 3D model…</p>
+    </div>
+    <p class="model-hint">Drag to rotate · right-drag or two fingers to pan · click, then scroll or pinch to zoom</p>
+  </section>
+
   <!-- Contact -->
   <section class="contact-section" id="contact">
     <div class="section-head reveal">
@@ -724,13 +732,21 @@ historyTl
 
 // Highlight the side-nav item for the section in the middle of the screen.
 // Created after the pins above so pinned sections are measured with their pin spacers.
-document.querySelectorAll('.side-nav-item').forEach((item) => {
+// A pinned section (or one inside a pinned wrapper, like #about) spans its whole pin spacer.
+const navItems = [...document.querySelectorAll('.side-nav-item')];
+const navTargets = navItems.map((item) => {
   const section = document.querySelector(item.getAttribute('href'));
+  return section.closest('.pin-spacer') ?? section;
+});
+navItems.forEach((item, i) => {
+  // Each item stays lit until the next item's section starts, so sections without their own item
+  // (e.g. the 3D model after ARIES) never leave the nav blank.
+  const next = navTargets[i + 1];
   ScrollTrigger.create({
-    // A pinned section (or one inside a pinned wrapper, like #about) spans its whole pin spacer.
-    trigger: section.closest('.pin-spacer') ?? section,
+    trigger: navTargets[i],
     start: 'top center',
-    end: 'bottom center',
+    endTrigger: next ?? navTargets[i],
+    end: next ? 'top center' : 'bottom center',
     onToggle: (self) => item.setAttribute('aria-current', self.isActive),
   });
 });
@@ -848,6 +864,14 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'ArrowLeft') showPhoto(lightboxIndex - 1);
   else if (e.key === 'ArrowRight') showPhoto(lightboxIndex + 1);
 });
+
+// 3D model: fetch three.js and the ~2 MB model only when the visitor gets close to it.
+new IntersectionObserver((entries, observer) => {
+  if (!entries[0].isIntersecting) return;
+  observer.disconnect();
+  import('./model-viewer.js').then(({ mountModelViewer }) =>
+    mountModelViewer(document.getElementById('model-viewer'), asset('athena.glb'), document.getElementById('model-status')));
+}, { rootMargin: '100% 0px' }).observe(document.getElementById('model'));
 
 // Lazy images in the content sections change page height as they load.
 window.addEventListener('load', () => ScrollTrigger.refresh());
