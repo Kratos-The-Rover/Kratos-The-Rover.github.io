@@ -291,6 +291,7 @@ window.addEventListener('resize', () => {
 });
 
 const STAR_COUNT = 1000; // Double sparse stars
+const STAR_PARALLAX = 0.15;
 const stars = [];
 
 for (let i = 0; i < STAR_COUNT; i++) {
@@ -307,23 +308,20 @@ for (let i = 0; i < STAR_COUNT; i++) {
 function drawStars(time) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Canvas is fixed behind the whole page; stars drift up slower than the content (parallax) and wrap.
+  const drift = window.scrollY * STAR_PARALLAX;
+  const h = canvas.height;
+
   for (const star of stars) {
-    // Stars cover the top half entirely, then fade out linearly in the bottom half
-    let spatialFade = 1;
-    if (star.y > canvas.height * 0.5) {
-      spatialFade = Math.max(0, 1 - (star.y - canvas.height * 0.5) / (canvas.height * 0.5));
-    }
-
-    if (spatialFade <= 0) continue;
-
     const cycle = Math.sin(time * star.fadeSpeed + star.fadeOffset);
     const twinkle = cycle * 0.5 + 0.5;
-    const alpha = star.baseOpacity * spatialFade * twinkle;
+    const alpha = star.baseOpacity * twinkle;
 
     if (alpha < 0.005) continue;
 
+    const y = (((star.y - drift) % h) + h) % h;
     ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-    ctx.fillRect(star.x, star.y, star.size * 2, star.size * 2);
+    ctx.fillRect(star.x, y, star.size * 2, star.size * 2);
   }
 
   requestAnimationFrame(drawStars);

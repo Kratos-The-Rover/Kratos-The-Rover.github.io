@@ -166,8 +166,8 @@ body.cursor-hover .crosshair-square {
 
 /* ===== Star noise background ===== */
 .stars-canvas {
-  position: absolute;
-  /* Scrolls with page */
+  position: fixed;
+  /* Stays behind the whole page; main.js drifts the stars with scroll */
   top: 0;
   left: 0;
   width: 100%;
