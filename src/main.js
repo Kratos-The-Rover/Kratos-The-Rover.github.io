@@ -982,13 +982,16 @@ document.querySelectorAll('.count-up').forEach((el) => {
 // TEAM TREE — management first, then a line steps down and to the right through each subsystem
 // ====================================================================
 // Roles vary a little between years, so tiers are picked by keyword.
-const TIER_NAMES = ['Management', 'Mechanical', 'Electronics', 'Life Detection & Controls', 'Autonomous'];
+const TIER_NAMES = ['Management', 'Mechanical', 'Electronics', 'Power', 'Life Detection & Controls', 'Autonomous', 'Communication'];
 function tierOf(role) {
-  if (/team lead|vice|operations|communication|creative/i.test(role)) return 0;
+  // Communication and power are subsystems of their own, checked first so no other keyword claims them.
+  if (/communication/i.test(role)) return 6;
+  if (/power/i.test(role)) return 3;
+  if (/team lead|vice|operations|creative/i.test(role)) return 0;
   if (/mechanical|arm/i.test(role)) return 1;
-  if (/electronics|power/i.test(role)) return 2;
-  if (/autonomous/i.test(role)) return 4;
-  return 3; // science / life detection / controls
+  if (/electronics/i.test(role)) return 2;
+  if (/autonomous/i.test(role)) return 5;
+  return 4; // science / life detection / controls
 }
 
 function treeCard(m) {
