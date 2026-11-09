@@ -1,6 +1,8 @@
 import './style.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import roverImg from './assets/group3.png';
 import logoImg from './assets/kratos-logo.png';
 import { about, stats, competitions, videos, contact } from './data/site.js';
@@ -9,25 +11,24 @@ import { gallery } from './data/gallery.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Smooth scrolling. Raw wheel steps driving pinned, scrubbed timelines is what made scrolling feel
+// jerky; Lenis interpolates the scroll position and GSAP's ticker drives both so they stay in sync.
+const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.9 });
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+lenis.stop(); // locked until the splash screen is gone
+
 // Files in /public are served from the site root (respects Vite's `base`).
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
-const GALLERY_STRIP_COUNT = 8;
+// A stat value whose first number counts from `countFrom` when scrolled into view (e.g. "40+" counts 20 → 40).
+const countValue = (value, from) => (from == null ? value
+  : value.replace(/\d+/, (n) => `<span class="count-up" data-from="${from}" data-to="${n}">${from}</span>`));
+
+const GRID_COLS = 3;
+const GRID_ROWS = 5; // About-section photo grid is GRID_COLS × GRID_ROWS
 
 const arrow = `<svg class="ext-arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8 8 2M3 2h5v5" fill="none" stroke="currentColor" stroke-width="1"/></svg>`;
-
-function teamCards(year) {
-  return year.members.map((m) => `
-    <article class="team-card">
-      <div class="team-photo">
-        <img src="${asset(m.img)}" alt="${m.name}" loading="lazy" width="640" height="640" />
-      </div>
-      <div class="team-meta">
-        <h3 class="team-name">${m.name}</h3>
-        <p class="team-role">${m.role}</p>
-        ${m.linkedin ? `<a class="team-link" href="${m.linkedin}" target="_blank" rel="noopener">LinkedIn ${arrow}</a>` : ''}
-      </div>
-    </article>`).join('');
-}
 
 // ===== DOM =====
 document.querySelector('#app').innerHTML = `
@@ -42,7 +43,9 @@ document.querySelector('#app').innerHTML = `
     </div>
   </div>
 
-  <!-- Star noise background -->
+  <!-- Star noise background, with faint blue-purple nebulae drifting in and out behind it -->
+  <div class="nebula" aria-hidden="true"></div>
+  <div class="nebula" aria-hidden="true"></div>
   <canvas class="stars-canvas" id="stars-canvas"></canvas>
 
   <!-- Galaxy Slash Opening Animation -->
@@ -121,55 +124,74 @@ document.querySelector('#app').innerHTML = `
 
   <!-- Unified Experience Wrapper -->
   <div class="experience-wrapper" id="experience-wrapper">
+    <!-- Web from the cursor to each photo, and the rails the photo columns ride on (drawn under the photos) -->
+    <canvas class="web-canvas" id="web-canvas" aria-hidden="true"></canvas>
     <!-- About Section -->
     <section class="about-section" id="about">
-      <p class="about-label" id="about-label">who are we?</p>
+      <p class="about-label glitch" id="about-label" data-text="who are we?">who are we?</p>
       <h2 class="about-title" id="about-title">ABOUT US</h2>
       ${about.map((p, i) => `<p class="about-text" id="about-text-${i + 1}">${p}</p>`).join('')}
     </section>
 
-    <!-- Gallery strip (highlights) -->
-    <section class="gallery-section" id="gallery">
-      <div class="gallery-track" id="gallery-track">
-        ${gallery.slice(0, GALLERY_STRIP_COUNT).map((g, i) => `
-        <button class="gallery-card" data-lightbox="${i}" aria-label="Open photo: ${g.alt}">
-          <img src="${asset(g.src)}" alt="${g.alt}" />
+    <!-- Photo grid: three columns that scroll up at different speeds and land together -->
+    <section class="stage" id="gallery" aria-label="Highlights">
+      ${[0, 1, 2].map((col) => `
+      <div class="stage-col">
+        ${gallery.slice(0, GRID_COLS * GRID_ROWS).map((g, i) => [g, i]).filter(([, i]) => i % GRID_COLS === col).map(([g, i]) => `
+        <button class="stage-card" data-lightbox="${i}" aria-label="Open photo: ${g.alt}">
+          <img src="${asset(g.src)}" alt="${g.alt}" width="${g.w}" height="${g.h}" />
         </button>`).join('')}
-      </div>
+      </div>`).join('')}
     </section>
   </div>
 
   <!-- Competitions -->
   <section class="competitions-section" id="competitions">
+    <!-- Track from 01 down to 02, drawn on scroll -->
+    <span class="comp-track comp-track-stub" aria-hidden="true"></span>
+    <span class="comp-track comp-track-v" aria-hidden="true"></span>
+    <span class="comp-track comp-track-h" aria-hidden="true"></span>
+    <span class="line-head" aria-hidden="true"></span>
     <div class="section-head reveal">
-      <p class="section-label">where we compete</p>
+      <p class="section-label glitch" data-text="where we compete">where we compete</p>
       <h2 class="section-title">COMPETITIONS</h2>
     </div>
+    <p class="stats-kicker reveal">What have we accomplished</p>
     <div class="stats-row reveal">
       ${stats.map((s) => `
       <div class="stat">
-        <span class="stat-value">${s.value}</span>
+        <span class="stat-value">${countValue(s.value, s.countFrom)}</span>
         <span class="stat-label">${s.label}</span>
       </div>`).join('')}
     </div>
-    <div class="comp-grid">
-      ${competitions.map((c, i) => `
-      <article class="comp-card reveal">
-        <div class="comp-head">
-          <span class="comp-index">0${i + 1}</span>
-          <span class="comp-code">${c.code}</span>
+    ${competitions.map((c, i) => `
+    <article class="comp comp--${c.side}">
+      <h3 class="comp-code" aria-label="${c.code}, ${c.name}">
+        ${[...c.code].map((ch) => `<span class="comp-letter" aria-hidden="true"><span>${ch}</span></span>`).join('')}
+      </h3>
+      <div class="comp-content">
+        <div class="comp-body reveal">
+          <p class="comp-kicker"><span class="comp-num">0${i + 1}</span>${c.name}</p>
+          ${c.body.map((p) => `<p class="comp-text">${p}</p>`).join('')}
         </div>
-        <h3 class="comp-name">${c.name}</h3>
-        ${c.body.map((p) => `<p class="comp-text">${p}</p>`).join('')}
-        <ul class="comp-tags">${c.highlights.map((h) => `<li>${h}</li>`).join('')}</ul>
-      </article>`).join('')}
-    </div>
+        <div class="comp-ach reveal">
+          <p class="comp-kicker">Achievements</p>
+          <ul class="ach-row">
+            ${c.achievements.map((a) => `
+            <li class="ach">
+              <span class="ach-value">${countValue(a.value, a.countFrom)}</span>
+              <span class="ach-label">${a.label}</span>
+            </li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </article>`).join('')}
   </section>
 
   <!-- Team -->
   <section class="team-section" id="team">
     <div class="section-head reveal">
-      <p class="section-label">the people behind the rover</p>
+      <p class="section-label glitch" data-text="the people behind the rover">the people behind the rover</p>
       <h2 class="section-title">THE TEAM</h2>
     </div>
     <div class="team-tabs reveal" role="tablist" aria-label="Team by year">
@@ -178,13 +200,15 @@ document.querySelector('#app').innerHTML = `
         ${i === 0 ? 'Current' : y.label.replace('AY ', '')}
       </button>`).join('')}
     </div>
-    <div class="team-grid" id="team-grid" role="tabpanel">${teamCards(team[0])}</div>
+    <!-- Leads as a tree: built by buildTree() in the TEAM TREE block -->
+    <div class="team-tree" id="team-tree" role="tabpanel"></div>
   </section>
 
   <!-- Media: videos + full gallery -->
   <section class="media-section" id="media">
+    <div class="media-grid-bg" aria-hidden="true"></div>
     <div class="section-head reveal">
-      <p class="section-label">see it in action</p>
+      <p class="section-label glitch" data-text="see it in action">see it in action</p>
       <h2 class="section-title">GALLERY</h2>
     </div>
     <div class="video-grid">
@@ -209,9 +233,9 @@ document.querySelector('#app').innerHTML = `
   <section class="history-section" id="history">
     <div class="history-phase" id="history-phase-1">
       <div class="history-poem">
-        <div class="poem-line">Every prophecy has its final verse,</div>
-        <div class="poem-line">Every myth dies when the gods stop fighting</div>
-        <div class="poem-line">But we gave our myth a weapon</div>
+        <div class="poem-line">Mars was named after the god of war</div>
+        <div class="poem-line">yet no god has ever set foot on it</div>
+        <div class="poem-line">we built one that will</div>
       </div>
     </div>
     <div class="history-phase" id="history-phase-2">
@@ -226,7 +250,7 @@ document.querySelector('#app').innerHTML = `
   <!-- Contact -->
   <section class="contact-section" id="contact">
     <div class="section-head reveal">
-      <p class="section-label">want to know more?</p>
+      <p class="section-label glitch" data-text="want to know more?">want to know more?</p>
       <h2 class="section-title">CONTACT</h2>
     </div>
     <div class="contact-grid">
@@ -305,8 +329,51 @@ for (let i = 0; i < STAR_COUNT; i++) {
   });
 }
 
+// Shooting stars: one every 6–7 s, short and faint.
+const shooters = [];
+let nextShooter = 3000;
+function spawnShooter(time) {
+  const angle = (Math.PI / 180) * (20 + Math.random() * 25); // heading down-right
+  const speed = 0.9 + Math.random() * 0.6;                   // px per ms
+  shooters.push({
+    x: Math.random() * canvas.width * 0.8,
+    y: Math.random() * canvas.height * 0.5,
+    dx: Math.cos(angle) * speed,
+    dy: Math.sin(angle) * speed,
+    born: time,
+    life: 500 + Math.random() * 400,
+    tail: 70 + Math.random() * 60,
+  });
+  nextShooter = time + 6000 + Math.random() * 1000;
+}
+
+function drawShooters(time) {
+  if (time > nextShooter) spawnShooter(time);
+  for (let i = shooters.length - 1; i >= 0; i--) {
+    const s = shooters[i];
+    const t = time - s.born;
+    if (t > s.life) { shooters.splice(i, 1); continue; }
+    const fade = Math.sin((t / s.life) * Math.PI); // in and out
+    const hx = s.x + s.dx * t;
+    const hy = s.y + s.dy * t;
+    const len = Math.hypot(s.dx, s.dy);
+    const tx = hx - (s.dx / len) * s.tail;
+    const ty = hy - (s.dy / len) * s.tail;
+    const g = ctx.createLinearGradient(hx, hy, tx, ty);
+    g.addColorStop(0, `rgba(255, 255, 255, ${0.45 * fade})`);
+    g.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.strokeStyle = g;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(hx, hy);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+  }
+}
+
 function drawStars(time) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawShooters(time);
 
   // Canvas is fixed behind the whole page; stars drift up slower than the content (parallax) and wrap.
   const drift = window.scrollY * STAR_PARALLAX;
@@ -510,7 +577,10 @@ document.addEventListener('mousemove', (e) => {
 });
 
 let startTime = Date.now();
+let smokeActive = true; // switched off by the hero ScrollTrigger once the hero has scrolled away
 function render() {
+  requestAnimationFrame(render);
+  if (!smokeActive) return;
   currentMouse.x += (targetMouse.x - currentMouse.x) * 0.08;
   currentMouse.y += (targetMouse.y - currentMouse.y) * 0.08;
 
@@ -518,7 +588,6 @@ function render() {
   gl.uniform1f(timeLoc, (Date.now() - startTime) / 1000.0);
 
   gl.drawArrays(gl.TRIANGLES, 0, 6);
-  requestAnimationFrame(render);
 }
 render();
 
@@ -536,7 +605,7 @@ function scrambleText(element, finalString, duration = 1) {
       let progress = dummy.p;
       let text = '';
       for (let i = 0; i < finalString.length; i++) {
-        if (progress > i / finalString.length) {
+        if (finalString[i] === ' ' || progress > i / finalString.length) {
           text += finalString[i];
         } else {
           text += chars[Math.floor(Math.random() * chars.length)];
@@ -552,6 +621,7 @@ const heroTl = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } })
 const splashTl = gsap.timeline({
   onComplete: () => {
     heroTl.play();
+    lenis.start();
 
     const triggerCrosshair = () => {
       document.querySelectorAll('.crosshair-h, .crosshair-v, .crosshair-square').forEach(el => {
@@ -608,90 +678,476 @@ heroTl
 
 
 // ====================================================================
-// SCROLL-TRIGGERED EFFECTS
+// SUBHEADING SCRAMBLE — same character scramble as the landing page label
 // ====================================================================
-
-// Hero Scroll-Pin Fade Out
-const heroScrollTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: '#hero',
-    start: 'top top',
-    end: '+=250%',
-    pin: true,
-    scrub: 1,
-  }
-});
-
-heroScrollTl
-  .to({}, { duration: 0.5 }) // "stay for a bit"
-  .to(['#hero-content', '#hero-graphics', '#smoke-canvas'], {
-    opacity: 0,
-    y: -50,
-    duration: 1,
-    stagger: 0.1,
-    ease: 'power2.inOut'
+function glitch(el) {
+  if (el.dataset.glitching) return;
+  el.dataset.glitching = '1';
+  scrambleText(el, el.dataset.text, 0.8);
+  gsap.delayedCall(0.85, () => {
+    el.textContent = el.dataset.text;
+    delete el.dataset.glitching;
   });
-
-// ====================================================================
-// UNIFIED EXPERIENCE SCROLL
-// ====================================================================
-const galleryTrack = document.getElementById('gallery-track');
-
-// Slide the strip until its last card is in view; the track's own padding is the end margin.
-// Measured from the strip's container, which is half the screen on desktop and full width on phones.
-function getScrollAmount() {
-  return -(galleryTrack.scrollWidth - galleryTrack.parentElement.clientWidth);
 }
 
-const experienceTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: "#experience-wrapper",
-    start: "top top",
-    end: () => `+=${Math.abs(getScrollAmount()) + window.innerHeight * 2.5}`,
-    pin: true,
-    scrub: 1,
-    invalidateOnRefresh: true,
-    onEnter: () => {
-      gsap.fromTo('#about-label',
-        { opacity: 0 },
-        {
-          keyframes: [
-            { opacity: 1, duration: 0.05 },
-            { opacity: 0, duration: 0.1 },
-            { opacity: 1, duration: 0.05 },
-            { opacity: 0, duration: 0.1 },
-            { opacity: 1, duration: 0.05 }
-          ],
-          duration: 0.4,
-          overwrite: "auto"
-        }
-      );
-    },
-    onLeaveBack: () => gsap.set('#about-label', { opacity: 0 })
-  }
+
+
+// ====================================================================
+// HERO — starts dissolving on the very first scroll step
+// ====================================================================
+// Explicit from-values, rendered immediately. (With immediateRender:false, a refresh during the splash
+// could record the intro's hidden state, and scrolling back to the top restored it: the grid vanished.)
+const out = (vars) => vars;
+const heroScrollTl = gsap.timeline({ defaults: { ease: 'none' } }) // linear: the first scroll step visibly moves things
+  .fromTo('#hero-label', { y: 0, opacity: 1 }, out({ y: -40, opacity: 0, duration: 0.35 }), 0)
+  .fromTo('#hero-title', { y: 0, opacity: 1 }, out({ y: -70, opacity: 0, duration: 0.5 }), 0.05)
+  .fromTo('#hero-btn-wrapper', { y: 0, opacity: 1 }, out({ y: -40, opacity: 0, duration: 0.4 }), 0.12)
+  .fromTo('#rover-img', { y: 0, scale: 1, opacity: 1 }, out({ y: -90, scale: 0.86, opacity: 0, duration: 0.9 }), 0)
+  .fromTo('#hero-grid', { scale: 1, opacity: 1 }, out({ scale: 1.25, opacity: 0, duration: 0.8 }), 0.05)
+  .fromTo('#smoke-canvas', { opacity: 1 }, out({ opacity: 0, duration: 0.8 }), 0.15);
+
+ScrollTrigger.create({
+  animation: heroScrollTl,
+  trigger: '#hero',
+  start: 'top top',
+  end: '+=110%',
+  pin: true,
+  scrub: true, // Lenis already smooths the scroll; a second layer of scrub lag felt mushy
+  onLeave: () => (smokeActive = false),
+  onEnterBack: () => (smokeActive = true),
 });
 
-experienceTl
-  .from('#about-title', { y: 80, opacity: 0, duration: 0.4 })
-  .from('#about-text-1', { y: 30, opacity: 0, duration: 0.2 }, '-=0.2')
-  .from('#about-text-2', { y: 30, opacity: 0, duration: 0.2 }, '-=0.1')
-  .to({}, { duration: 1.0 }) // Hold text on screen for a bit
-  .to(galleryTrack, { x: getScrollAmount, duration: 1.5, ease: 'none' })
-  .to('#about-label', {
-    keyframes: [
-      { opacity: 0, duration: 0.05 },
-      { opacity: 1, duration: 0.05 },
-      { opacity: 0, duration: 0.05 },
-      { opacity: 1, duration: 0.05 },
-      { opacity: 0, duration: 0.05 }
-    ],
-    duration: 0.4
-  })
-  .to('#about-title', { y: -50, opacity: 0, duration: 0.4 }, '-=0.2')
-  .to('#about-text-1', { y: -30, opacity: 0, duration: 0.2 }, '-=0.2')
-  .to('#about-text-2', { y: -30, opacity: 0, duration: 0.2 }, '-=0.1')
-  .to('.gallery-section', { opacity: 0, duration: 0.4 }, '<');
+// ====================================================================
+// ABOUT + PHOTO GRID — text stays put, photo columns scroll past on the right
+// ====================================================================
+const experience = document.getElementById('experience-wrapper');
+const aboutSection = document.getElementById('about');
+const stage = document.getElementById('gallery');
+const stageCols = gsap.utils.toArray('.stage-col');
+const stageCards = gsap.utils.toArray('.stage-card');
+const aboutTitle = document.getElementById('about-title');
+// Where each column starts, as a fraction of the stage height below its top. The first starts
+// furthest down, so it has the most ground to cover in the same time and moves fastest.
+const COL_START = [1.0, 0.6, 0.25];
+const GRID_DURATION = 3;
+const GRID_BOTTOM_GAP = 40; // space under the last row once it lands
 
+const web = { alpha: 0 }; // opacity of the web + rails, driven by the scroll timeline
+let webActive = false;    // only draw while the section is pinned
+
+const experienceTl = gsap.timeline({ defaults: { ease: 'power2.out' } })
+  .fromTo('#about-label', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.25 }, 0)
+  .call(() => glitch(document.getElementById('about-label')), null, 0.02)
+  .from('#about-title', { y: 60, opacity: 0, duration: 0.45 }, 0.05)
+  .from('.about-text', { y: 30, opacity: 0, duration: 0.4, stagger: 0.1 }, 0.25)
+  .fromTo(web, { alpha: 0 }, { alpha: 1, duration: 0.4, ease: 'none' }, 0.1);
+
+// All columns finish together with their last row resting at the bottom of the stage.
+stageCols.forEach((col, i) => {
+  experienceTl.fromTo(col,
+    { y: () => stage.clientHeight * COL_START[i] },
+    { y: () => stage.clientHeight - col.offsetHeight - GRID_BOTTOM_GAP, duration: GRID_DURATION, ease: 'none' },
+    0);
+});
+
+// Then the web lets go and the text fades out, leaving the landed grid.
+experienceTl
+  .to(web, { alpha: 0, duration: 0.35, ease: 'none' }, GRID_DURATION)
+  .to(aboutSection, { opacity: 0, duration: 0.6, ease: 'power1.inOut' }, GRID_DURATION + 0.1)
+  .to({}, { duration: 0.2 }); // short hold, locked, before the section scrolls away
+
+ScrollTrigger.create({
+  animation: experienceTl,
+  trigger: '#experience-wrapper',
+  start: 'top top',
+  // ~0.85 screens per timeline second: the grid takes ~2.6 screens, the slide ~1.
+  end: () => `+=${window.innerHeight * 0.85 * experienceTl.duration()}`,
+  pin: true,
+  scrub: true,
+  invalidateOnRefresh: true,
+  onToggle: (self) => (webActive = self.isActive),
+});
+
+// ---------- Web + rails canvas ----------
+const webCanvas = document.getElementById('web-canvas');
+const webCtx = webCanvas.getContext('2d');
+let webW = 0;
+let webH = 0;
+
+function sizeWebCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  webW = experience.clientWidth;
+  webH = experience.clientHeight;
+  webCanvas.width = webW * dpr;
+  webCanvas.height = webH * dpr;
+  webCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+sizeWebCanvas();
+window.addEventListener('resize', sizeWebCanvas);
+
+const RAIL_TICK = 28;
+const rgba = (a) => `rgba(255, 255, 255, ${a})`;
+
+function drawWeb() {
+  webCtx.clearRect(0, 0, webW, webH);
+  const a = web.alpha;
+  if (!webActive || a < 0.01) return;
+
+  const origin = webCanvas.getBoundingClientRect();
+  webCtx.lineWidth = 1;
+
+  // Rails: one vertical track in the gutter left of each column, with ticks and a marker per photo
+  // that ride along with the column, so you can see the photos running on it.
+  stageCols.forEach((col) => {
+    const r = col.getBoundingClientRect();
+    const x = Math.round(r.left - origin.left - 7) + 0.5;
+    webCtx.strokeStyle = rgba(0.14 * a);
+    webCtx.beginPath();
+    webCtx.moveTo(x, 0);
+    webCtx.lineTo(x, webH);
+    webCtx.stroke();
+
+    const offset = ((r.top - origin.top) % RAIL_TICK + RAIL_TICK) % RAIL_TICK;
+    webCtx.strokeStyle = rgba(0.3 * a);
+    webCtx.beginPath();
+    for (let y = offset; y < webH; y += RAIL_TICK) {
+      webCtx.moveTo(x - 2, y);
+      webCtx.lineTo(x + 2, y);
+    }
+    webCtx.stroke();
+
+    webCtx.fillStyle = rgba(0.8 * a);
+    for (const card of col.children) {
+      const cr = card.getBoundingClientRect();
+      const cy = cr.top - origin.top;
+      if (cy + cr.height < 0 || cy > webH) continue;
+      webCtx.fillRect(x - 1.5, cy, 3, 3);
+      webCtx.fillRect(x - 1.5, cy + cr.height - 3, 3, 3);
+    }
+  });
+
+  // Web: the crosshair box to every photo on screen, plus faint strands between neighbouring photos.
+  // Strands end at photo centres and are drawn underneath, so they disappear behind the photos.
+  const centres = stageCards.map((card) => {
+    const r = card.getBoundingClientRect();
+    return { x: r.left - origin.left + r.width / 2, y: r.top - origin.top + r.height / 2, h: r.height };
+  });
+  const onScreen = (c) => c.y + c.h / 2 > 0 && c.y - c.h / 2 < webH;
+
+  webCtx.strokeStyle = rgba(0.07 * a);
+  webCtx.beginPath();
+  centres.forEach((c, i) => {
+    if (!onScreen(c)) return;
+    const right = centres[i + 1];
+    const below = centres[i + GRID_COLS];
+    if (right && i % GRID_COLS !== GRID_COLS - 1) { webCtx.moveTo(c.x, c.y); webCtx.lineTo(right.x, right.y); }
+    if (below) { webCtx.moveTo(c.x, c.y); webCtx.lineTo(below.x, below.y); }
+  });
+  webCtx.stroke();
+
+  if (!hasMouseMoved) return;
+  const mx = gsap.getProperty(crossSq, 'x') - origin.left;
+  const my = gsap.getProperty(crossSq, 'y') - origin.top;
+  const reach = Math.hypot(webW, webH);
+  centres.forEach((c) => {
+    if (!onScreen(c)) return;
+    const near = 1 - Math.hypot(c.x - mx, c.y - my) / reach;
+    webCtx.strokeStyle = rgba((0.05 + 0.3 * near * near) * a);
+    webCtx.beginPath();
+    webCtx.moveTo(mx, my);
+    webCtx.lineTo(c.x, c.y);
+    webCtx.stroke();
+  });
+}
+gsap.ticker.add(drawWeb);
+
+// ====================================================================
+// COMPETITIONS — giant codes rise letter by letter (IRC from the left, URC from the right)
+// ====================================================================
+gsap.utils.toArray('.comp').forEach((comp) => {
+  const fromRight = comp.classList.contains('comp--right');
+  let letters = gsap.utils.toArray(comp.querySelectorAll('.comp-letter > span'));
+  if (fromRight) letters = letters.reverse();
+  // Start state set up front so letters waiting for their turn in the stagger stay hidden.
+  gsap.set(letters, { yPercent: 110, x: fromRight ? 60 : -60 });
+  gsap.to(letters, {
+    yPercent: 0, x: 0, ease: 'power1.out', stagger: 0.6, duration: 1,
+    // From the code entering the screen until the copy under it is well up the screen.
+    scrollTrigger: {
+      trigger: comp.querySelector('.comp-code'),
+      start: 'top bottom',
+      endTrigger: comp.querySelector('.comp-body'),
+      end: 'top 65%',
+      scrub: true,
+    },
+  });
+});
+
+// 01 / 02 pop into place as their copy arrives
+gsap.utils.toArray('.comp-num').forEach((num) => {
+  gsap.fromTo(num,
+    { scale: 0, opacity: 0, rotate: -45 },
+    {
+      scale: 1, opacity: 1, rotate: 0, duration: 0.6, delay: 0.3, ease: 'back.out(3)',
+      scrollTrigger: { trigger: num, start: 'top 85%', toggleActions: 'play none none reverse' },
+    });
+});
+
+// Track from 01 down the left edge and across to 02: "moving forward"
+const compSection = document.getElementById('competitions');
+const [compNum1, compNum2] = document.querySelectorAll('.comp-num');
+const trackStub = compSection.querySelector('.comp-track-stub');
+const trackV = compSection.querySelector('.comp-track-v');
+const trackH = compSection.querySelector('.comp-track-h');
+const trackHead = compSection.querySelector('.line-head');
+const TRACK_INSET = 30; // how far left of 01 the vertical runs
+let trackGeo = null;    // corners of the track, read by the head-dot tweens
+
+// Layout offsets (not bounding boxes), so the reveal transforms don't skew positions.
+function offsetIn(el, ancestor) {
+  let x = 0;
+  let y = 0;
+  for (let n = el; n && n !== ancestor; n = n.offsetParent) {
+    x += n.offsetLeft;
+    y += n.offsetTop;
+  }
+  return { x, y };
+}
+
+function layoutTrack() {
+  const a = offsetIn(compNum1, compSection);
+  const b = offsetIn(compNum2, compSection);
+  const y1 = Math.round(a.y + compNum1.offsetHeight / 2);
+  const y2 = Math.round(b.y + compNum2.offsetHeight / 2);
+  const x = Math.round(a.x - TRACK_INSET);
+  gsap.set(trackStub, { left: x, top: y1, width: TRACK_INSET - 8 });
+  gsap.set(trackV, { left: x, top: y1, height: y2 - y1 });
+  gsap.set(trackH, { left: x, top: y2, width: b.x - 8 - x });
+  trackGeo = { start: a.x - 8, x, y1, y2, end: b.x - 8 };
+}
+layoutTrack();
+ScrollTrigger.addEventListener('refreshInit', layoutTrack);
+// Web fonts (the giant codes especially) change the layout after first paint; re-measure once they're in.
+// (Not on every resize of the section: a refresh mid-scroll inside a pinned section knocks things out of place.)
+document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+gsap.timeline({
+  defaults: { ease: 'none' },
+  scrollTrigger: {
+    trigger: compNum1,
+    start: 'center 60%',
+    endTrigger: compNum2,
+    end: 'center 45%',
+    scrub: true,
+    invalidateOnRefresh: true,
+  },
+})
+  .fromTo(trackHead, { opacity: 0 }, { opacity: 1, duration: 0.02 }, 0)
+  .fromTo(trackStub, { scaleX: 0 }, { scaleX: 1, duration: 0.05 }, 0)
+  .fromTo(trackHead, { x: () => trackGeo.start, y: () => trackGeo.y1 }, { x: () => trackGeo.x, duration: 0.05 }, 0)
+  .fromTo(trackV, { scaleY: 0 }, { scaleY: 1, duration: 1 }, 0.05)
+  .to(trackHead, { y: () => trackGeo.y2, duration: 1 }, 0.05)
+  .fromTo(trackH, { scaleX: 0 }, { scaleX: 1, duration: 0.2 }, 1.05)
+  .to(trackHead, { x: () => trackGeo.end, duration: 0.2 }, 1.05);
+
+// Numbers that count to their value when their bar comes into view (2026 → 2018, 20 → 40+, IRC 22 → 26).
+// Slow enough to read each step; short ranges tick evenly, long ones ease into their final value.
+document.querySelectorAll('.count-up').forEach((el) => {
+  const from = Number(el.dataset.from);
+  const to = Number(el.dataset.to);
+  const steps = Math.abs(to - from);
+  const counter = { n: from };
+  const show = () => (el.textContent = Math.round(counter.n));
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 80%',
+    onEnter: () => gsap.fromTo(counter, { n: from }, {
+      n: to, duration: steps <= 8 ? 0.25 * steps : 1.8, delay: 0.3,
+      ease: steps <= 8 ? 'none' : 'power2.out', snap: { n: 1 }, onUpdate: show,
+    }),
+    onLeaveBack: () => { gsap.killTweensOf(counter); counter.n = from; show(); },
+  });
+});
+
+// ====================================================================
+// TEAM TREE — management first, then a line steps down and to the right through each subsystem
+// ====================================================================
+// Roles vary a little between years, so tiers are picked by keyword.
+const TIER_NAMES = ['Management', 'Mechanical', 'Electronics', 'Life Detection & Controls', 'Autonomous'];
+function tierOf(role) {
+  if (/team lead|vice|operations|communication|creative/i.test(role)) return 0;
+  if (/mechanical|arm/i.test(role)) return 1;
+  if (/electronics|power/i.test(role)) return 2;
+  if (/autonomous/i.test(role)) return 4;
+  return 3; // science / life detection / controls
+}
+
+function treeCard(m) {
+  return `
+    <article class="team-card tree-card">
+      <div class="team-photo">
+        <img src="${asset(m.img)}" alt="${m.name}" loading="lazy" width="640" height="640" />
+      </div>
+      <div class="team-meta">
+        <h3 class="team-name">${m.name}</h3>
+        <p class="team-role">${m.role}</p>
+        ${m.linkedin ? `<a class="team-link" href="${m.linkedin}" target="_blank" rel="noopener">LinkedIn ${arrow}</a>` : ''}
+      </div>
+    </article>`;
+}
+
+function treeMarkup(year) {
+  const tiers = TIER_NAMES.map(() => []);
+  year.members.forEach((m) => tiers[tierOf(m.role)].push(m));
+  return `<svg class="tree-lines" aria-hidden="true"></svg><span class="line-head" aria-hidden="true"></span>` + tiers
+    .map((members, i) => ({ members, i }))
+    .filter((t) => t.members.length)
+    .map(({ members, i }) => `
+      <p class="comp-kicker tree-label">${TIER_NAMES[i]}</p>
+      <div class="tree-row" aria-label="${TIER_NAMES[i]}">${members.map(treeCard).join('')}</div>`)
+    .join('');
+}
+
+const teamTree = document.getElementById('team-tree');
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const BRANCH_ABOVE = 36; // branch line height above a tier's cards
+const MERGE_BELOW = 24;  // where a tier's lines join below its cards
+const LABEL_GAP = 10;    // space between the line and the subsystem name that breaks it
+let treeGeo = null;
+
+// Every line, in drawing order. A step's lines draw together; `head` is the segment the dot rides along.
+// Per tier: trunk down the centre → broken by the subsystem name → trunk → branch out → drop onto each card;
+// then drops from each card join back to the centre for the next tier.
+function treeGeometry() {
+  const rows = [...teamTree.querySelectorAll('.tree-row')];
+  const labelEls = [...teamTree.querySelectorAll('.tree-label')];
+  const cx = Math.round(teamTree.clientWidth / 2);
+  const pts = rows.map((row) => [...row.children].map((card) => {
+    const o = offsetIn(card, teamTree);
+    return { x: Math.round(o.x + card.offsetWidth / 2), top: o.y, bottom: o.y + card.offsetHeight };
+  }));
+  const steps = [];
+  const labels = [];
+  let yStart = 0;
+  pts.forEach((kids, i) => {
+    const xs = kids.map((k) => k.x);
+    const yBranch = Math.min(...kids.map((k) => k.top)) - BRANCH_ABOVE;
+    if (i > 0) {
+      const prev = pts[i - 1];
+      const yMerge = Math.max(...prev.map((p) => p.bottom)) + MERGE_BELOW;
+      const drops = prev.map((p) => [p.x, p.bottom + 12, p.x, yMerge]);
+      steps.push({ lines: drops, head: drops[drops.length - 1] });
+      const pxs = prev.map((p) => p.x);
+      const joins = [];
+      if (Math.min(...pxs) < cx) joins.push([Math.min(...pxs), yMerge, cx, yMerge]);
+      if (Math.max(...pxs) > cx) joins.push([Math.max(...pxs), yMerge, cx, yMerge]);
+      if (joins.length) steps.push({ lines: joins, head: joins[0], flat: true });
+      yStart = yMerge;
+    }
+    // Trunk, interrupted by the subsystem name halfway down.
+    const half = labelEls[i].offsetHeight / 2 + LABEL_GAP;
+    const yLabel = Math.round((yStart + yBranch) / 2);
+    const upper = [cx, yStart, cx, yLabel - half];
+    const lower = [cx, yLabel + half, cx, yBranch];
+    steps.push({ lines: [upper], head: upper });
+    steps.push({ lines: [], head: [cx, yLabel - half, cx, yLabel + half], label: i });
+    steps.push({ lines: [lower], head: lower });
+    labels.push({ x: cx, y: yLabel });
+    const branch = [];
+    if (Math.min(...xs) < cx) branch.push([cx, yBranch, Math.min(...xs), yBranch]);
+    if (Math.max(...xs) > cx) branch.push([cx, yBranch, Math.max(...xs), yBranch]);
+    if (branch.length) steps.push({ lines: branch, head: branch[branch.length - 1], flat: true });
+    const lands = kids.map((k) => [k.x, yBranch, k.x, k.top]);
+    steps.push({ lines: lands, head: lands[lands.length - 1], cards: i });
+  });
+  return { steps, labels, width: teamTree.clientWidth, height: teamTree.offsetHeight };
+}
+
+let treeLineEls = [];
+// Re-measure and move lines/labels; the animations don't depend on geometry (lines use pathLength=1).
+function layoutTree() {
+  treeGeo = treeGeometry();
+  const svg = teamTree.querySelector('.tree-lines');
+  svg.setAttribute('width', treeGeo.width);
+  svg.setAttribute('height', treeGeo.height);
+  treeGeo.steps.flatMap((s) => s.lines).forEach(([x1, y1, x2, y2], i) => {
+    const el = treeLineEls[i];
+    if (!el) return;
+    el.setAttribute('x1', x1); el.setAttribute('y1', y1);
+    el.setAttribute('x2', x2); el.setAttribute('y2', y2);
+  });
+  teamTree.querySelectorAll('.tree-label').forEach((label, i) => {
+    label.style.left = `${treeGeo.labels[i].x}px`;
+    label.style.top = `${treeGeo.labels[i].y}px`;
+  });
+}
+
+let treeTrigger = null;
+function buildTree(year) {
+  treeTrigger?.kill(true);
+  teamTree.innerHTML = treeMarkup(year);
+
+  const svg = teamTree.querySelector('.tree-lines');
+  const head = teamTree.querySelector('.line-head');
+  const rows = [...teamTree.querySelectorAll('.tree-row')];
+  const labelEls = [...teamTree.querySelectorAll('.tree-label')];
+  const geo = treeGeometry();
+  treeLineEls = geo.steps.flatMap((s) => s.lines).map(() => {
+    const line = document.createElementNS(SVG_NS, 'line');
+    line.setAttribute('pathLength', '1');
+    svg.appendChild(line);
+    return line;
+  });
+  layoutTree();
+
+  // Cards are revealed the way the rest of the site reveals things: the photo wipes open top-down
+  // (like the MARK VI title), the text rises in after it.
+  const cards = rows.flatMap((r) => [...r.children]);
+  gsap.set(cards.map((c) => c.querySelector('.team-photo')), { clipPath: 'inset(0% 0% 100% 0%)' });
+  gsap.set(cards.map((c) => c.querySelector('img')), { scale: 1.2 });
+  gsap.set(cards.map((c) => c.querySelector('.team-meta')), { opacity: 0, y: 16 });
+  gsap.set(labelEls, { opacity: 0, y: -6 });
+  gsap.set(head, { opacity: 0 });
+
+  // Durations follow line length at one speed for every direction, so the head moves at an even pace.
+  const tl = gsap.timeline({ defaults: { ease: 'none' } })
+    .to(head, { opacity: 1, duration: 0.1 }, 0);
+  let li = 0;
+  geo.steps.forEach((step, si) => {
+    const els = step.lines.map(() => treeLineEls[li++]);
+    const [hx1, hy1, hx2, hy2] = step.head;
+    const dur = Math.max(0.05, Math.hypot(hx2 - hx1, hy2 - hy1) / 400);
+    const at = tl.duration();
+    tl.fromTo(els, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: dur }, at)
+      // The dot rides the head segment. Coordinates are read from the latest layout, so resizes keep it on the line.
+      .fromTo(head,
+        { x: () => treeGeo.steps[si].head[0], y: () => treeGeo.steps[si].head[1] },
+        { x: () => treeGeo.steps[si].head[2], y: () => treeGeo.steps[si].head[3], duration: dur, immediateRender: si === 0 }, at);
+    if (step.label != null) {
+      tl.to(labelEls[step.label], { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, at);
+    }
+    if (step.cards != null) {
+      rows[step.cards].querySelectorAll('.tree-card').forEach((card, k) => {
+        const t = at + dur * 0.6 + k * 0.1;
+        tl.to(card.querySelector('.team-photo'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power2.inOut' }, t)
+          .to(card.querySelector('img'), { scale: 1, duration: 1.2, ease: 'power2.out' }, t)
+          .to(card.querySelector('.team-meta'), { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, t + 0.35);
+      });
+    }
+  });
+
+  treeTrigger = ScrollTrigger.create({
+    animation: tl,
+    trigger: teamTree,
+    start: 'top 70%',
+    end: 'bottom 75%',
+    scrub: 0.6, // a touch of easing on top of Lenis so the drawing glides instead of tracking every wheel step
+    invalidateOnRefresh: true,
+  });
+}
+
+buildTree(team[0]);
+ScrollTrigger.addEventListener('refreshInit', layoutTree);
 
 // ====================================================================
 // HISTORY (ARIES REVEAL) SCROLL
@@ -747,6 +1203,62 @@ document.querySelectorAll('.side-nav-item').forEach((item) => {
 // ====================================================================
 // CONTENT SECTIONS — reveal on scroll
 // ====================================================================
+// ====================================================================
+// NEBULAE — soft blue/purple glows that surface somewhere random, linger, and fade
+// ====================================================================
+gsap.utils.toArray('.nebula').forEach((el, i) => {
+  const drift = () => {
+    const size = gsap.utils.random(40, 70); // vmax
+    gsap.set(el, {
+      width: `${size}vmax`, height: `${size * 0.6}vmax`,
+      left: `${gsap.utils.random(-10, 70)}%`, top: `${gsap.utils.random(-10, 70)}%`,
+      rotate: gsap.utils.random(-40, 40), opacity: 0, scale: 0.9,
+    });
+    gsap.timeline({ onComplete: drift })
+      .to(el, { opacity: gsap.utils.random(0.5, 0.9), scale: 1, duration: gsap.utils.random(5, 8), ease: 'sine.inOut' })
+      .to(el, { opacity: 0, scale: 1.08, duration: gsap.utils.random(5, 8), ease: 'sine.inOut' }, '+=' + gsap.utils.random(2, 5))
+      .to({}, { duration: gsap.utils.random(2, 6) }); // gap before it surfaces elsewhere
+  };
+  gsap.delayedCall(i * 7 + 2, drift);
+});
+
+// ====================================================================
+// GALLERY — a grid behind the media, drifting slower than the photos moving over it
+// ====================================================================
+const mediaSection = document.getElementById('media');
+gsap.fromTo('.media-grid-bg', { y: 0 }, {
+  y: () => mediaSection.offsetHeight * 0.25, // the grid lags behind the scroll: content slides across it
+  ease: 'none',
+  scrollTrigger: { trigger: mediaSection, start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true },
+});
+
+// Photo columns move at different speeds, like the About grid, so they shift against the lines behind them.
+const photoItems = gsap.utils.toArray('.photo-item');
+const COLUMN_SHIFT = [60, -30, 90, -10, 50]; // px of travel per column across the section
+function photoColumn(el) {
+  const lefts = [...new Set(photoItems.map((p) => p.offsetLeft))].sort((a, b) => a - b);
+  return lefts.indexOf(el.offsetLeft);
+}
+photoItems.forEach((item) => {
+  gsap.fromTo(item, { y: () => COLUMN_SHIFT[photoColumn(item) % COLUMN_SHIFT.length] }, {
+    y: () => -COLUMN_SHIFT[photoColumn(item) % COLUMN_SHIFT.length],
+    ease: 'none',
+    scrollTrigger: { trigger: '.photo-grid', start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true },
+  });
+});
+
+// Section subheadings scramble in the same way as "who are we?" in About, every time they scroll into view.
+// Created after the pinned sections so their trigger points include the pin spacing (created earlier,
+// they fired thousands of pixels too soon and the scramble was never seen).
+gsap.utils.toArray('.section-label.glitch').forEach((el) => {
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 80%',
+    onEnter: () => gsap.delayedCall(0.35, glitch, [el]),
+    onEnterBack: () => glitch(el),
+  });
+});
+
 gsap.utils.toArray('.reveal').forEach((el) => {
   gsap.from(el, {
     y: 40,
@@ -757,18 +1269,9 @@ gsap.utils.toArray('.reveal').forEach((el) => {
   });
 });
 
-function revealTeamCards() {
-  gsap.fromTo('#team-grid .team-card',
-    { y: 30, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: 'power3.out', overwrite: true });
-}
-ScrollTrigger.create({ trigger: '#team-grid', start: 'top 85%', once: true, onEnter: revealTeamCards });
-gsap.set('#team-grid .team-card', { opacity: 0 });
-
 // ====================================================================
 // TEAM TABS
 // ====================================================================
-const teamGrid = document.getElementById('team-grid');
 document.querySelector('.team-tabs').addEventListener('click', (e) => {
   const tab = e.target.closest('.team-tab');
   if (!tab || tab.classList.contains('is-active')) return;
@@ -778,12 +1281,12 @@ document.querySelector('.team-tabs').addEventListener('click', (e) => {
     t.setAttribute('aria-selected', active);
   });
   const year = team.find((y) => y.id === tab.dataset.year);
-  gsap.to(teamGrid, {
+  gsap.to(teamTree, {
     opacity: 0, duration: 0.2, onComplete: () => {
-      teamGrid.innerHTML = teamCards(year);
-      gsap.set(teamGrid, { opacity: 1 });
-      revealTeamCards();
-      // Grid height can change between years; pinned sections below need fresh offsets.
+      buildTree(year);
+      gsap.set(teamTree, { opacity: 1 });
+      // Tree height changes between years; keep trigger order by page position and re-measure.
+      ScrollTrigger.sort();
       ScrollTrigger.refresh();
     },
   });
@@ -801,6 +1304,25 @@ document.querySelector('.video-grid').addEventListener('click', (e) => {
   iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
   iframe.allowFullscreen = true;
   btn.replaceWith(iframe);
+});
+
+// ====================================================================
+// IN-PAGE LINKS — smooth-scroll through Lenis
+// ====================================================================
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a[href^="#"]');
+  if (!link) return;
+  let target = document.querySelector(link.getAttribute('href'));
+  if (!target) return;
+  e.preventDefault();
+  let offset = 0;
+  if (target.id === 'about') {
+    target = document.getElementById('experience-wrapper');
+    offset = window.innerHeight * 0.6; // land once the About text has faded in
+  }
+  // Pinned sections: scroll to the spacer, which sits where the section's scroll range starts.
+  if (target.parentElement.classList.contains('pin-spacer')) target = target.parentElement;
+  lenis.scrollTo(target, { offset, duration: 1.4 });
 });
 
 // ====================================================================
@@ -825,6 +1347,7 @@ function openLightbox(i) {
   showPhoto(i);
   lightbox.hidden = false;
   document.body.classList.add('no-scroll');
+  lenis.stop();
   gsap.fromTo(lightbox, { opacity: 0 }, { opacity: 1, duration: 0.3 });
   lightbox.querySelector('.lightbox-close').focus();
 }
@@ -834,6 +1357,7 @@ function closeLightbox() {
     opacity: 0, duration: 0.2, onComplete: () => {
       lightbox.hidden = true;
       document.body.classList.remove('no-scroll');
+      lenis.start();
       lightboxReturnFocus?.focus();
     },
   });
