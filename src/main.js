@@ -55,23 +55,19 @@ document.querySelector('#app').innerHTML = `
   <div class="crosshair-v" id="crosshair-v"></div>
   <div class="crosshair-square" id="crosshair-sq"></div>
 
-  <!-- Navigation -->
-  <nav class="nav" id="main-nav">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo-group" aria-label="Project Kratos, back to top">
-        <div class="nav-logo-icon">
-          <img src="${logoImg}" alt="Kratos Logo" />
-        </div>
-        <div class="nav-logo-text">
-          <span class="nav-logo-bits">BITS GOA</span>
-          <span class="nav-logo-project">PROJECT<br/>KRATOS</span>
-        </div>
-      </a>
+  <!-- Logo (fixed top left, back to top) -->
+  <a href="#hero" class="nav-logo-group" aria-label="Project Kratos, back to top">
+    <div class="nav-logo-icon">
+      <img src="${logoImg}" alt="Kratos Logo" />
     </div>
-  </nav>
+    <div class="nav-logo-text">
+      <span class="nav-logo-bits">BITS GOA</span>
+      <span class="nav-logo-project">PROJECT<br/>KRATOS</span>
+    </div>
+  </a>
 
   <!-- Section navigation: fixed for the whole page, highlights the section in view -->
-  <nav class="side-nav" id="side-nav" aria-label="Sections">
+  <nav class="side-nav" aria-label="Sections">
     ${[
       ['#hero', 'MARK VI'],
       ['#about', 'ABOUT US'],
@@ -319,7 +315,7 @@ function drawStars(time) {
 
     if (alpha < 0.005) continue;
 
-    const y = (((star.y - drift) % h) + h) % h;
+    const y = gsap.utils.wrap(0, h, star.y - drift);
     ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
     ctx.fillRect(star.x, y, star.size * 2, star.size * 2);
   }
@@ -729,18 +725,13 @@ historyTl
 // Highlight the side-nav item for the section in the middle of the screen.
 // Created after the pins above so pinned sections are measured with their pin spacers.
 document.querySelectorAll('.side-nav-item').forEach((item) => {
-  let section = document.querySelector(item.getAttribute('href'));
-  if (section.id === 'about') section = document.getElementById('experience-wrapper');
-  if (section.parentElement.classList.contains('pin-spacer')) section = section.parentElement;
+  const section = document.querySelector(item.getAttribute('href'));
   ScrollTrigger.create({
-    trigger: section,
+    // A pinned section (or one inside a pinned wrapper, like #about) spans its whole pin spacer.
+    trigger: section.closest('.pin-spacer') ?? section,
     start: 'top center',
     end: 'bottom center',
-    onToggle: (self) => {
-      item.classList.toggle('is-active', self.isActive);
-      if (self.isActive) item.setAttribute('aria-current', 'true');
-      else item.removeAttribute('aria-current');
-    },
+    onToggle: (self) => item.setAttribute('aria-current', self.isActive),
   });
 });
 

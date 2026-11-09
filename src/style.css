@@ -191,30 +191,12 @@ body.cursor-hover .crosshair-square {
 
 
 
-/* ===== Navigation ===== */
-.nav {
-  position: fixed;
-  top: 24px;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  padding: 0 40px;
-  background: transparent;
-  pointer-events: none;
-}
-
-.nav-inner {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
+/* ===== Logo (fixed top left) ===== */
 .nav-logo-group {
-  pointer-events: auto;
+  position: fixed;
+  top: 32px;
+  left: 40px;
+  z-index: 100;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -530,18 +512,18 @@ body.cursor-hover .crosshair-square {
 }
 
 .side-nav-item:hover span:first-child,
-.side-nav-item.is-active span:first-child {
+.side-nav-item[aria-current="true"] span:first-child {
   color: var(--text-white);
 }
 
 .side-nav-item:hover .side-nav-line,
-.side-nav-item.is-active .side-nav-line {
+.side-nav-item[aria-current="true"] .side-nav-line {
   width: 40px;
   background: var(--text-white);
 }
 
 .side-nav-item:hover .side-nav-dot,
-.side-nav-item.is-active .side-nav-dot {
+.side-nav-item[aria-current="true"] .side-nav-dot {
   background: var(--text-white);
 }
 
@@ -1395,8 +1377,8 @@ body.no-scroll {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .nav {
-    padding: 0 20px;
+  .nav-logo-group {
+    left: 20px;
   }
 
   .hero-content {
