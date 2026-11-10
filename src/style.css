@@ -245,12 +245,21 @@ body.cursor-hover .crosshair-square {
   display: flex;
   align-items: center;
   gap: 10px;
-  /* Acrylic plate: blurs whatever scrolls underneath so the logo stays legible */
   padding: 10px 16px 10px 10px;
-  background: rgba(8, 8, 8, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Acrylic blur behind the logo, feathered out at the edges so it melts into the page instead of ending in a box */
+.nav-logo-group::before {
+  content: '';
+  position: absolute;
+  inset: -28px -48px;
+  z-index: -1;
+  background: rgba(8, 8, 8, 0.35);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   backdrop-filter: blur(16px) saturate(140%);
+  -webkit-mask-image: radial-gradient(closest-side, #000 45%, transparent);
+  mask-image: radial-gradient(closest-side, #000 45%, transparent);
+  pointer-events: none;
 }
 
 .nav-logo-icon {
@@ -707,9 +716,11 @@ body.cursor-hover .crosshair-square {
   pointer-events: none;
 }
 
+/* Exactly three lines at any width: lines never wrap, the size scales down to fit the longest one instead */
 .history-poem {
   font-family: var(--font-haas);
-  font-size: 1.2rem;
+  font-size: clamp(0.7rem, 3.4vw, 1.2rem);
+  white-space: nowrap;
   font-weight: 300; /* the font has no 200 */
   color: var(--text-gray);
   line-height: 2;
@@ -1697,11 +1708,14 @@ body.no-scroll {
   }
 
   .stage {
-    top: auto;
-    left: 16px;
-    right: 16px;
-    height: 42%;
+    position: relative;
+    inset: auto;
+    flex: 1;
+    min-height: 0;
+    margin: 20px 16px 0;
     gap: 8px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%);
+    mask-image: linear-gradient(to bottom, transparent, #000 18%);
   }
 
   .stage-col {
@@ -1768,6 +1782,16 @@ body.no-scroll {
 
 .aries-side {
   width: min(78%, 1100px);
+}
+
+.aries-side-caption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.aries-side-caption .comp-kicker {
+  margin: 0;
 }
 
 /* Camera move: a full screen, pinned while it plays */
@@ -1875,9 +1899,74 @@ body.no-scroll {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
+  /* Smaller logo on phones, so it doesn't sit over the section headings */
   .nav-logo-group {
-    top: 14px;
-    left: 12px;
+    top: 10px;
+    left: 8px;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .nav-logo-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .nav-logo-project {
+    font-size: 0.8rem;
+  }
+
+  .nav-logo-bits {
+    font-size: 0.4rem;
+  }
+
+  /* No scrollbar on phones: touch scrolling, and the section nav marks the place instead */
+  .scroll-tri {
+    display: none;
+  }
+
+  /* Section nav on the right edge: short lines, the current one longer and white. Content keeps a 40px strip
+     clear for it, the phone version of --nav-gutter. */
+  .competitions-section,
+  .team-section,
+  .media-section,
+  .contact-section,
+  .about-section,
+  .aries-views,
+  .footer {
+    padding-right: 40px !important;
+  }
+
+  .stage {
+    margin-right: 40px !important;
+  }
+
+  .side-nav {
+    display: flex;
+    right: 10px;
+    top: 50%;
+    bottom: auto;
+    translate: 0 -50%;
+    gap: 12px;
+  }
+
+  .side-nav-item {
+    gap: 6px;
+    padding: 2px 0 2px 12px; /* bigger tap target */
+  }
+
+  /* Lines only: names would sit on top of the content */
+  .side-nav-item span:first-child {
+    display: none;
+  }
+
+  .side-nav-line {
+    width: 10px;
+  }
+
+  .side-nav-item:hover .side-nav-line,
+  .side-nav-item[aria-current="true"] .side-nav-line {
+    width: 18px;
   }
 
   /* The section nav is hidden on phones, so no gutter for it */
@@ -1910,22 +1999,24 @@ body.no-scroll {
     width: 30%;
   }
 
-  .scroll-tri {
-    pointer-events: none; /* phones scroll by touch; keep taps near the edge for the page */
+  /* Phones: title block centred in the upper half, the rover centred below it */
+  .hero {
+    align-items: flex-start;
   }
 
   .hero-content {
-    padding-left: 24px;
+    width: 100%;
+    padding: 22vh 24px 0;
+    text-align: center;
   }
 
-  /* Phones: rover sits below the title and button instead of behind them */
   .hero-graphics {
     top: auto;
-    bottom: 3%;
+    bottom: 6%;
     right: 50%;
     transform: translateX(50%);
-    width: 300px;
-    height: 280px;
+    width: min(92vw, 380px);
+    height: min(80vw, 330px);
   }
 
   .hero-grid {
@@ -1934,22 +2025,20 @@ body.no-scroll {
   }
 
   .hero-rover-wrapper {
-    width: 240px;
-    height: 240px;
+    width: min(76vw, 300px);
+    height: min(76vw, 300px);
   }
 
-  .side-nav {
-    display: none;
-  }
-
-  /* Phones: About text on top, photo grid in the bottom half */
+  /* Phones: About text on top, the photo grid in the space left below it (in flow, so it can never reach the
+     text); photos fade out as they rise to the top of that space */
   .experience-wrapper {
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .about-section {
     width: 100%;
-    padding: 88px 16px 0;
+    padding: 76px 16px 0;
   }
 
   .about-label {
@@ -1968,7 +2057,47 @@ body.no-scroll {
   }
 
   .hero-title {
-    font-size: 3rem;
+    font-size: clamp(2.4rem, 13vw, 3.4rem);
+    margin-bottom: 22px;
+  }
+
+  .hero-label {
+    font-size: 0.65rem;
+    letter-spacing: 2.5px;
+  }
+
+  .about-text {
+    max-width: none;
+    font-size: 0.85rem;
+    line-height: 1.65;
+  }
+
+  .comp-text {
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .history-transition {
+    font-size: 1.6rem;
+  }
+
+  .history-title-large {
+    font-size: 22vw;
+    letter-spacing: 1vw;
+  }
+
+  .history-title-small {
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+  }
+
+  .history-poem {
+    letter-spacing: 0;
+    line-height: 2.2;
+  }
+
+  .aries-side-caption {
+    margin-top: 12px;
   }
 }
 

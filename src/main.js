@@ -259,6 +259,7 @@ document.querySelector('#app').innerHTML = `
         <div class="aries-set"${copy ? ' aria-hidden="true"' : ''}>
           <figure class="aries-glow aries-side">
             <img src="${asset('images/aries/aries-view-side.webp')}" alt="${copy ? '' : 'ARIES from the side'}" width="2086" height="976" />
+            <figcaption class="aries-side-caption"><span class="comp-kicker">Front</span><span class="comp-kicker">Rear</span></figcaption>
           </figure>
         </div>`).join('')}
       </div>
@@ -837,17 +838,45 @@ function sizeWebCanvas() {
 const RAIL_TICK = 28;
 const rgba = (a) => `rgba(255, 255, 255, ${a})`;
 
+// Other sections (Competitions, Team) draw their own cursor lines on this same layer, so every web on the page
+// sits under the content. Each registers { active(), targets() } — targets are viewport points { x, y, a }.
+const cursorWebs = [];
+
+function cursorLine(mx, my, x, y, reach, a) {
+  const near = 1 - Math.hypot(x - mx, y - my) / reach;
+  webCtx.strokeStyle = rgba((0.05 + 0.3 * near * near) * a);
+  webCtx.beginPath();
+  webCtx.moveTo(mx, my);
+  webCtx.lineTo(x, y);
+  webCtx.stroke();
+}
+
 function drawWeb() {
-  const a = web.alpha;
-  if (!webActive || a < 0.01) {
+  const aboutOn = webActive && web.alpha >= 0.01;
+  const others = hasMouseMoved ? cursorWebs.filter((w) => w.active()) : [];
+  if (!aboutOn && !others.length) {
     if (webW) webCtx.clearRect(0, 0, webW, webH);
     return;
   }
   sizeWebCanvas();
   webCtx.clearRect(0, 0, webW, webH);
-
   const origin = webCanvas.getBoundingClientRect();
   webCtx.lineWidth = 1;
+  if (aboutOn) drawAboutWeb(web.alpha, origin);
+  if (!others.length) return;
+  const mx = gsap.getProperty(crossSq, 'x') - origin.left;
+  const my = gsap.getProperty(crossSq, 'y') - origin.top;
+  const reach = Math.hypot(webW, webH);
+  others.forEach((w) => w.targets().forEach((t) => cursorLine(mx, my, t.x - origin.left, t.y - origin.top, reach, t.a ?? 1)));
+}
+
+function drawAboutWeb(a, origin) {
+  // Rails and strands stay inside the photo area (on phones it sits below the text, so they mustn't cross it).
+  const area = stage.getBoundingClientRect();
+  webCtx.save();
+  webCtx.beginPath();
+  webCtx.rect(area.left - origin.left - 12, area.top - origin.top, area.width + 24, area.height);
+  webCtx.clip();
 
   // Rails: one vertical track in the gutter left of each column, with ticks and a marker per photo
   // that ride along with the column, so you can see the photos running on it.
@@ -897,19 +926,14 @@ function drawWeb() {
     if (below) { webCtx.moveTo(c.x, c.y); webCtx.lineTo(below.x, below.y); }
   });
   webCtx.stroke();
+  webCtx.restore();
 
   if (!hasMouseMoved) return;
   const mx = gsap.getProperty(crossSq, 'x') - origin.left;
   const my = gsap.getProperty(crossSq, 'y') - origin.top;
   const reach = Math.hypot(webW, webH);
   centres.forEach((c) => {
-    if (!onScreen(c)) return;
-    const near = 1 - Math.hypot(c.x - mx, c.y - my) / reach;
-    webCtx.strokeStyle = rgba((0.05 + 0.3 * near * near) * a);
-    webCtx.beginPath();
-    webCtx.moveTo(mx, my);
-    webCtx.lineTo(c.x, c.y);
-    webCtx.stroke();
+    if (onScreen(c)) cursorLine(mx, my, c.x, c.y, reach, a);
   });
 }
 gsap.ticker.add(drawWeb);
@@ -1002,6 +1026,22 @@ gsap.timeline({
   .to(trackHead, { y: () => trackGeo.y2, duration: 1 }, 0.05)
   .fromTo(trackH, { scaleX: 0 }, { scaleX: 1, duration: 0.2 }, 1.05)
   .to(trackHead, { x: () => trackGeo.end, duration: 0.2 }, 1.05);
+
+// Cursor web: two lines from the cursor, one to where the 01 → 02 track starts and one to its moving head dot.
+let compWebOn = false;
+ScrollTrigger.create({ trigger: compSection, start: 'top bottom', end: 'bottom top', onToggle: (self) => (compWebOn = self.isActive) });
+cursorWebs.push({
+  active: () => compWebOn && trackGeo && gsap.getProperty(trackHead, 'opacity') > 0.01,
+  targets: () => {
+    const s = compSection.getBoundingClientRect();
+    const h = trackHead.getBoundingClientRect();
+    const a = gsap.getProperty(trackHead, 'opacity');
+    return [
+      { x: s.left + trackGeo.start, y: s.top + trackGeo.y1, a },
+      { x: h.left + h.width / 2, y: h.top + h.height / 2, a },
+    ];
+  },
+});
 
 // Numbers that count to their value when their bar comes into view (2026 → 2018, 20 → 40+, IRC 22 → 26).
 // Slow enough to read each step; short ranges tick evenly, long ones ease into their final value.
@@ -1205,6 +1245,20 @@ function buildTree(year) {
 buildTree(team[0]);
 ScrollTrigger.addEventListener('refreshInit', layoutTree);
 
+// Cursor web to every lead that has been revealed, drawn on the shared layer under the page content.
+let teamWebOn = false;
+ScrollTrigger.create({ trigger: teamTree, start: 'top bottom', end: 'bottom top', onToggle: (self) => (teamWebOn = self.isActive) });
+cursorWebs.push({
+  active: () => teamWebOn,
+  targets: () => [...teamTree.querySelectorAll('.tree-card')].flatMap((card) => {
+    const a = gsap.getProperty(card.querySelector('.team-meta'), 'opacity');
+    if (a < 0.05) return [];
+    const r = card.querySelector('.team-photo').getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return [];
+    return [{ x: r.left + r.width / 2, y: r.top + r.height / 2, a }];
+  }),
+});
+
 // ====================================================================
 // HISTORY (ARIES REVEAL) SCROLL
 // ====================================================================
@@ -1271,7 +1325,8 @@ gsap.timeline({
   scrollTrigger: { trigger: '.aries-band', start: 'top 85%', end: 'center 60%', scrub: true },
 })
   .fromTo('.aries-side', { '--glow': 0 }, { '--glow': 1, duration: 1 }, 0)
-  .fromTo('.aries-side img', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0);
+  .fromTo('.aries-side img', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0)
+  .fromTo('.aries-side-caption', { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.5);
 
 // The track holds two identical sets (200% wide), each with the rover centred. Either set looks the same, so a
 // 50% slide is one seamless lap; wrap() keeps it in range. Starting at -25% puts the seam between the sets in the

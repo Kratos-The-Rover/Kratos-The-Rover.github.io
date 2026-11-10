@@ -37,9 +37,12 @@ export function mountAriesOrbit(canvas, url) {
     const az = THREE.MathUtils.degToRad(state.az);
     const el = THREE.MathUtils.degToRad(Math.min(state.el, 89.9)); // never exactly overhead, so "up" stays defined
     const around = FRONT.clone().applyAxisAngle(UP, az);
-    // Distance that fits the rover's bounding sphere in the narrower side of the view.
-    const fit = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2) * Math.min(1, camera.aspect));
-    camera.position.copy(around).multiplyScalar(Math.cos(el)).addScaledVector(UP, Math.sin(el)).multiplyScalar(fit * 0.88); // a touch inside the bounding sphere: it is generous
+    // Distance that fits the rover's bounding sphere in the narrower of the two fields of view. (The horizontal
+    // one is atan(tan(v/2)·aspect), not v/2·aspect: on tall phone screens the shortcut framed the rover too close.)
+    const halfV = THREE.MathUtils.degToRad(camera.fov / 2);
+    const halfH = Math.atan(Math.tan(halfV) * camera.aspect);
+    const fit = radius / Math.sin(Math.min(halfV, halfH));
+    camera.position.copy(around).multiplyScalar(Math.cos(el)).addScaledVector(UP, Math.sin(el)).multiplyScalar(fit * (camera.aspect >= 1 ? 0.88 : 1.05)); // wide: a touch inside the (generous) bounding sphere
     // Screen-up follows the path over the top, so looking straight down the rover sits turned 45°, not flipped.
     camera.up.copy(around).multiplyScalar(-Math.sin(el)).addScaledVector(UP, Math.cos(el));
     camera.lookAt(0, 0, 0);
