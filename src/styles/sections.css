@@ -1,0 +1,49 @@
+.competitions-section,
+.team-section,
+.media-section,
+.contact-section {
+  position: relative;
+  z-index: 2;
+
+  padding: 160px 80px 120px;
+}
+
+.section-head {
+  margin-bottom: 64px;
+}
+
+.section-label {
+  font-family: var(--font-haas);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--text-gray);
+  margin-bottom: 12px;
+  margin-left: -15px;
+}
+
+.section-title {
+  font-family: var(--font-stretch);
+  font-size: 4.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-white);
+  line-height: 1;
+}
+
+.about-title {
+  position: relative;
+  display: inline-block;
+}
+
+:focus-visible {
+  outline: 1px solid var(--text-white);
+  outline-offset: 4px;
+}
+
+.ext-arrow {
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 4px;
+  vertical-align: baseline;
+}

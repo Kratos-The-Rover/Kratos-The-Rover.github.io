@@ -1,0 +1,83 @@
+.galaxy-slash {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 150vw;
+  height: 60px;
+  background: linear-gradient(90deg, transparent 0%, #3b82f6 30%, #7928ca 50%, #ff007f 70%, transparent 100%);
+  filter: blur(20px);
+  transform: translate(-50%, -50%) rotate(-25deg) scaleY(0);
+  pointer-events: none;
+  z-index: 0;
+
+  opacity: 0.08;
+
+  mix-blend-mode: screen;
+}
+
+.galaxy-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 4px;
+  background: #ffffff;
+  box-shadow: 0 0 20px 5px #ffffff;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.splash-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.splash-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.splash-logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.splash-bits {
+  font-family: var(--font-haas);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #facc15, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.splash-project {
+  font-family: var(--font-stretch);
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-white);
+  margin-top: 4px;
+}

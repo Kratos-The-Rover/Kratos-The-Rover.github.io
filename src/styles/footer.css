@@ -1,0 +1,24 @@
+.footer {
+  position: relative;
+  z-index: 2;
+  padding: 32px var(--nav-gutter) 32px 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+}
+
+.footer-text {
+  font-family: var(--font-haas);
+  font-size: 0.65rem;
+  font-weight: 300;
+  color: var(--text-muted);
+}
+
+.footer-brand {
+  font-family: var(--font-stretch);
+  font-size: 0.7rem;
+  color: var(--text-gray);
+  text-transform: uppercase;
+}

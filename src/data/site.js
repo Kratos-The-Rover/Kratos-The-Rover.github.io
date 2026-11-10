@@ -1,23 +1,19 @@
-// Site copy ported from the original site on `main`.
-// Edit this file (and team.js / gallery.js) to update content; main.js only handles layout.
-
 export const about = [
   `Team Kratos is a multidisciplinary team from BITS Pilani, K. K. Birla Goa Campus, started in 2018,
   aspiring to develop rovers equipped with advanced subsystems suitable for interplanetary deep space
   missions — studying the application of engineering research to rover robotics, autonomous traversal,
   and the detection of extraterrestrial life.`,
-  `We're a team of 30 students from diverse backgrounds with one vision: to create groundbreaking
+  `We're a team of 40+ students from diverse backgrounds with one vision: to create groundbreaking
   innovations in the field of space exploration.`,
 ];
 
 export const stats = [
-  { value: '2018', label: 'Founded', countFrom: 2026 }, // counts down to the founding year
+  { value: '2018', label: 'Founded', countFrom: 2026 },
   { value: '5', label: 'Technical subsystems', countFrom: 1 },
   { value: '40+', label: 'Student engineers', countFrom: 20 },
   { value: '2', label: 'Autonomous all-terrain rovers', countFrom: 0 },
 ];
 
-// `code` is set in giant letters; `side` is which edge it rises in from.
 export const competitions = [
   {
     code: 'IRC',
@@ -36,7 +32,7 @@ export const competitions = [
       { value: '10th', label: 'Of 35 teams · maiden year' },
       { value: '4th', label: 'Globally · IRC 2023' },
       { value: 'Overall', label: 'Excellence Award · IRC 2023' },
-      { value: 'IRC 26', label: 'Finalists · MIT Udupi', countFrom: 22 }, // counts 22 → 26
+      { value: 'IRC 26', label: 'Finalists · MIT Udupi', countFrom: 22 },
     ],
   },
   {
@@ -70,6 +66,7 @@ export const videos = [
 
 export const contact = {
   email: 'kratosbitsgoa@gmail.com',
+  address: ['BITS Pilani, K. K. Birla Goa Campus', 'Zuarinagar, Goa 403726'],
   phones: [
     { name: 'Harman Kishnadwala', role: 'Team Lead', tel: '+919987000346', display: '+91 99870 00346' },
     { name: 'Aditya Malviya', role: 'Vice Lead', tel: '+919510362158', display: '+91 95103 62158' },
@@ -81,3 +78,9 @@ export const contact = {
     { name: 'Facebook', url: 'https://www.facebook.com/KratosBITSGoa/' },
   ],
 };
+
+export const poem = [
+  'Mars was named for the god of war,',
+  'yet no god has ever set foot there.',
+  'So we built one that will.',
+];

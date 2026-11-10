@@ -1,0 +1,162 @@
+@media (max-width: 1024px) {
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat:nth-child(3) {
+    border-left: 0;
+  }
+
+  .stat:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .competitions-section,
+  .team-section,
+  .media-section,
+  .contact-section {
+    padding: 96px 16px 72px;
+  }
+
+  .section-head {
+    margin-bottom: 40px;
+  }
+
+  .section-label {
+    margin-left: 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+  }
+
+  .comp {
+    margin-top: 112px;
+  }
+
+  .comp-code {
+    font-size: 22vw;
+    margin-bottom: 32px;
+  }
+
+  .competitions-section {
+    padding-top: 160px;
+  }
+
+  .comp-content,
+  .comp--right .comp-content,
+  .comp--left .comp-ach,
+  .comp--right .comp-ach {
+    margin: 0;
+  }
+
+  .comp-track,
+  #competitions > .line-head {
+    display: none;
+  }
+
+  .ach-row {
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    padding: 24px 16px;
+  }
+
+  .stat-value {
+    font-size: 1.4rem;
+  }
+
+  .tree-row {
+    gap: 12px;
+    margin-top: 130px;
+  }
+
+  .tree-row:first-of-type {
+    margin-top: 100px;
+  }
+
+  .tree-card {
+    width: min(104px, 29vw);
+  }
+
+  .tree-card .team-meta {
+    width: calc(100% + 12px);
+    margin-left: -6px;
+  }
+
+  .tree-card .team-link {
+    display: none;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-card--feature {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .video-card--feature figcaption {
+    font-size: 1.1rem;
+  }
+
+  .photo-grid {
+    columns: 2;
+    column-gap: 10px;
+  }
+
+  .photo-item {
+    margin-bottom: 10px;
+  }
+
+  .contact-phones li {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-person em {
+    display: block;
+    margin: 4px 0 0;
+  }
+
+  .lightbox {
+    gap: 8px;
+    padding: 72px 8px 24px;
+  }
+
+  .lightbox-nav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .stage {
+    position: relative;
+    inset: auto;
+    flex: 1;
+    min-height: 0;
+    margin: 20px 16px 0;
+    gap: 8px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%);
+    mask-image: linear-gradient(to bottom, transparent, #000 18%);
+  }
+
+  .stage-col {
+    gap: 8px;
+  }
+
+  .footer {
+    padding: 24px 16px;
+  }
+}

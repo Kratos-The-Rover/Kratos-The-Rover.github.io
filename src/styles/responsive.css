@@ -1,0 +1,196 @@
+@media (max-width: 768px) {
+  .nav-logo-group {
+    top: 10px;
+    left: 8px;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .nav-logo-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .nav-logo-project {
+    font-size: 0.8rem;
+  }
+
+  .nav-logo-bits {
+    font-size: 0.4rem;
+  }
+
+  .crosshair-h,
+  .crosshair-v,
+  .crosshair-square {
+    display: none !important;
+  }
+
+  .scroll-tri {
+    display: none;
+  }
+
+  .competitions-section,
+  .team-section,
+  .media-section,
+  .contact-section,
+  .about-section,
+  .aries-views,
+  .footer {
+    padding-right: 40px !important;
+  }
+
+  .stage {
+    margin-right: 40px !important;
+  }
+
+  .side-nav {
+    display: flex;
+    right: 10px;
+    top: 50%;
+    bottom: auto;
+    translate: 0 -50%;
+    gap: 12px;
+  }
+
+  .side-nav-item {
+    gap: 6px;
+    padding: 2px 0 2px 12px;
+  }
+
+  .side-nav-item span:first-child {
+    display: none;
+  }
+
+  .side-nav-line {
+    width: 10px;
+  }
+
+  .side-nav-item:hover .side-nav-line,
+  .side-nav-item[aria-current="true"] .side-nav-line {
+    width: 18px;
+  }
+
+  .aries-rover {
+    padding: 80px 0 120px;
+  }
+
+  .aries-side {
+    width: 92%;
+  }
+
+  .aries-orbit-canvas {
+    height: 60vh;
+  }
+
+  .aries-views {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 48px 16px;
+    padding: 80px 16px 0;
+  }
+
+  .aries-view--front,
+  .aries-view--back,
+  .aries-view--side {
+    width: 44%;
+  }
+
+  .aries-view--top {
+    width: 30%;
+  }
+
+  .hero-content {
+    width: 100%;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .hero-graphics {
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    width: min(96vw, 420px);
+    height: min(88vw, 380px);
+    opacity: 0.7;
+  }
+
+  .hero-grid {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-rover-wrapper {
+    width: min(76vw, 300px);
+    height: min(76vw, 300px);
+  }
+
+  .experience-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-section {
+    width: 100%;
+    padding: 76px 16px 0;
+  }
+
+  .about-label {
+    margin-left: 0;
+  }
+
+  .about-title {
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+  }
+
+  .about-text,
+  .comp-text {
+    margin-left: 0;
+    font-size: 0.9rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.4rem, 13vw, 3.4rem);
+    margin-bottom: 22px;
+  }
+
+  .hero-label {
+    font-size: 0.65rem;
+    letter-spacing: 2.5px;
+  }
+
+  .about-text {
+    max-width: none;
+    font-size: 0.85rem;
+    line-height: 1.65;
+  }
+
+  .comp-text {
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .history-transition {
+    font-size: 1.6rem;
+  }
+
+  .history-title-large {
+    font-size: 22vw;
+    letter-spacing: 1vw;
+    padding-left: 1vw;
+  }
+
+  .history-title-small {
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    padding-left: 3px;
+  }
+
+  .history-poem {
+    letter-spacing: 0;
+    line-height: 2.2;
+  }
+
+  .aries-side-caption {
+    margin-top: 12px;
+  }
+}

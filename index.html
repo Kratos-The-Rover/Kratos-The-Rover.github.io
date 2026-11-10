@@ -4,33 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Project Kratos — BITS Goa Robotics Club. Mark VI Flagship Rover." />
-
     <title>Project Kratos — BITS Goa</title>
     <link rel="icon" type="image/png" href="/kratos-logo.png" />
-    <script>
-      // GitHub Pages lets browsers reuse this page for up to 10 minutes, so after a deploy visitors kept getting the
-      // old build until they hard-refreshed. Fetch a fresh copy of the page (a unique URL plus no-store, so neither
-      // the browser nor GitHub's CDN can hand back a cached one); if it loads a different build than this page did,
-      // reload once to pick it up. Built bundles are content-hashed (assets/index-<hash>.js), so the name is the version.
-      (function () {
-        var BUNDLE = /assets\/index-[\w-]+\.js/;
-        fetch(location.pathname + '?v=' + Date.now(), { cache: 'no-store' })
-          .then(function (r) { return r.ok ? r.text() : ''; })
-          .then(function (html) {
-            var script = document.querySelector('script[type="module"][src*="/assets/index-"]');
-            var latest = html.match(BUNDLE);
-            var current = script && script.getAttribute('src').match(BUNDLE);
-            if (!latest || !current || latest[0] === current[0]) return; // up to date, or the dev server
-            var key = 'kratos-reloaded-for';
-            try {
-              if (sessionStorage.getItem(key) === latest[0]) return; // already tried once: don't loop
-              sessionStorage.setItem(key, latest[0]);
-            } catch (e) { return; } // no storage: can't guard against a loop, so don't reload
-            location.reload();
-          })
-          .catch(function () {});
-      })();
-    </script>
   </head>
   <body>
     <div id="app"></div>

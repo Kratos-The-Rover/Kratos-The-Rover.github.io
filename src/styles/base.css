@@ -1,0 +1,97 @@
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  src: url('../assets/fonts/NeueHaasGrotDisp-45Light-Trial.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  src: url('../assets/fonts/NeueHaasGrotDisp-55Roman-Trial.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  src: url('../assets/fonts/NeueHaasGrotDisp-65Medium-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  src: url('../assets/fonts/NeueHaasGrotDisp-75Bold-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Stretch Pro';
+  src: url('../assets/fonts/StretchPro.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #080808;
+  --text-white: #ffffff;
+  --text-gray: #b0b0b0;
+  --text-muted: #868686;
+  --text-body: #c2c2c2;
+  --line: rgba(255, 255, 255, 0.12);
+  --nav-gutter: 200px;
+  --img-filter: grayscale(0.5) brightness(0.98);
+  --font-haas: 'Neue Haas Grotesk Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-stretch: 'Stretch Pro', 'Impact', sans-serif;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-tri {
+  position: fixed;
+  top: 20vh;
+  right: 0;
+  z-index: 150;
+  width: 24px;
+  height: 60vh;
+  cursor: grab;
+  touch-action: none;
+}
+
+.scroll-tri:active {
+  cursor: grabbing;
+}
+
+::selection {
+  background: var(--text-white);
+  color: var(--bg);
+  -webkit-text-fill-color: var(--bg);
+}
+
+body {
+  font-family: var(--font-haas);
+  background: var(--bg);
+  color: var(--text-white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}

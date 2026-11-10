@@ -1,0 +1,105 @@
+.experience-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  background: transparent;
+
+  margin-top: -100vh;
+}
+
+.web-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about-section {
+  position: relative;
+  z-index: 1;
+  width: 50%;
+  padding: 0 40px 0 80px;
+  background: transparent;
+}
+
+.about-label {
+  font-family: var(--font-haas);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--text-gray);
+  margin-bottom: 12px;
+  margin-left: -15px;
+}
+
+.about-title {
+  font-family: var(--font-stretch);
+  font-size: 4.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-white);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.about-text {
+  max-width: 540px;
+  font-family: var(--font-haas);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-body);
+  line-height: 1.75;
+  margin-bottom: 16px;
+  margin-left: 84px;
+}
+
+.stage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  right: var(--nav-gutter);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.stage-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  will-change: transform;
+}
+
+.stage-card {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border: 0;
+  background: #111;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.stage-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: var(--img-filter);
+  transition: filter 0.4s ease;
+}
+
+.stage-card:hover img,
+.stage-card:focus-visible img {
+  filter: none;
+}

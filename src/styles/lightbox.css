@@ -1,0 +1,73 @@
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(8, 8, 8, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 72px 24px 40px;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-figure {
+  max-width: min(1200px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.lightbox-figure img {
+  max-width: 100%;
+  max-height: calc(100vh - 160px);
+  object-fit: contain;
+}
+
+.lightbox-figure figcaption {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-gray);
+}
+
+.lightbox-close,
+.lightbox-nav {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--text-white);
+  font-family: var(--font-haas);
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  background: var(--text-white);
+  color: var(--bg);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  padding: 10px 16px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+}
+
+.lightbox-nav {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  font-size: 1rem;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}

@@ -1,0 +1,66 @@
+.nav-logo-group {
+  position: fixed;
+  top: 22px;
+  left: 30px;
+  z-index: 100;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 10px 10px;
+}
+
+.nav-logo-group::before {
+  content: '';
+  position: absolute;
+  inset: -28px -48px;
+  z-index: -1;
+  background: rgba(8, 8, 8, 0.35);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-mask-image: radial-gradient(closest-side, #000 45%, transparent);
+  mask-image: radial-gradient(closest-side, #000 45%, transparent);
+  pointer-events: none;
+}
+
+.nav-logo-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.nav-logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nav-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.nav-logo-bits {
+  font-family: var(--font-haas);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #facc15, #f97316);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-logo-project {
+  font-family: var(--font-stretch);
+  font-size: 1.1rem;
+
+  line-height: 1;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-white);
+  margin-top: 2px;
+}

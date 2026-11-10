@@ -1,5 +1,4 @@
-// Ported from the original site on `main`. Image paths are relative to /public.
-export const team = [
+[
   {
     "id": "2026-27",
     "label": "AY 2026-27",
@@ -522,4 +521,4 @@ export const team = [
       }
     ]
   }
-];
+]
