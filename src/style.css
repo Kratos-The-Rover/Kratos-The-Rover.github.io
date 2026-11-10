@@ -2006,24 +2006,20 @@ body.no-scroll {
     width: 30%;
   }
 
-  /* Phones: title block centred in the upper half, the rover centred below it */
-  .hero {
-    align-items: flex-start;
-  }
-
+  /* Phones: the rover is centred behind the title block, which sits over it */
   .hero-content {
     width: 100%;
-    padding: 22vh 24px 0;
+    padding: 0 24px;
     text-align: center;
   }
 
   .hero-graphics {
-    top: auto;
-    bottom: 6%;
+    top: 50%;
     right: 50%;
-    transform: translateX(50%);
-    width: min(92vw, 380px);
-    height: min(80vw, 330px);
+    transform: translate(50%, -50%);
+    width: min(96vw, 420px);
+    height: min(88vw, 380px);
+    opacity: 0.55; /* background, so the title reads over it */
   }
 
   .hero-grid {
