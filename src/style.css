@@ -51,12 +51,12 @@
 :root {
   --bg: #080808;
   --text-white: #ffffff;
-  --text-gray: #999999;
-  --text-muted: #666666;
-  --text-body: #adadad; /* paragraph copy */
-  --line: rgba(255, 255, 255, 0.08);
+  --text-gray: #b0b0b0;
+  --text-muted: #868686;
+  --text-body: #c2c2c2; /* paragraph copy */
+  --line: rgba(255, 255, 255, 0.12);
   --nav-gutter: 200px; /* right-hand column kept clear for the fixed section nav */
-  --img-filter: grayscale(0.6) brightness(0.85); /* photos and thumbnails, until hovered */
+  --img-filter: grayscale(0.5) brightness(0.98); /* photos and thumbnails, until hovered */
   --font-haas: 'Neue Haas Grotesk Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-stretch: 'Stretch Pro', 'Impact', sans-serif;
 }
@@ -514,6 +514,7 @@ body.cursor-hover .crosshair-square {
   width: 100%;
   height: auto;
   display: block;
+  filter: brightness(1.2);
 }
 
 /* ===== Side Navigation (fixed, bottom right) ===== */
@@ -899,7 +900,7 @@ body.cursor-hover .crosshair-square {
 .comp-track {
   position: absolute;
   z-index: 0;
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.5);
   pointer-events: none;
 }
 
@@ -1089,7 +1090,7 @@ body.cursor-hover .crosshair-square {
 }
 
 .tree-lines line {
-  stroke: rgba(255, 255, 255, 0.28);
+  stroke: rgba(255, 255, 255, 0.42);
   stroke-width: 1;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
@@ -1174,7 +1175,7 @@ body.cursor-hover .crosshair-square {
   object-fit: cover;
   object-position: center top; /* most photos are tall portraits: keep the head, crop the bottom */
   display: block;
-  filter: grayscale(1) contrast(1.05);
+  filter: grayscale(1) contrast(1.05) brightness(1.08);
   transition: filter 0.5s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1750,7 +1751,7 @@ body.no-scroll {
   opacity: var(--glow);
   scale: calc(0.8 + 0.2 * var(--glow));
   background:
-    radial-gradient(closest-side, rgba(225, 230, 255, 0.22), rgba(150, 160, 255, 0.08) 55%, transparent),
+    radial-gradient(closest-side, rgba(225, 230, 255, 0.3), rgba(150, 160, 255, 0.11) 55%, transparent),
     radial-gradient(closest-side, rgba(121, 40, 202, 0.10), transparent 70%);
   pointer-events: none;
 }
@@ -2019,7 +2020,7 @@ body.no-scroll {
     transform: translate(50%, -50%);
     width: min(96vw, 420px);
     height: min(88vw, 380px);
-    opacity: 0.55; /* background, so the title reads over it */
+    opacity: 0.7; /* background, so the title reads over it */
   }
 
   .hero-grid {

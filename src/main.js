@@ -860,7 +860,7 @@ const cursorWebs = [];
 
 function cursorLine(mx, my, x, y, reach, a) {
   const near = 1 - Math.hypot(x - mx, y - my) / reach;
-  webCtx.strokeStyle = rgba((0.05 + 0.3 * near * near) * a);
+  webCtx.strokeStyle = rgba((0.08 + 0.38 * near * near) * a);
   webCtx.beginPath();
   webCtx.moveTo(mx, my);
   webCtx.lineTo(x, y);
@@ -899,14 +899,14 @@ function drawAboutWeb(a, origin) {
   stageCols.forEach((col) => {
     const r = col.getBoundingClientRect();
     const x = Math.round(r.left - origin.left - 7) + 0.5;
-    webCtx.strokeStyle = rgba(0.14 * a);
+    webCtx.strokeStyle = rgba(0.22 * a);
     webCtx.beginPath();
     webCtx.moveTo(x, 0);
     webCtx.lineTo(x, webH);
     webCtx.stroke();
 
     const offset = ((r.top - origin.top) % RAIL_TICK + RAIL_TICK) % RAIL_TICK;
-    webCtx.strokeStyle = rgba(0.3 * a);
+    webCtx.strokeStyle = rgba(0.42 * a);
     webCtx.beginPath();
     for (let y = offset; y < webH; y += RAIL_TICK) {
       webCtx.moveTo(x - 2, y);
@@ -932,7 +932,7 @@ function drawAboutWeb(a, origin) {
   });
   const onScreen = (c) => c.y + c.h / 2 > 0 && c.y - c.h / 2 < webH;
 
-  webCtx.strokeStyle = rgba(0.07 * a);
+  webCtx.strokeStyle = rgba(0.11 * a);
   webCtx.beginPath();
   centres.forEach((c, i) => {
     if (!onScreen(c)) return;
@@ -1467,7 +1467,7 @@ function drawScrollTri(time) {
   const ax = w - TRI_REACH;
   const ay = h * (TRI_INSET + p * (1 - 2 * TRI_INSET));
 
-  triCtx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+  triCtx.fillStyle = 'rgba(255, 255, 255, 0.08)';
   triCtx.beginPath();
   triCtx.moveTo(w, 0);
   triCtx.lineTo(ax, ay);
@@ -1479,14 +1479,14 @@ function drawScrollTri(time) {
   triStrands.forEach((s) => {
     const y = h * gsap.utils.clamp(0, 1, s.y + Math.sin(time * s.speed + s.phase) * s.drift);
     const near = 1 - Math.abs(y - ay) / h;
-    triCtx.strokeStyle = `rgba(255, 255, 255, ${0.05 + 0.3 * near * near})`;
+    triCtx.strokeStyle = `rgba(255, 255, 255, ${0.08 + 0.38 * near * near})`;
     triCtx.beginPath();
     triCtx.moveTo(ax, ay);
     triCtx.lineTo(w, y);
     triCtx.stroke();
   });
 
-  triCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+  triCtx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
   triCtx.beginPath();
   triCtx.moveTo(w, 0);
   triCtx.lineTo(ax, ay);

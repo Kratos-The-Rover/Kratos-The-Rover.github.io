@@ -18,8 +18,8 @@ export function mountAriesOrbit(canvas, url) {
 
   const scene = new THREE.Scene();
   // The rover is black; faint lights only so its faces separate as it turns.
-  scene.add(new THREE.HemisphereLight(0xc8d0ff, 0x000000, 0.6));
-  const key = new THREE.DirectionalLight(0xffffff, 1.2);
+  scene.add(new THREE.HemisphereLight(0xc8d0ff, 0x000000, 1.0));
+  const key = new THREE.DirectionalLight(0xffffff, 1.7);
   scene.add(key);
 
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
