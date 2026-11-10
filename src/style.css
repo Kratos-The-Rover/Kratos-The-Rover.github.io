@@ -587,13 +587,14 @@ body.cursor-hover .crosshair-square {
   margin-top: -100vh;
 }
 
+/* Fixed full-screen layer (outside the About section): above the stars, below every section */
 .web-canvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 /* ===== About Us Section ===== */
@@ -1232,7 +1233,31 @@ body.cursor-hover .crosshair-square {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
-  margin-bottom: 96px;
+  margin-bottom: 220px; /* room for the photo columns raining in below */
+}
+
+/* Grow-in window (driven by main.js): the image is clipped to a centred window that starts as a small
+   square and opens to the image's own shape; a hairline frame traces the window while it grows. */
+.grow {
+  --wx: 0;
+  --wy: 0;
+  --go: 0;
+  --win: 11px; /* half the starting square */
+  position: relative;
+  background: transparent !important;
+}
+
+.grow > img {
+  clip-path: inset(calc((50% - var(--win)) * var(--wy)) calc((50% - var(--win)) * var(--wx)));
+}
+
+.grow::after {
+  content: '';
+  position: absolute;
+  inset: calc((50% - var(--win)) * var(--wy)) calc((50% - var(--win)) * var(--wx));
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  opacity: var(--go);
+  pointer-events: none;
 }
 
 .video-card--feature {

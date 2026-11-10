@@ -47,6 +47,9 @@ document.querySelector('#app').innerHTML = `
   <div class="nebula" aria-hidden="true"></div>
   <div class="nebula" aria-hidden="true"></div>
   <canvas class="stars-canvas" id="stars-canvas"></canvas>
+  <!-- About section's web (cursor → photos) and photo rails. A fixed full-screen layer, so it shares the cursor's
+       coordinates exactly; it sits below the About section, so it still runs under the photos and text. -->
+  <canvas class="web-canvas" id="web-canvas" aria-hidden="true"></canvas>
 
   <!-- Galaxy Slash Opening Animation -->
   <div class="galaxy-slash" id="galaxy-slash">
@@ -123,8 +126,6 @@ document.querySelector('#app').innerHTML = `
 
   <!-- Unified Experience Wrapper -->
   <div class="experience-wrapper" id="experience-wrapper">
-    <!-- Web from the cursor to each photo, and the rails the photo columns ride on (drawn under the photos) -->
-    <canvas class="web-canvas" id="web-canvas" aria-hidden="true"></canvas>
     <!-- About Section -->
     <section class="about-section" id="about">
       <p class="about-label glitch" id="about-label" data-text="who are we?">who are we?</p>
@@ -213,7 +214,7 @@ document.querySelector('#app').innerHTML = `
     <div class="video-grid">
       ${videos.map((v, i) => `
       <figure class="video-card reveal${i === 0 ? ' video-card--feature' : ''}">
-        <button class="video-frame" data-video="${v.id}" aria-label="Play: ${v.title}, ${v.event}">
+        <button class="video-frame grow" data-video="${v.id}" aria-label="Play: ${v.title}, ${v.event}">
           <img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" />
           <span class="video-play" aria-hidden="true"></span>
         </button>
@@ -222,7 +223,7 @@ document.querySelector('#app').innerHTML = `
     </div>
     <div class="photo-grid">
       ${gallery.map((g, i) => `
-      <button class="photo-item" data-lightbox="${i}" aria-label="Open photo: ${g.alt}">
+      <button class="photo-item grow" data-lightbox="${i}" aria-label="Open photo: ${g.alt}">
         <img src="${asset(g.src)}" alt="${g.alt}" loading="lazy" width="${g.w}" height="${g.h}" />
       </button>`).join('')}
     </div>
@@ -1364,9 +1365,10 @@ gsap.fromTo('.media-grid-bg', { y: 0 }, {
   scrollTrigger: { trigger: mediaSection, start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true },
 });
 
-// Photo columns move at different speeds, like the About grid, so they shift against the lines behind them.
+// Photo columns travel at different speeds: every column starts pushed down and ends pushed up, and the fast
+// ones by much more, so they rain into view late and out of view early, sliding across the grid behind.
 const photoItems = gsap.utils.toArray('.photo-item');
-const COLUMN_SHIFT = [60, -30, 90, -10, 50]; // px of travel per column across the section
+const COLUMN_SHIFT = [120, 420, 220, 560, 300]; // px each column starts below (and ends above) its place
 function photoColumn(el) {
   const lefts = [...new Set(photoItems.map((p) => p.offsetLeft))].sort((a, b) => a - b);
   return lefts.indexOf(el.offsetLeft);
@@ -1378,6 +1380,33 @@ photoItems.forEach((item) => {
     scrollTrigger: { trigger: '.photo-grid', start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true },
   });
 });
+
+// Every video and photo grows into place: a small square frame appears, opens to the full width, then to
+// the full height, revealing the image through it. The image itself never scales; only the window grows.
+// --wx/--wy (1 → 0) close/open the window, --go fades its outline (see .grow in style.css).
+const growEls = gsap.utils.toArray('.grow');
+gsap.set(growEls, { '--wx': 1, '--wy': 1, '--go': 0 });
+growEls.forEach((el) => {
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } })
+    .to(el, { '--go': 1, duration: 0.15, ease: 'none' })
+    .to(el, { '--wx': 0, duration: 0.55 })
+    .to(el, { '--wy': 0, duration: 0.55 }, '-=0.2')
+    .to(el, { '--go': 0, duration: 0.4, ease: 'none' }, '-=0.1');
+  const play = el.querySelector('.video-play');
+  if (play) tl.fromTo(play, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'none' }, '-=0.35');
+  const caption = el.closest('figure')?.querySelector('figcaption');
+  if (caption) tl.fromTo(caption, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '-=0.4');
+  el.growTl = tl;
+});
+// Watched with an IntersectionObserver rather than ScrollTrigger: it sees where the photo actually is,
+// including the raining offset. Plays on the way in; reverses only when the item drops back out the bottom.
+const growObserver = new IntersectionObserver((entries) => {
+  entries.forEach(({ target, isIntersecting, boundingClientRect, rootBounds }) => {
+    if (isIntersecting) target.growTl.play();
+    else if (rootBounds && boundingClientRect.top > rootBounds.bottom) target.growTl.reverse();
+  });
+}, { rootMargin: '0px 0px -8% 0px' });
+growEls.forEach((el) => growObserver.observe(el));
 
 // Section subheadings scramble in the same way as "who are we?" in About, every time they scroll into view.
 // Created after the pinned sections so their trigger points include the pin spacing (created earlier,
