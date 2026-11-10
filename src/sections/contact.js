@@ -30,6 +30,6 @@ export const contactTemplate = () => `
 
 export const footerTemplate = () => `
   <footer class="footer">
-    <span class="footer-text">developed with absolutely no love by debraj</span>
+    <span class="footer-text">developed with absolutely no love by debraj, malviya and atharva :)</span>
     <span class="footer-brand">KRATOS</span>
   </footer>`;
