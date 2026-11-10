@@ -706,13 +706,16 @@ body.cursor-hover .crosshair-square {
   overflow: hidden;
 }
 
+/* Each phase fills the section and centres its content with flexbox: no translate(-50%) for the scroll
+   animation's y-transform to overwrite (that left the block off-centre after a resize) */
 .history-phase {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  width: 100%;
   opacity: 0;
   pointer-events: none;
 }
@@ -734,6 +737,7 @@ body.cursor-hover .crosshair-square {
   font-weight: 500;
   color: var(--text-white);
   letter-spacing: 3px;
+  padding-left: 3px; /* balances the trailing letter-spacing so the word is truly centred */
   text-transform: lowercase;
 }
 
@@ -742,17 +746,19 @@ body.cursor-hover .crosshair-square {
   font-size: 1.2rem;
   font-weight: 300;
   letter-spacing: 4px;
+  padding-left: 4px; /* balances the trailing letter-spacing */
   color: var(--text-gray);
   text-transform: uppercase;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
 .history-coming {
-  margin-top: 28px;
+  margin-top: 6px; /* ARIES's line box already leaves room below the letters; this matches the gap above */
   font-family: var(--font-haas);
   font-size: 1rem;
   font-weight: 300;
   letter-spacing: 6px;
+  padding-left: 6px; /* balances the trailing letter-spacing */
   color: var(--text-gray);
 }
 
@@ -760,6 +766,7 @@ body.cursor-hover .crosshair-square {
   font-family: var(--font-stretch);
   font-size: min(9rem, 16vw); /* Stretch Pro is very wide: scale with the screen so ARIES fits on phones */
   letter-spacing: 8px;
+  padding-left: 15px; /* balances the trailing letter-spacing (8px) and Stretch Pro's uneven A/S side bearings */
   text-transform: uppercase;
   line-height: 1;
   background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.4) 100%);
@@ -2088,11 +2095,13 @@ body.no-scroll {
   .history-title-large {
     font-size: 22vw;
     letter-spacing: 1vw;
+    padding-left: 1vw;
   }
 
   .history-title-small {
     font-size: 0.85rem;
     letter-spacing: 3px;
+    padding-left: 3px;
   }
 
   .history-poem {
