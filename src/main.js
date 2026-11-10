@@ -72,7 +72,7 @@ document.querySelector('#app').innerHTML = `
   <!-- Section navigation: fixed for the whole page, highlights the section in view -->
   <nav class="side-nav" aria-label="Sections">
     ${[
-      ['#hero', 'MARK VI'],
+      ['#hero', 'HOME'],
       ['#about', 'ABOUT US'],
       ['#competitions', 'COMPETITIONS'],
       ['#team', 'TEAM'],
@@ -86,6 +86,9 @@ document.querySelector('#app').innerHTML = `
       <span class="side-nav-dot"></span>
     </a>`).join('')}
   </nav>
+
+  <!-- Scrollbar: a long thin triangle on the right edge whose apex follows the scroll position -->
+  <canvas class="scroll-tri" id="scroll-tri" aria-hidden="true"></canvas>
 
   <!-- Hero Section -->
   <section class="hero" id="hero">
@@ -229,9 +232,9 @@ document.querySelector('#app').innerHTML = `
   <section class="history-section" id="history">
     <div class="history-phase" id="history-phase-1">
       <div class="history-poem">
-        <div class="poem-line">Mars was named after the god of war</div>
-        <div class="poem-line">yet no god has ever set foot on it</div>
-        <div class="poem-line">we built one that will</div>
+        <div class="poem-line">Every sonnet has a last verse</div>
+        <div class="poem-line">Every mythology ends when the gods stop fighting</div>
+        <div class="poem-line">but we gave our god a weapon</div>
       </div>
     </div>
     <div class="history-phase" id="history-phase-2">
@@ -240,15 +243,21 @@ document.querySelector('#app').innerHTML = `
     <div class="history-phase" id="history-phase-3">
       <p class="history-title-small">Project Kratos</p>
       <h2 class="history-title-large">ARIES</h2>
+      <p class="history-coming">coming soon</p>
     </div>
   </section>
 
-  <!-- ARIES 3D model (orbit/zoom/pan) -->
-  <section class="model-section" id="model" aria-label="ARIES 3D model">
-    <div class="model-viewer" id="model-viewer">
-      <p class="model-status" id="model-status">Loading 3D model…</p>
-    </div>
-    <p class="model-hint">Drag to rotate · right-drag or two fingers to pan · click, then scroll or pinch to zoom</p>
+  <!-- ARIES side elevation: the near side's front half on the left, then — as if walking around it —
+       the far side's rear half on the right. Silhouettes rendered from the CAD model; backlit so they read. -->
+  <section class="aries-rover" id="aries-rover" aria-label="ARIES side view">
+    <figure class="aries-half aries-half--front">
+      <img src="${asset('images/aries/aries-front.webp')}" alt="ARIES from the side: front half" width="1277" height="1187" />
+      <figcaption class="comp-kicker">Front · near side</figcaption>
+    </figure>
+    <figure class="aries-half aries-half--back">
+      <img src="${asset('images/aries/aries-back.webp')}" alt="ARIES from the far side: rear half" width="1261" height="1187" />
+      <figcaption class="comp-kicker">Rear · far side</figcaption>
+    </figure>
   </section>
 
   <!-- Contact -->
@@ -1214,7 +1223,7 @@ const navTargets = navItems.map((item) => {
 });
 navItems.forEach((item, i) => {
   // Each item stays lit until the next item's section starts, so sections without their own item
-  // (e.g. the 3D model after ARIES) never leave the nav blank.
+  // (e.g. the rover view after ARIES) never leave the nav blank.
   const next = navTargets[i + 1];
   ScrollTrigger.create({
     trigger: navTargets[i],
@@ -1228,6 +1237,104 @@ navItems.forEach((item, i) => {
 // ====================================================================
 // CONTENT SECTIONS — reveal on scroll
 // ====================================================================
+// ====================================================================
+// ARIES SIDE VIEW — the halves slide in from their outer edges as their backlight comes up
+// ====================================================================
+gsap.timeline({
+  defaults: { ease: 'power2.out' },
+  scrollTrigger: { trigger: '#aries-rover', start: 'top 85%', end: 'center 55%', scrub: true },
+})
+  .fromTo('.aries-half', { '--glow': 0 }, { '--glow': 1, duration: 1 }, 0)
+  .fromTo('.aries-half--front img', { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, 0)
+  .fromTo('.aries-half--back img', { x: 80, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, 0)
+  .fromTo('.aries-half figcaption', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, 0.5);
+
+// ====================================================================
+// SCROLLBAR — a long, thin triangle on the right edge. Its base is the screen edge and its apex
+// follows the scroll position, held back from the very top and bottom so it's never right-angled.
+// Faint strands run from the apex to drifting points on the edge, like the About web.
+// ====================================================================
+const triCanvas = document.getElementById('scroll-tri');
+const triCtx = triCanvas.getContext('2d');
+const TRI_REACH = 10;   // px the apex reaches in from the edge: long and very thin
+const TRI_INSET = 0.06; // apex range starts/ends this fraction of the height in from top/bottom
+const triStrands = Array.from({ length: 9 }, () => ({
+  y: Math.random(), drift: 0.02 + Math.random() * 0.04, speed: 0.2 + Math.random() * 0.4, phase: Math.random() * 6.3,
+}));
+let triW = 0;
+let triH = 0;
+let triDpr = 0;
+
+const scrollMax = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+function drawScrollTri(time) {
+  const w = triCanvas.clientWidth;
+  const h = triCanvas.clientHeight;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  if (w !== triW || h !== triH || dpr !== triDpr) {
+    triW = w; triH = h; triDpr = dpr;
+    triCanvas.width = Math.round(w * dpr);
+    triCanvas.height = Math.round(h * dpr);
+    triCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  triCtx.clearRect(0, 0, w, h);
+  if (!w || !h) return;
+
+  const max = scrollMax();
+  const p = max > 0 ? gsap.utils.clamp(0, 1, window.scrollY / max) : 0;
+  const ax = w - TRI_REACH;
+  const ay = h * (TRI_INSET + p * (1 - 2 * TRI_INSET));
+
+  triCtx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+  triCtx.beginPath();
+  triCtx.moveTo(w, 0);
+  triCtx.lineTo(ax, ay);
+  triCtx.lineTo(w, h);
+  triCtx.closePath();
+  triCtx.fill();
+
+  triCtx.lineWidth = 1;
+  triStrands.forEach((s) => {
+    const y = h * gsap.utils.clamp(0, 1, s.y + Math.sin(time * s.speed + s.phase) * s.drift);
+    const near = 1 - Math.abs(y - ay) / h;
+    triCtx.strokeStyle = `rgba(255, 255, 255, ${0.05 + 0.3 * near * near})`;
+    triCtx.beginPath();
+    triCtx.moveTo(ax, ay);
+    triCtx.lineTo(w, y);
+    triCtx.stroke();
+  });
+
+  triCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+  triCtx.beginPath();
+  triCtx.moveTo(w, 0);
+  triCtx.lineTo(ax, ay);
+  triCtx.lineTo(w, h);
+  triCtx.stroke();
+
+  // Same head dot as the line tips elsewhere: small square, soft glow
+  triCtx.save();
+  triCtx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+  triCtx.shadowBlur = 6;
+  triCtx.fillStyle = '#fff';
+  triCtx.fillRect(ax - 2, ay - 2, 4, 4);
+  triCtx.restore();
+}
+gsap.ticker.add(drawScrollTri);
+
+// It still works as a scrollbar: click to jump, drag to scrub.
+function scrollFromPointer(e, immediate) {
+  const rect = triCanvas.getBoundingClientRect();
+  const t = gsap.utils.clamp(0, 1, ((e.clientY - rect.top) / rect.height - TRI_INSET) / (1 - 2 * TRI_INSET));
+  lenis.scrollTo(t * scrollMax(), immediate ? { immediate: true } : { duration: 1 });
+}
+triCanvas.addEventListener('pointerdown', (e) => {
+  triCanvas.setPointerCapture(e.pointerId);
+  scrollFromPointer(e, false);
+});
+triCanvas.addEventListener('pointermove', (e) => {
+  if (triCanvas.hasPointerCapture(e.pointerId)) scrollFromPointer(e, true);
+});
+
 // ====================================================================
 // NEBULAE — soft blue/purple glows that surface somewhere random, linger, and fade
 // ====================================================================
@@ -1406,14 +1513,6 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'ArrowLeft') showPhoto(lightboxIndex - 1);
   else if (e.key === 'ArrowRight') showPhoto(lightboxIndex + 1);
 });
-
-// 3D model: fetch three.js and the ~2 MB model only when the visitor gets close to it.
-new IntersectionObserver((entries, observer) => {
-  if (!entries[0].isIntersecting) return;
-  observer.disconnect();
-  import('./model-viewer.js').then(({ mountModelViewer }) =>
-    mountModelViewer(document.getElementById('model-viewer'), asset('athena.glb'), document.getElementById('model-status')));
-}, { rootMargin: '100% 0px' }).observe(document.getElementById('model'));
 
 // Lazy images in the content sections change page height as they load.
 window.addEventListener('load', () => ScrollTrigger.refresh());

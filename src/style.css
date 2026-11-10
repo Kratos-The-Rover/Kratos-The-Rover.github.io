@@ -55,9 +55,34 @@
   --text-muted: #666666;
   --text-body: #adadad; /* paragraph copy */
   --line: rgba(255, 255, 255, 0.08);
+  --nav-gutter: 200px; /* right-hand column kept clear for the fixed section nav */
   --img-filter: grayscale(0.6) brightness(0.85); /* photos and thumbnails, until hovered */
   --font-haas: 'Neue Haas Grotesk Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-stretch: 'Stretch Pro', 'Impact', sans-serif;
+}
+
+/* The native scrollbar is replaced by the triangle drawn in main.js */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-tri {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 150;
+  width: 24px; /* wider than the triangle: an easier target to grab */
+  height: 100vh;
+  cursor: grab;
+  touch-action: none;
+}
+
+.scroll-tri:active {
+  cursor: grabbing;
 }
 
 /* Text selection: white block, text knocked out to the page colour */
@@ -213,13 +238,19 @@ body.cursor-hover .crosshair-square {
 /* ===== Logo (fixed top left) ===== */
 .nav-logo-group {
   position: fixed;
-  top: 32px;
-  left: 40px;
+  top: 22px;
+  left: 30px;
   z-index: 100;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;
+  /* Acrylic plate: blurs whatever scrolls underneath so the logo stays legible */
+  padding: 10px 16px 10px 10px;
+  background: rgba(8, 8, 8, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
 }
 
 .nav-logo-icon {
@@ -478,11 +509,7 @@ body.cursor-hover .crosshair-square {
 
 /* ===== Side Navigation (fixed, bottom right) ===== */
 /* Fixed over photos and video thumbnails, so the nav and logo carry a soft shadow to stay legible */
-.side-nav,
-.nav-logo-group {
-  text-shadow: 0 0 4px rgba(0, 0, 0, 0.9), 0 1px 12px rgba(0, 0, 0, 0.9);
-  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.7));
-}
+/* No shadow needed: content keeps out of the nav's column (--nav-gutter) */
 
 .side-nav {
   position: fixed;
@@ -616,7 +643,7 @@ body.cursor-hover .crosshair-square {
   top: 0;
   bottom: 0;
   left: 50%;
-  right: 150px; /* clears the side nav */
+  right: var(--nav-gutter); /* clears the side nav */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
@@ -705,6 +732,15 @@ body.cursor-hover .crosshair-square {
   color: var(--text-gray);
   text-transform: uppercase;
   margin-bottom: 15px;
+}
+
+.history-coming {
+  margin-top: 28px;
+  font-family: var(--font-haas);
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 6px;
+  color: var(--text-gray);
 }
 
 .history-title-large {
@@ -832,6 +868,14 @@ body.cursor-hover .crosshair-square {
   position: relative;
   z-index: 1;
   margin-top: 180px;
+}
+
+/* Keep the fixed nav's column clear */
+.competitions-section,
+.team-section,
+.media-section,
+.contact-section {
+  padding-right: var(--nav-gutter);
 }
 
 /* Clear separation from the About section that scrolls away above */
@@ -1644,67 +1688,60 @@ body.no-scroll {
   }
 }
 
-/* ===== ARIES 3D model ===== */
-.model-section {
+/* ===== ARIES side view ===== */
+/* Two black half-silhouettes, front half against the left edge, far-side rear half against the right,
+   each backlit by a soft glow (--glow is animated 0 → 1 by main.js) */
+.aries-rover {
   position: relative;
   z-index: 2;
-  padding: 0 40px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 48px;
+  padding: 120px var(--nav-gutter) 160px 80px;
 }
 
-.model-viewer {
+.aries-half {
+  --glow: 1;
   position: relative;
-  height: 80vh;
-  cursor: grab;
+  width: min(40%, 560px);
+  margin: 0;
 }
 
-.model-viewer:active {
-  cursor: grabbing;
+.aries-half::before {
+  content: '';
+  position: absolute;
+  inset: -25% -20%;
+  z-index: -1;
+  opacity: var(--glow);
+  scale: calc(0.8 + 0.2 * var(--glow));
+  background:
+    radial-gradient(closest-side, rgba(225, 230, 255, 0.22), rgba(150, 160, 255, 0.08) 55%, transparent),
+    radial-gradient(closest-side, rgba(121, 40, 202, 0.10), transparent 70%);
+  pointer-events: none;
 }
 
-.model-viewer canvas {
+.aries-half img {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  /* faint rim light so the black edges separate from the glow */
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.35)) drop-shadow(0 0 18px rgba(170, 185, 255, 0.18));
 }
 
-.model-status {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-haas);
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-gray);
+.aries-half figcaption {
+  margin: 20px 0 0;
 }
 
-.model-hint {
-  margin-top: 16px;
-  text-align: center;
-  font-family: var(--font-haas);
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-@media (max-width: 768px) {
-  /* Shorter on phones so there is always page outside the model to scroll with */
-  .model-section {
-    padding: 0 16px 64px;
-  }
-
-  .model-viewer {
-    height: 60vh;
-  }
+.aries-half--back figcaption {
+  text-align: right;
 }
 
 /* ===== Footer ===== */
 .footer {
   position: relative;
   z-index: 2;
-  padding: 32px 80px;
+  padding: 32px var(--nav-gutter) 32px 80px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
@@ -1729,7 +1766,22 @@ body.no-scroll {
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .nav-logo-group {
-    left: 20px;
+    top: 14px;
+    left: 12px;
+  }
+
+  /* The section nav is hidden on phones, so no gutter for it */
+  .aries-rover {
+    gap: 12px;
+    padding: 80px 16px 120px;
+  }
+
+  .aries-half {
+    width: 48%;
+  }
+
+  .scroll-tri {
+    pointer-events: none; /* phones scroll by touch; keep taps near the edge for the page */
   }
 
   .hero-content {
