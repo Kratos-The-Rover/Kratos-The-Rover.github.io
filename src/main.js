@@ -250,8 +250,9 @@ document.querySelector('#app').innerHTML = `
 
   <!-- ARIES. Silhouettes rendered from the CAD model, all black and backlit so they read. -->
   <section class="aries-rover" id="aries-rover" aria-label="ARIES">
-    <!-- Side view on a loop: the whole rover, front to the right, drifts right as you scroll; the front slides off
-         the right edge and comes back in on the left. Two identical sets make the loop seamless. -->
+    <!-- Side view on a loop. It starts with the rover straddling the screen's edges (rear on the left, front on the
+         right); scrolling drifts it right, so the rest of the rover comes in from the left, and after one lap it's back
+         where it started. Two identical sets make the loop seamless. -->
     <div class="aries-band">
       <div class="aries-track">
         ${[0, 1].map((copy) => `
@@ -1272,15 +1273,17 @@ gsap.timeline({
   .fromTo('.aries-side', { '--glow': 0 }, { '--glow': 1, duration: 1 }, 0)
   .fromTo('.aries-side img', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0);
 
-// The track holds two identical sets (200% wide). Either set looks the same, so sliding from -50% to 0 is one
-// seamless lap; wrap() keeps it in that range.
+// The track holds two identical sets (200% wide), each with the rover centred. Either set looks the same, so a
+// 50% slide is one seamless lap; wrap() keeps it in range. Starting at -25% puts the seam between the sets in the
+// middle of the screen... which is the middle of a rover split across the screen's edges: rear left, front right.
 const wrapTrack = gsap.utils.wrap(-50, 0);
+const LAP_START = -25;
 const ariesLap = { p: 0 };
-gsap.set('.aries-track', { xPercent: -50 });
+gsap.set('.aries-track', { xPercent: LAP_START });
 gsap.to(ariesLap, {
   p: 1,
   ease: 'none',
-  onUpdate: () => gsap.set('.aries-track', { xPercent: wrapTrack(-50 + ariesLap.p * 50) }),
+  onUpdate: () => gsap.set('.aries-track', { xPercent: wrapTrack(LAP_START + ariesLap.p * 50) }),
   scrollTrigger: { trigger: '.aries-band', start: 'center center', end: '+=140%', pin: true, scrub: true },
 });
 
@@ -1293,25 +1296,31 @@ gsap.to(ariesLap, {
 const orbitState = { az: 0, el: 0, spin: 0 };
 let orbit = null;
 const orbitLabel = document.getElementById('aries-orbit-label');
-const ORBIT_STAGES = [ // [timeline position, label]
-  [0, 'Front'], [1, 'Front · right corner'], [2, 'Top'], [3.5, 'Rear · left corner'], [4.5, 'Rear'],
-];
+// Name the view from where the camera actually is (the moves overlap, so there are no clean stage boundaries).
+function orbitView({ az, el, spin }) {
+  if (el > 65) return 'Top';
+  const corner = az < -15;
+  if (spin < 90) return corner ? 'Front · right corner' : 'Front';
+  return corner ? 'Rear · left corner' : 'Rear';
+}
 const orbitTl = gsap.timeline({
-  defaults: { ease: 'power1.inOut' },
+  defaults: { ease: 'sine.inOut' },
   onUpdate: () => {
     orbit?.render(orbitState);
-    const t = orbitTl.time();
-    const label = [...ORBIT_STAGES].reverse().find(([at]) => t >= at - 0.25)?.[1] ?? 'Front';
+    const label = orbitView(orbitState);
     if (orbitLabel.textContent !== label) orbitLabel.textContent = label;
   },
 })
   .fromTo('.aries-orbit-canvas', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0)
   .fromTo('.aries-orbit-glow', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, 0)
-  .to(orbitState, { az: -45, duration: 1 }, 0.5)       // front → front-right corner
-  .to(orbitState, { el: 90, duration: 1 }, 1.5)        // up the diagonal to overhead
-  .to(orbitState, { spin: 180, duration: 1 }, 2.5)     // rover turns half a lap beneath the camera
-  .to(orbitState, { el: 0, duration: 1 }, 3.5)         // back down the same path: the opposite corner
-  .to(orbitState, { az: 0, duration: 1 }, 4.5)         // round to face the rear
+  // One continuous, overlapping move rather than separate steps: the camera is still swinging to the corner as it
+  // starts to climb, the rover starts turning on the way up and keeps turning on the way down, and the camera is
+  // already swinging back round as it comes down.
+  .to(orbitState, { az: -45, duration: 1.4 }, 0.4)     // front → front-right corner
+  .to(orbitState, { el: 90, duration: 1.6 }, 0.9)      // up the diagonal to overhead
+  .to(orbitState, { spin: 180, duration: 2.4 }, 1.6)   // rover turns half a lap beneath the camera
+  .to(orbitState, { el: 0, duration: 1.6 }, 2.5)       // back down the same path: the opposite corner
+  .to(orbitState, { az: 0, duration: 1.4 }, 3.6)       // round to face the rear
   .to({}, { duration: 0.3 });                          // a beat on the rear view before moving on
 
 ScrollTrigger.create({
@@ -1350,7 +1359,8 @@ gsap.utils.toArray('.aries-view').forEach((view, i) => {
 });
 
 // ====================================================================
-// SCROLLBAR — a long, thin triangle on the right edge. Its base is the screen edge and its apex
+// SCROLLBAR — a long, thin triangle on the right edge, over the middle 60% of the height (the canvas is sized to
+// that in style.css). Its base is the screen edge and its apex
 // follows the scroll position, held back from the very top and bottom so it's never right-angled.
 // Faint strands run from the apex to drifting points on the edge, like the About web.
 // ====================================================================
@@ -1480,16 +1490,15 @@ photoItems.forEach((item) => {
   });
 });
 
-// Every video and photo grows into place from its top-left corner: a small square frame appears there, opens
-// to the right, then down, revealing the image through it. The image itself never scales; only the window grows.
+// Every video and photo grows into place from its top-left corner: a small square frame appears there and opens
+// along the diagonal to the bottom-right, revealing the image through it. The image never scales; only the window.
 // --wx/--wy (1 → 0) close/open the window, --go fades its outline (see .grow in style.css).
 const growEls = gsap.utils.toArray('.grow');
 gsap.set(growEls, { '--wx': 1, '--wy': 1, '--go': 0 });
 growEls.forEach((el) => {
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } })
     .to(el, { '--go': 1, duration: 0.08, ease: 'none' })
-    .to(el, { '--wx': 0, duration: 0.32 })
-    .to(el, { '--wy': 0, duration: 0.32 }, '-=0.14')
+    .to(el, { '--wx': 0, '--wy': 0, duration: 0.45 })
     .to(el, { '--go': 0, duration: 0.25, ease: 'none' }, '-=0.05');
   const play = el.querySelector('.video-play');
   if (play) tl.fromTo(play, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, '-=0.2');

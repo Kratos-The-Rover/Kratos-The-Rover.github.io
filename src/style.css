@@ -72,11 +72,11 @@ html::-webkit-scrollbar {
 
 .scroll-tri {
   position: fixed;
-  top: 0;
+  top: 20vh;
   right: 0;
   z-index: 150;
   width: 24px; /* wider than the triangle: an easier target to grab */
-  height: 100vh;
+  height: 60vh; /* the middle 60% of the screen */
   cursor: grab;
   touch-action: none;
 }
