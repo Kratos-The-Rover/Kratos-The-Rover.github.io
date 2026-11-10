@@ -248,17 +248,40 @@ document.querySelector('#app').innerHTML = `
     </div>
   </section>
 
-  <!-- ARIES side elevation: the near side's front half on the left, then — as if walking around it —
-       the far side's rear half on the right. Silhouettes rendered from the CAD model; backlit so they read. -->
-  <section class="aries-rover" id="aries-rover" aria-label="ARIES side view">
-    <figure class="aries-half aries-half--front">
-      <img src="${asset('images/aries/aries-front.webp')}" alt="ARIES from the side: front half" width="1277" height="1187" />
-      <figcaption class="comp-kicker">Front · near side</figcaption>
-    </figure>
-    <figure class="aries-half aries-half--back">
-      <img src="${asset('images/aries/aries-back.webp')}" alt="ARIES from the far side: rear half" width="1261" height="1187" />
-      <figcaption class="comp-kicker">Rear · far side</figcaption>
-    </figure>
+  <!-- ARIES. Silhouettes rendered from the CAD model, all black and backlit so they read. -->
+  <section class="aries-rover" id="aries-rover" aria-label="ARIES">
+    <!-- Side view on a loop: the whole rover, front to the right, drifts right as you scroll; the front slides off
+         the right edge and comes back in on the left. Two identical sets make the loop seamless. -->
+    <div class="aries-band">
+      <div class="aries-track">
+        ${[0, 1].map((copy) => `
+        <div class="aries-set"${copy ? ' aria-hidden="true"' : ''}>
+          <figure class="aries-glow aries-side">
+            <img src="${asset('images/aries/aries-view-side.webp')}" alt="${copy ? '' : 'ARIES from the side'}" width="2086" height="976" />
+          </figure>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Camera move around the 3D model, driven by scroll (see ARIES CAMERA in this file) -->
+    <div class="aries-orbit" id="aries-orbit">
+      <div class="aries-orbit-glow" aria-hidden="true"></div>
+      <canvas class="aries-orbit-canvas" id="aries-orbit-canvas" aria-label="ARIES 3D model turning as you scroll"></canvas>
+      <p class="comp-kicker aries-orbit-label" id="aries-orbit-label">Front</p>
+    </div>
+
+    <div class="aries-views">
+      ${[
+        ['front', 'Front', 1930, 976],
+        ['side', 'Side', 2086, 976],
+        ['back', 'Rear', 1930, 976],
+        ['top', 'Top', 1081, 1000],
+      ].map(([key, label, w, h]) => `
+      <figure class="aries-glow aries-view aries-view--${key}">
+        <img src="${asset(`images/aries/aries-view-${key}.webp`)}" alt="ARIES, ${label.toLowerCase()} view" width="${w}" height="${h}" loading="lazy" />
+        <figcaption><span class="comp-kicker">${label}</span><span class="aries-soon">coming soon</span></figcaption>
+      </figure>`).join('')}
+    </div>
   </section>
 
   <!-- Contact -->
@@ -1239,16 +1262,92 @@ navItems.forEach((item, i) => {
 // CONTENT SECTIONS — reveal on scroll
 // ====================================================================
 // ====================================================================
-// ARIES SIDE VIEW — the halves slide in from their outer edges as their backlight comes up
+// ARIES SIDE BAND — fades up out of its glow, then holds and turns one full lap: everything drifts right,
+// and what leaves the right edge re-enters on the left.
 // ====================================================================
 gsap.timeline({
   defaults: { ease: 'power2.out' },
-  scrollTrigger: { trigger: '#aries-rover', start: 'top 85%', end: 'center 55%', scrub: true },
+  scrollTrigger: { trigger: '.aries-band', start: 'top 85%', end: 'center 60%', scrub: true },
 })
-  .fromTo('.aries-half', { '--glow': 0 }, { '--glow': 1, duration: 1 }, 0)
-  .fromTo('.aries-half--front img', { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, 0)
-  .fromTo('.aries-half--back img', { x: 80, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, 0)
-  .fromTo('.aries-half figcaption', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, 0.5);
+  .fromTo('.aries-side', { '--glow': 0 }, { '--glow': 1, duration: 1 }, 0)
+  .fromTo('.aries-side img', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, 0);
+
+// The track holds two identical sets (200% wide). Either set looks the same, so sliding from -50% to 0 is one
+// seamless lap; wrap() keeps it in that range.
+const wrapTrack = gsap.utils.wrap(-50, 0);
+const ariesLap = { p: 0 };
+gsap.set('.aries-track', { xPercent: -50 });
+gsap.to(ariesLap, {
+  p: 1,
+  ease: 'none',
+  onUpdate: () => gsap.set('.aries-track', { xPercent: wrapTrack(-50 + ariesLap.p * 50) }),
+  scrollTrigger: { trigger: '.aries-band', start: 'center center', end: '+=140%', pin: true, scrub: true },
+});
+
+// ====================================================================
+// ARIES CAMERA — the 3D model, held on screen while the scroll moves the camera around it:
+//   front → front-right corner → up the diagonal to straight overhead (rover reads turned 45°)
+//   → rover spins 180° → back down the same path (now facing the opposite corner) → round to the rear.
+// three.js and the model load only when the section gets close.
+// ====================================================================
+const orbitState = { az: 0, el: 0, spin: 0 };
+let orbit = null;
+const orbitLabel = document.getElementById('aries-orbit-label');
+const ORBIT_STAGES = [ // [timeline position, label]
+  [0, 'Front'], [1, 'Front · right corner'], [2, 'Top'], [3.5, 'Rear · left corner'], [4.5, 'Rear'],
+];
+const orbitTl = gsap.timeline({
+  defaults: { ease: 'power1.inOut' },
+  onUpdate: () => {
+    orbit?.render(orbitState);
+    const t = orbitTl.time();
+    const label = [...ORBIT_STAGES].reverse().find(([at]) => t >= at - 0.25)?.[1] ?? 'Front';
+    if (orbitLabel.textContent !== label) orbitLabel.textContent = label;
+  },
+})
+  .fromTo('.aries-orbit-canvas', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0)
+  .fromTo('.aries-orbit-glow', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, 0)
+  .to(orbitState, { az: -45, duration: 1 }, 0.5)       // front → front-right corner
+  .to(orbitState, { el: 90, duration: 1 }, 1.5)        // up the diagonal to overhead
+  .to(orbitState, { spin: 180, duration: 1 }, 2.5)     // rover turns half a lap beneath the camera
+  .to(orbitState, { el: 0, duration: 1 }, 3.5)         // back down the same path: the opposite corner
+  .to(orbitState, { az: 0, duration: 1 }, 4.5)         // round to face the rear
+  .to({}, { duration: 0.3 });                          // a beat on the rear view before moving on
+
+ScrollTrigger.create({
+  animation: orbitTl,
+  trigger: '#aries-orbit',
+  start: 'top top',
+  end: '+=500%',
+  pin: true,
+  scrub: true,
+});
+
+new IntersectionObserver((entries, observer) => {
+  if (!entries[0].isIntersecting) return;
+  observer.disconnect();
+  import('./aries-orbit.js')
+    .then(({ mountAriesOrbit }) => {
+      orbit = mountAriesOrbit(document.getElementById('aries-orbit-canvas'), asset('athena.glb'));
+      orbit.render(orbitState);
+    })
+    .catch(() => document.getElementById('aries-orbit').classList.add('is-unavailable')); // e.g. no WebGL
+}, { rootMargin: '150% 0px' }).observe(document.getElementById('aries-orbit'));
+
+// The pins above are created after triggers further down the page (Contact's nav item and reveals); re-order
+// them by page position so those are measured after the pins and include their extra scroll distance.
+ScrollTrigger.sort();
+
+// Front, side, rear and top: static, each rising out of its glow
+gsap.utils.toArray('.aries-view').forEach((view, i) => {
+  gsap.timeline({
+    defaults: { ease: 'power2.out' },
+    scrollTrigger: { trigger: '.aries-views', start: 'top 90%', end: 'top 40%', scrub: true },
+  })
+    .fromTo(view, { '--glow': 0 }, { '--glow': 1, duration: 1 }, i * 0.15)
+    .fromTo(view.querySelector('img'), { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, i * 0.15)
+    .fromTo(view.querySelector('figcaption'), { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.5 + i * 0.15);
+});
 
 // ====================================================================
 // SCROLLBAR — a long, thin triangle on the right edge. Its base is the screen edge and its apex
@@ -1257,7 +1356,7 @@ gsap.timeline({
 // ====================================================================
 const triCanvas = document.getElementById('scroll-tri');
 const triCtx = triCanvas.getContext('2d');
-const TRI_REACH = 10;   // px the apex reaches in from the edge: long and very thin
+const TRI_REACH = 16;   // px the apex reaches in from the edge: long and thin
 const TRI_INSET = 0.06; // apex range starts/ends this fraction of the height in from top/bottom
 const triStrands = Array.from({ length: 9 }, () => ({
   y: Math.random(), drift: 0.02 + Math.random() * 0.04, speed: 0.2 + Math.random() * 0.4, phase: Math.random() * 6.3,
@@ -1381,21 +1480,21 @@ photoItems.forEach((item) => {
   });
 });
 
-// Every video and photo grows into place: a small square frame appears, opens to the full width, then to
-// the full height, revealing the image through it. The image itself never scales; only the window grows.
+// Every video and photo grows into place from its top-left corner: a small square frame appears there, opens
+// to the right, then down, revealing the image through it. The image itself never scales; only the window grows.
 // --wx/--wy (1 → 0) close/open the window, --go fades its outline (see .grow in style.css).
 const growEls = gsap.utils.toArray('.grow');
 gsap.set(growEls, { '--wx': 1, '--wy': 1, '--go': 0 });
 growEls.forEach((el) => {
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } })
-    .to(el, { '--go': 1, duration: 0.15, ease: 'none' })
-    .to(el, { '--wx': 0, duration: 0.55 })
-    .to(el, { '--wy': 0, duration: 0.55 }, '-=0.2')
-    .to(el, { '--go': 0, duration: 0.4, ease: 'none' }, '-=0.1');
+    .to(el, { '--go': 1, duration: 0.08, ease: 'none' })
+    .to(el, { '--wx': 0, duration: 0.32 })
+    .to(el, { '--wy': 0, duration: 0.32 }, '-=0.14')
+    .to(el, { '--go': 0, duration: 0.25, ease: 'none' }, '-=0.05');
   const play = el.querySelector('.video-play');
-  if (play) tl.fromTo(play, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'none' }, '-=0.35');
+  if (play) tl.fromTo(play, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, '-=0.2');
   const caption = el.closest('figure')?.querySelector('figcaption');
-  if (caption) tl.fromTo(caption, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '-=0.4');
+  if (caption) tl.fromTo(caption, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, '-=0.25');
   el.growTl = tl;
 });
 // Watched with an IntersectionObserver rather than ScrollTrigger: it sees where the photo actually is,
