@@ -454,6 +454,8 @@ const toSqX = gsap.quickTo(crossSq, "x", { duration, ease });
 const toSqY = gsap.quickTo(crossSq, "y", { duration, ease });
 
 let hasMouseMoved = false;
+// Touch screens and phone layouts: no cursor, so no crosshair, and the web lines start from the section nav.
+const touchLayout = window.matchMedia('(hover: none), (max-width: 768px)');
 
 document.addEventListener('mousemove', (e) => {
   hasMouseMoved = true;
@@ -674,7 +676,9 @@ const splashTl = gsap.timeline({
       });
     };
 
-    if (hasMouseMoved) {
+    if (touchLayout.matches) {
+      // No cursor on touch screens: no crosshair (taps fire mousemove too, so don't let one switch it on)
+    } else if (hasMouseMoved) {
       triggerCrosshair();
     } else {
       document.addEventListener('mousemove', () => {
@@ -838,6 +842,18 @@ function sizeWebCanvas() {
 const RAIL_TICK = 28;
 const rgba = (a) => `rgba(255, 255, 255, ${a})`;
 
+// Where the web's lines start: the cursor box, or on touch screens (no cursor) the section nav's current line.
+function webOrigin(origin) {
+  if (touchLayout.matches) {
+    const line = document.querySelector('.side-nav-item[aria-current="true"] .side-nav-line');
+    if (!line) return null;
+    const r = line.getBoundingClientRect();
+    return { x: r.left - origin.left, y: r.top + r.height / 2 - origin.top };
+  }
+  if (!hasMouseMoved) return null;
+  return { x: gsap.getProperty(crossSq, 'x') - origin.left, y: gsap.getProperty(crossSq, 'y') - origin.top };
+}
+
 // Other sections (Competitions, Team) draw their own cursor lines on this same layer, so every web on the page
 // sits under the content. Each registers { active(), targets() } — targets are viewport points { x, y, a }.
 const cursorWebs = [];
@@ -853,7 +869,7 @@ function cursorLine(mx, my, x, y, reach, a) {
 
 function drawWeb() {
   const aboutOn = webActive && web.alpha >= 0.01;
-  const others = hasMouseMoved ? cursorWebs.filter((w) => w.active()) : [];
+  const others = (hasMouseMoved || touchLayout.matches) ? cursorWebs.filter((w) => w.active()) : [];
   if (!aboutOn && !others.length) {
     if (webW) webCtx.clearRect(0, 0, webW, webH);
     return;
@@ -863,9 +879,9 @@ function drawWeb() {
   const origin = webCanvas.getBoundingClientRect();
   webCtx.lineWidth = 1;
   if (aboutOn) drawAboutWeb(web.alpha, origin);
-  if (!others.length) return;
-  const mx = gsap.getProperty(crossSq, 'x') - origin.left;
-  const my = gsap.getProperty(crossSq, 'y') - origin.top;
+  const from = others.length && webOrigin(origin);
+  if (!from) return;
+  const { x: mx, y: my } = from;
   const reach = Math.hypot(webW, webH);
   others.forEach((w) => w.targets().forEach((t) => cursorLine(mx, my, t.x - origin.left, t.y - origin.top, reach, t.a ?? 1)));
 }
@@ -928,9 +944,9 @@ function drawAboutWeb(a, origin) {
   webCtx.stroke();
   webCtx.restore();
 
-  if (!hasMouseMoved) return;
-  const mx = gsap.getProperty(crossSq, 'x') - origin.left;
-  const my = gsap.getProperty(crossSq, 'y') - origin.top;
+  const from = webOrigin(origin);
+  if (!from) return;
+  const { x: mx, y: my } = from;
   const reach = Math.hypot(webW, webH);
   centres.forEach((c) => {
     if (onScreen(c)) cursorLine(mx, my, c.x, c.y, reach, a);
@@ -1031,7 +1047,8 @@ gsap.timeline({
 let compWebOn = false;
 ScrollTrigger.create({ trigger: compSection, start: 'top bottom', end: 'bottom top', onToggle: (self) => (compWebOn = self.isActive) });
 cursorWebs.push({
-  active: () => compWebOn && trackGeo && gsap.getProperty(trackHead, 'opacity') > 0.01,
+  // offsetParent is null while the track is hidden (phones), so no lines to a dot that isn't there
+  active: () => compWebOn && trackGeo && trackHead.offsetParent !== null && gsap.getProperty(trackHead, 'opacity') > 0.01,
   targets: () => {
     const s = compSection.getBoundingClientRect();
     const h = trackHead.getBoundingClientRect();

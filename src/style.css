@@ -1920,6 +1920,13 @@ body.no-scroll {
     font-size: 0.4rem;
   }
 
+  /* No cursor on phones, so no crosshair */
+  .crosshair-h,
+  .crosshair-v,
+  .crosshair-square {
+    display: none !important;
+  }
+
   /* No scrollbar on phones: touch scrolling, and the section nav marks the place instead */
   .scroll-tri {
     display: none;
