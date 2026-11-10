@@ -317,7 +317,7 @@ document.querySelector('#app').innerHTML = `
 
   <!-- Footer -->
   <footer class="footer">
-    <span class="footer-text">© ${new Date().getFullYear()} BITS Goa — Project Kratos</span>
+    <span class="footer-text">developed with absolutely no love by auto, kratos</span>
     <span class="footer-brand">KRATOS</span>
   </footer>
 
